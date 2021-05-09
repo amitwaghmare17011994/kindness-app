@@ -7,9 +7,8 @@
  */
 
 import React, { useEffect } from 'react';
-import type { Node } from 'react';
-import PushNotification from "react-native-push-notification";
-import Firebase from '@react-native-firebase/app'
+import PushNotification from 'react-native-push-notification';
+import Firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import {
   Alert,
@@ -30,7 +29,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const Section = ({ children, title }): Node => {
+const Section = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -106,12 +105,8 @@ const App = () => {
        */
       requestPermissions: true,
     });
-    return unsubscribe
+    return unsubscribe;
   }, []);
-
-  const onNotify = () => {
-
-  }
 
   return (
     <SafeAreaView style={backgroundStyle}>
