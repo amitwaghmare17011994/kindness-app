@@ -6,9 +6,7 @@ import HomeScreen from '../Screens/HomeScreen';
 const Stack = createStackNavigator();
 
 function Navigator() {
-    React.useEffect(() => {
-        console.log('heee');
-    }, [])
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
