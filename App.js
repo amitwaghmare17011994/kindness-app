@@ -1,161 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
-import React, { useEffect } from 'react';
-import PushNotification from 'react-native-push-notification';
-import Firebase from '@react-native-firebase/app';
-import messaging from '@react-native-firebase/messaging';
-import {
-  Alert,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import React, { useState } from "react";
+import { Text, Image, View, StyleSheet, Slider } from "react-native";
+import Icon from 'react-native-vector-icons/Entypo'
+import PushNotification from './PushNotification';
+import Logo from './assets/images/logo.png'
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  useEffect(() => {
-    Firebase.initializeApp(this);
-
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      // Alert.alert('A new FCM message arrived!', remoteMessage.notification.body);
-    });
-
-
-
-    PushNotification.configure({
-      // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function (token) { },
-
-      onNotification: function (notification) { },
-
-      // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
-      onAction: function (notification) { },
-
-      // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
-      onRegistrationError: function (err) {
-        console.error(err.message, err);
-      },
-
-      // IOS ONLY (optional): default: all - Permissions to register.
-      permissions: {
-        alert: true,
-        badge: true,
-        sound: true,
-      },
-
-      // Should the initial notification be popped automatically
-      // default: true
-      popInitialNotification: true,
-
-      /**
-       * (optional) default: true
-       * - Specified if permissions (ios) and token (android and ios) will requested or not,
-       * - if not, you must call PushNotificationsHandler.requestPermissions() later
-       * - if you are not using remote notification or do not have Firebase installed, use this:
-       *     requestPermissions: Platform.OS === 'ios'
-       */
-      requestPermissions: true,
-    });
-    return unsubscribe;
-  }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <View style={styles.container}>
+      <PushNotification />
+      <View
+        elevation={5}
+        style={[
+          styles.square,
+        ]}
+      >
+        <View style={styles.headerRow}>
+          <View style={{ flex: 1 }}>
+            <Image
+              source={Logo}
+              style={styles.img}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={{ alignItems: 'flex-end', marginRight: 20 }}>
+            <Icon name="menu" size={40} color="#ffcb4c" />
+            <View style={{ flexDirection: 'row', marginRight: 2 }}>
+              <Text>Send a </Text>
+              <Text>Bisoo</Text>
+            </View>
+          </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+
+      </View>
+
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: "#ecf0f1",
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  headerRow: { flexDirection: 'row', alignItems: 'center' },
+  img: {
+    height: 50, width: 100
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  menu: {
+    marginRight: 20
   },
-  highlight: {
-    fontWeight: '700',
+  square: {
+    backgroundColor: "#f8f9f8",
+    height: 120,
+    shadowColor: "black",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+
   },
+
 });
 
 export default App;
