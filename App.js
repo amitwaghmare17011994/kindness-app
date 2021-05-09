@@ -1,14 +1,13 @@
 
 
-import React, { useState } from "react";
-import { Text, Image, View, StyleSheet, Slider } from "react-native";
-import Icon from 'react-native-vector-icons/Entypo'
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import AppFooter from "./components/AppFooter";
+import AppHeader from "./components/AppHeader";
+import Navigator from "./Navigators";
 import PushNotification from './PushNotification';
-import Logo from './assets/images/logo.png'
 
 const App = () => {
-
-
   return (
     <View style={styles.container}>
       <PushNotification />
@@ -18,25 +17,13 @@ const App = () => {
           styles.square,
         ]}
       >
-        <View style={styles.headerRow}>
-          <View style={{ flex: 1 }}>
-            <Image
-              source={Logo}
-              style={styles.img}
-              resizeMode="contain"
-            />
-          </View>
-          <View style={{ alignItems: 'flex-end', marginRight: 20 }}>
-            <Icon name="menu" size={40} color="#ffcb4c" />
-            <View style={{ flexDirection: 'row', marginRight: 2 }}>
-              <Text>Send a </Text>
-              <Text>Bisoo</Text>
-            </View>
-          </View>
-        </View>
-
+        <AppHeader />
+      </View>
+      <View style={styles.mainContainer}>
+        <Navigator />
       </View>
 
+      <AppFooter />
     </View>
   );
 }
@@ -46,13 +33,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ecf0f1",
   },
-  headerRow: { flexDirection: 'row', alignItems: 'center' },
-  img: {
-    height: 50, width: 100
-  },
-  menu: {
-    marginRight: 20
-  },
+  mainContainer: { flex: 1 },
+
   square: {
     backgroundColor: "#f8f9f8",
     height: 120,
