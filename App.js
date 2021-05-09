@@ -10,7 +10,9 @@ import React, { useEffect } from 'react';
 import type { Node } from 'react';
 import PushNotification from "react-native-push-notification";
 import Firebase from '@react-native-firebase/app'
+import messaging from '@react-native-firebase/messaging';
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -63,29 +65,21 @@ const App = () => {
 
   useEffect(() => {
     Firebase.initializeApp(this);
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      // Alert.alert('A new FCM message arrived!', remoteMessage.notification.body);
+    });
+
+
+
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
-      onRegister: function (token) {
-        console.log("TOKEN:", token);
-      },
+      onRegister: function (token) { },
 
-      // (required) Called when a remote is received or opened, or local notification is opened
-      onNotification: function (notification) {
-        console.log("NOTIFICATION:", notification);
-
-        // process the notification
-
-        // (required) Called when a remote is received or opened, or local notification is opened
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
-      },
+      onNotification: function (notification) { },
 
       // (optional) Called when Registered Action is pressed and invokeApp is false, if true onNotification will be called (Android)
-      onAction: function (notification) {
-        console.log("ACTION:", notification.action);
-        console.log("NOTIFICATION:", notification);
-
-        // process the action
-      },
+      onAction: function (notification) { },
 
       // (optional) Called when the user fails to register for remote notifications. Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
       onRegistrationError: function (err) {
@@ -112,7 +106,12 @@ const App = () => {
        */
       requestPermissions: true,
     });
+    return unsubscribe
   }, []);
+
+  const onNotify = () => {
+
+  }
 
   return (
     <SafeAreaView style={backgroundStyle}>
