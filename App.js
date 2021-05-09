@@ -1,7 +1,8 @@
 
 
 import React from "react";
-import { View, StyleSheet } from "react-native";
+
+import { View, StyleSheet, ScrollView, Text, Dimensions } from "react-native";
 import AppFooter from "./components/AppFooter";
 import AppHeader from "./components/AppHeader";
 import Navigator from "./Navigators";
@@ -19,11 +20,21 @@ const App = () => {
       >
         <AppHeader />
       </View>
-      <View style={styles.mainContainer}>
-        <Navigator />
-      </View>
 
-      <AppFooter />
+      {/* <View style={styles.mainContainer}> */}
+      <ScrollView style={{
+
+      }}>
+        <View style={styles.mainContainer}>
+          <Navigator />
+        </View>
+
+        <AppFooter />
+
+      </ScrollView>
+      {/* </View> */}
+
+
     </View>
   );
 }
@@ -33,7 +44,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ecf0f1",
   },
-  mainContainer: { flex: 1 },
+  mainContainer: {
+    flex: 1,
+    minHeight: Dimensions.get('window').height
+  },
 
   square: {
     backgroundColor: "#f8f9f8",
