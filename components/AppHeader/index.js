@@ -3,7 +3,8 @@ import { Text, Image, View, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/Entypo'
 import Logo from '../../assets/images/logo.png'
 
-const AppHeader = () => {
+const AppHeader = (props) => {
+    const {toggleMenu}=props
     return (
         <View style={styles.headerRow}>
             <View style={{ flex: 1 }}>
@@ -14,7 +15,7 @@ const AppHeader = () => {
                 />
             </View>
             <View style={{ alignItems: 'flex-end', marginRight: 20 }}>
-                <Icon name="menu" size={40} color="#ffcb4c" />
+                <Icon name="menu" size={40} color="#ffcb4c" onPress={toggleMenu} />
                 <View style={{ flexDirection: 'row', marginRight: 2 }}>
                     <Text>Send a </Text>
                     <Text>Bisoo</Text>

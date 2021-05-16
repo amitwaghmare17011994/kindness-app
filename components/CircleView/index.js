@@ -1,11 +1,10 @@
 import React from 'react'
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
 
-const CircleView = () => {
+const CircleView = (props) => {
     return (
         <View style={styles.circle}>
-            <Text>890,000</Text>
-            <Text style={{ fontWeight: 'bold' }}>TOTAL BisOO</Text>
+            {props.children}
         </View>
     )
 }
