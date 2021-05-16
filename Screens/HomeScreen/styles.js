@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
     },
     postView: {
-        backgroundColor: '#FF9898',
+        // backgroundColor: '#FF9898',
         height: 200,
         paddingHorizontal: 10,
         paddingVertical: 20
@@ -24,8 +24,8 @@ export const styles = StyleSheet.create({
     textArea: {
         backgroundColor: 'white',
         borderRadius: 5,
-        marginRight: 10,
-        flex: 0.9
+        marginRight: 5,
+        flex: 1
     },
     postTextView: {
         flexDirection: 'row',
