@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#357B7F',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10
+        padding: 10,
+        paddingBottom:20
     },
     socialMediaSection: {
         marginLeft: 10,
