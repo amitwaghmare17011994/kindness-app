@@ -18,10 +18,12 @@ const PostScreen = () => {
     return (
         <AppLayout>
             <View style={styles.contianer}>
-                <PageHeader onBack={onBack}>
-                    <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}>Share your act of kindness</Text>
+                <View style={{marginTop:10}}>
+                    <PageHeader onBack={onBack}>
+                        <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}>Share your act of kindness</Text>
 
-                </PageHeader>
+                    </PageHeader>
+                </View>
 
                 <TextAreaField
                     placeholder="Share your kindness story…"
@@ -77,7 +79,8 @@ const PostScreen = () => {
 const styles = StyleSheet.create({
     contianer: {
         flex: 1,
-        padding: 10
+        padding: 10,
+        backgroundColor:'white'
     },
     header: {
         flexDirection: 'row',
