@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/core';
+import Icon from 'react-native-vector-icons/AntDesign'
 import { View, Text, StyleSheet } from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import GradientButton from '../../components/GradientButton';
 import PageHeader from '../../components/PageHeader';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants';
 
 const PostLocationScreen = () => {
     const [selectedLocation, setSelectedLocation] = useState(null)
+    const [showAlert, setShowAlert] = useState(false)
 
     const navigation = useNavigation()
+
+    const onPost = () => {
+        setShowAlert(true)
+    }
 
     const onBack = () => {
         setSelectedLocation(null)
@@ -22,6 +29,15 @@ const PostLocationScreen = () => {
 
     return (
         <AppLayout>
+
+            {showAlert && <View style={styles.alert}>
+                <View onTouchEnd={() => setShowAlert(false)} style={{ position: 'absolute', top: 0, right: 0, marginTop: 5, marginRight: 5 }}>
+                    <Icon name={'closecircleo'} size={18} />
+                </View>
+                <Text style={{ fontWeight: '600', fontSize: 16 }}>Your Act has been posted!</Text>
+
+            </View>}
+
             <View style={styles.contianer}>
                 <PageHeader onBack={onBack}>
                     <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}>Share your act of kindness</Text>
@@ -29,7 +45,7 @@ const PostLocationScreen = () => {
                 <GradientButton
                     disabled={!selectedLocation}
                     colors={selectedLocation ? false : ['#D8D8D8', '#D8D8D8']}
-                    onPress={() => { }} text={'POST'} />
+                    onPress={() => { setShowAlert(true) }} text={'POST'} />
 
             </View>
             <View style={styles.mapContainer}>
@@ -53,6 +69,18 @@ const PostLocationScreen = () => {
     )
 }
 const styles = StyleSheet.create({
+    alert: {
+        elevation: 2,
+        position: 'absolute',
+        zIndex: 111,
+        marginTop: SCREEN_HEIGHT / 4,
+        marginLeft: SCREEN_WIDTH / 4,
+        paddingHorizontal: 20,
+        backgroundColor: 'white',
+        height: 100,
+        justifyContent: 'center',
+        shadowColor: "black"
+    },
     contianer: {
         flex: 1,
         padding: 10,
