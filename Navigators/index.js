@@ -5,6 +5,7 @@ import HomeScreen from '../Screens/HomeScreen';
 import PostScreen from '../Screens/PostScreen';
 
 import DrawerContent from '../components/DrawerContent';
+import PostLocationScreen from '../Screens/PostLocationScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,11 @@ function Navigator() {
                     options={{ headerShown: false }}
                     name="PostKindness"
                     component={PostScreen} />
+                    
+                <Drawer.Screen
+                    options={{ headerShown: false }}
+                    name="PostLocationScreen"
+                    component={PostLocationScreen} />
 
 
             </Drawer.Navigator>

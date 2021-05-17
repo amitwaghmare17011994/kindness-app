@@ -5,25 +5,24 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign'
 import AppLayout from '../../components/AppLayout';
+import GradientButton from '../../components/GradientButton';
 import InputField from '../../components/Input';
+import PageHeader from '../../components/PageHeader';
 import RoundButton from '../../components/RoundButton';
 import TextAreaField from '../../components/TextAreaField';
 
 const PostScreen = () => {
     const navigation = useNavigation()
     const onBack = () => navigation.goBack()
+    const onPost = () => navigation.navigate('PostLocationScreen')
     return (
         <AppLayout>
             <View style={styles.contianer}>
-                <View style={styles.header}>
-                    <View onTouchEnd={onBack} style={styles.circle}>
-                        <Icon name="arrowleft" size={15} color={'black'} />
-                    </View>
+                <PageHeader onBack={onBack}>
                     <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}>Share your act of kindness</Text>
-                    <View onTouchEnd={onBack} style={styles.circle}>
-                        <Icon name="close" size={15} color={'black'} />
-                    </View>
-                </View>
+
+                </PageHeader>
+
                 <TextAreaField
                     placeholder="Share your kindness story…"
                 />
@@ -68,11 +67,7 @@ const PostScreen = () => {
                     </View>
 
                     <View>
-                        <TouchableOpacity style={{ height: 30 }}>
-                            <LinearGradient colors={['#FF9898', '#FF5579']} style={{ flexDirection: 'row', justifyContent: 'center', borderRadius: 50, height: '100%' }} >
-                                <Text style={{ alignSelf: 'center', fontWeight: '600', fontSize: 16 }}>POST</Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
+                        <GradientButton onPress={onPost} text={'POST'} />
                     </View>
                 </View>
             </View>
