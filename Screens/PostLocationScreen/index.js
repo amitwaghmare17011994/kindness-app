@@ -40,7 +40,7 @@ const PostLocationScreen = () => {
 
             <View style={styles.contianer}>
                 <PageHeader onBack={onBack}>
-                    <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}>Share your act of kindness</Text>
+                    <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}> Click to drop a pin on the map where this Act of Kindness happened </Text>
                 </PageHeader>
                 <GradientButton
                     disabled={!selectedLocation}
