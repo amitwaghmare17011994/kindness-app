@@ -7,8 +7,15 @@ import MoreView from './MoreView';
 import PostView from './PostView';
 import BissoTotalView from './BissoTotalView';
 import RoundButton from '../../components/RoundButton';
+import { useNavigation } from '@react-navigation/core';
 
 const HomeScreen = () => {
+    
+    const navigation=useNavigation()
+
+    const onPostClicked=()=>{
+        navigation.navigate('PostKindness')
+    }
     return (
         <AppLayout>
             <MoreView />
@@ -24,7 +31,9 @@ const HomeScreen = () => {
                     }}
                 />
             </View>
-            <PostView />
+            <PostView 
+                onPost={onPostClicked}
+            />
             <BissoTotalView />
             <View style={{ padding: 10 }}>
                 <Text style={{ fontWeight: '400', fontSize: 16 }}>

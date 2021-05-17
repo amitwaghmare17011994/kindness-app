@@ -3,9 +3,9 @@ import { Button } from 'native-base'
 import { Text, StyleSheet } from 'react-native'
 
 const RoundButton = (props) => {
-    const { text, customStyles = {}, textStyles = {} } = props
+    const {onPress=()=>{}, text, customStyles = {}, textStyles = {} } = props
     return (
-        <Button style={{ ...styles.postButton, ...customStyles }}>
+        <Button onPress={onPress}  style={{ ...styles.postButton, ...customStyles }}>
             { text && <Text style={{ ...textStyles }}>{text}</Text>
             }
             {props.children}
