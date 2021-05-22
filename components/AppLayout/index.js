@@ -39,7 +39,9 @@ const styles = StyleSheet.create({
 
   square: {
     backgroundColor: '#f8f9f8',
-    height: 120,
+    // height: 0,
+    paddingBottom:10,
+    paddingTop:30,
     shadowColor: 'black',
     display: 'flex',
     flexDirection: 'row',

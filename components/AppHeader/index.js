@@ -3,7 +3,10 @@ import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
 import {Text, Image, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import Logo from '../../assets/images/logo.png';
+import Bee from '../../assets/images/bee.png';
+
 import {MENU_ITEMS} from '../../constants';
+import Notifications from './Notifications';
 
 const AppHeader = props => {
   const {onMenuItemSelected} = props;
@@ -75,27 +78,15 @@ const AppHeader = props => {
         </Menu>
 
         <Menu ref={setNotificationRef}>
-          <MenuItem>
-            <Text>KAZ MENTIONED YOU IN A POST</Text>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem>
-            <Text>KAZ MENTIONED YOU IN A POST</Text>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem>
-            <Text>KAZ MENTIONED YOU IN A POST</Text>
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem>
-            <Text>KAZ MENTIONED YOU IN A POST</Text>
-          </MenuItem>
-          <MenuDivider />
+          <Notifications />
         </Menu>
 
-        <View style={{flexDirection: 'row', marginRight: 2}}>
-          <Text>Send a </Text>
-          <Text>Bisoo</Text>
+        <View style={{flexDirection: 'row', marginRight: 2,alignItems:'center'}}>
+          <Text style={{color:'#B4224F'}}>Send a </Text>
+          <View>
+            <Image source={Bee} style={{width: 6, height: 6,position:'absolute',marginLeft:18}} />
+            <Text style={{color:'#B4224F',fontWeight:'bold',fontSize:16}}>Bisoo</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -121,7 +112,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ecf0f1',
   },
-  headerRow: {flexDirection: 'row', alignItems: 'center'},
+  headerRow: {
+    flexDirection: 'row', 
+    alignItems: 'center',
+   },
   img: {
     height: 50,
     width: 100,
