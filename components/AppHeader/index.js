@@ -8,7 +8,20 @@ import {MENU_ITEMS} from '../../constants';
 const AppHeader = props => {
   const {onMenuItemSelected} = props;
   let _menu = null;
+  let notificationMenuRef = null;
   const [toggleMenu, setToggleMenu] = useState(false);
+
+  const setNotificationRef = ref => {
+    notificationMenuRef = ref;
+  };
+
+  const showNotifications = () => {
+    notificationMenuRef.show();
+  };
+
+  const hideNotifications = () => {
+    notificationMenuRef.hide();
+  };
 
   const setMenuRef = ref => {
     _menu = ref;
@@ -22,6 +35,14 @@ const AppHeader = props => {
     _menu.show();
   };
 
+  const onMeuItemSelectHandler = i => {
+    if (i.name === 'NOTIFICATIONS') {
+      showNotifications();
+      return;
+    }
+    onMenuItemSelected(i);
+    hideMenu();
+  };
   return (
     <View style={styles.headerRow}>
       <View style={{flex: 1}}>
@@ -44,14 +65,32 @@ const AppHeader = props => {
             <>
               <MenuItem
                 onPress={() => {
-                  onMenuItemSelected(i);
-                  hideMenu();
+                  onMeuItemSelectHandler(i);
                 }}>
                 {i.name}
               </MenuItem>
               <MenuDivider />
             </>
           ))}
+        </Menu>
+
+        <Menu ref={setNotificationRef}>
+          <MenuItem>
+            <Text>KAZ MENTIONED YOU IN A POST</Text>
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem>
+            <Text>KAZ MENTIONED YOU IN A POST</Text>
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem>
+            <Text>KAZ MENTIONED YOU IN A POST</Text>
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem>
+            <Text>KAZ MENTIONED YOU IN A POST</Text>
+          </MenuItem>
+          <MenuDivider />
         </Menu>
 
         <View style={{flexDirection: 'row', marginRight: 2}}>
