@@ -38,6 +38,8 @@ const AppHeader = props => {
             <Text>Send a</Text>
             <Text style={{fontWeight: 'bold', flex: 1}}> BisOO</Text>
           </MenuItem>
+          <MenuDivider />
+
           {MENU_ITEMS.map(i => (
             <>
               <MenuItem

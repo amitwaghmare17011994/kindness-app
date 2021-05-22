@@ -8,6 +8,7 @@ import PostLocationScreen from '../Screens/PostLocationScreen';
 import OurMissionScreen from '../Screens/OurMissionScreen';
 import LearnMoreScreen from '../Screens/LearnMore';
 import TeamScreen from '../Screens/TeamScreen';
+import MagzineScreen from '../Screens/MagzineScreen';
 
 const Stack = createStackNavigator();
 function Navigator() {
@@ -44,6 +45,11 @@ function Navigator() {
           options={{headerShown: false}}
           name="TeamScreen"
           component={TeamScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="MagzineScreen"
+          component={MagzineScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

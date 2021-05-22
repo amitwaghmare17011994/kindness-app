@@ -8,7 +8,7 @@ export const MENU_ITEMS = [
   {name: 'MISSION & VISION', route: 'OurMissionScreen'},
   {name: 'LEARN MORE', route: 'LearnMoreScreen'},
   {name: 'TEAM & SPONSORS', route: 'TeamScreen'},
-  {name: 'MAGAZINE'},
+  {name: 'MAGAZINE',route:'MagzineScreen'},
   {name: 'NOTIFICATIONS'},
   {name: 'PROFILE'},
   {name: 'HELP CENTER'},
