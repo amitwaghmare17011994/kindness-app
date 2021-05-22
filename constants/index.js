@@ -6,7 +6,7 @@ export const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const MENU_ITEMS = [
   {name: 'MISSION & VISION', route: 'OurMissionScreen'},
-  {name: 'LEARN MORE'},
+  {name: 'LEARN MORE',route:'LearnMoreScreen'},
   {name: 'TEAM & SPONSORS'},
   {name: 'MAGAZINE'},
   {name: 'NOTIFICATIONS'},

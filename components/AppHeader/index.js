@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
 import Menu, {MenuItem, MenuDivider} from 'react-native-material-menu';
-import {Button} from 'native-base';
 import {Text, Image, View, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
 import Logo from '../../assets/images/logo.png';
 import {MENU_ITEMS} from '../../constants';
-import {useRef} from 'react';
 
 const AppHeader = props => {
   const {onMenuItemSelected} = props;

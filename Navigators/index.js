@@ -6,6 +6,7 @@ import PostScreen from '../Screens/PostScreen';
 
 import PostLocationScreen from '../Screens/PostLocationScreen';
 import OurMissionScreen from '../Screens/OurMissionScreen';
+import LearnMoreScreen from '../Screens/LearnMore';
 
 const Stack = createStackNavigator();
 function Navigator() {
@@ -32,6 +33,11 @@ function Navigator() {
           options={{headerShown: false}}
           name="OurMissionScreen"
           component={OurMissionScreen}
+        />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="LearnMoreScreen"
+          component={LearnMoreScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

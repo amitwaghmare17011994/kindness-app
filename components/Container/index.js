@@ -8,6 +8,7 @@ const Container = props => {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor:'white'
   },
 });
 export default Container;
