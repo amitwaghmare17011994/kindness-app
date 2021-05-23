@@ -5,7 +5,7 @@ import AntIcon from 'react-native-vector-icons/AntDesign';
 
 const ProfileListItem = () => {
   return (
-    <View>
+    <View style={{paddingBottom:10}}>
       <View style={styles.row}>
         <View style={{flex: 1,marginTop:5}}>
           <Text style={{...styles.blur}}>ErinDobson</Text>
