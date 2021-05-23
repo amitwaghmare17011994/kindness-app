@@ -16,6 +16,10 @@ target 'kindnessapp' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
+  pod 'ReactNativeGetLocation', :path => '../node_modules/react-native-get-location'
+
+  pod 'react-native-location', :path => '../node_modules/react-native-location'
+
   target 'kindnessappTests' do
     inherit! :complete
     # Pods for testing

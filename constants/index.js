@@ -8,8 +8,8 @@ export const MENU_ITEMS = [
   {name: 'MISSION & VISION', route: 'OurMissionScreen'},
   {name: 'LEARN MORE', route: 'LearnMoreScreen'},
   {name: 'TEAM & SPONSORS', route: 'TeamScreen'},
-  {name: 'MAGAZINE',route:'MagzineScreen'},
+  {name: 'MAGAZINE', route: 'MagzineScreen'},
   {name: 'NOTIFICATIONS'},
-  {name: 'PROFILE'},
+  {name: 'PROFILE', route: 'ProfileScreen'},
   {name: 'HELP CENTER'},
 ];
