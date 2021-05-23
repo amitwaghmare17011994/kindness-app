@@ -1,13 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import AntIcon from 'react-native-vector-icons/AntDesign';
+import InputField from '../../components/Input';
+import RoundButton from '../../components/RoundButton';
 
-const ProfileListItem = () => {
+const ProfileListItem = (props) => {
+  const {showPostForm=false}=props
   return (
-    <View style={{paddingBottom:10}}>
+    <View style={{paddingBottom: 10}}>
       <View style={styles.row}>
-        <View style={{flex: 1,marginTop:5}}>
+        <View style={{flex: 1, marginTop: 5}}>
           <Text style={{...styles.blur}}>ErinDobson</Text>
           <Text style={styles.blur}>Vancouver, BC</Text>
         </View>
@@ -26,13 +28,23 @@ const ProfileListItem = () => {
 
         <View style={{flexDirection: 'row', marginLeft: 20}}>
           <Icon name="heart" size={16} />
-         </View>
+        </View>
 
         <View style={{flexDirection: 'row'}}>
           <Icon name="arrow-long-up" size={16} />
           <Text style={{fontSize: 12}}>185</Text>
         </View>
       </View>
+      {showPostForm &&<>
+      <View style={{flexDirection: 'row',marginTop:10}}>
+        <InputField />
+      </View>
+      <View style={{flexDirection: 'row-reverse'}}>
+        <RoundButton customStyles={{height: 30, width: 128, marginTop: 10}}>
+          <Text>POST</Text>
+        </RoundButton>
+      </View>
+      </>}
     </View>
   );
 };

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -12,6 +13,7 @@ const SOCIAL_MEDIA = [
 
 
 const AppFooter = () => {
+     
     return (
         <View style={styles.footer}>
             <View style={styles.socialMediaSection}>

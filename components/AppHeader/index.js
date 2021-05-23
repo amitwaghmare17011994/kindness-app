@@ -58,7 +58,10 @@ const AppHeader = props => {
           button={
             <Icon name="menu" size={40} color="#ffcb4c" onPress={showMenu} />
           }>
-          <MenuItem>
+          <MenuItem
+            onPress={() => {
+              onMenuItemSelected({name: 'Bisoo', route: 'BisooScreen'});
+            }}>
             <Text>Send a</Text>
             <Text style={{fontWeight: 'bold', flex: 1}}> BisOO</Text>
           </MenuItem>
@@ -81,11 +84,22 @@ const AppHeader = props => {
           <Notifications />
         </Menu>
 
-        <View style={{flexDirection: 'row', marginRight: 2,alignItems:'center'}}>
-          <Text style={{color:'#B4224F'}}>Send a </Text>
+        <View
+          style={{flexDirection: 'row', marginRight: 2, alignItems: 'center'}}>
+          <Text style={{color: '#B4224F'}}>Send a </Text>
           <View>
-            <Image source={Bee} style={{width: 6, height: 6,position:'absolute',marginLeft:18}} />
-            <Text style={{color:'#B4224F',fontWeight:'bold',fontSize:16}}>Bisoo</Text>
+            <Image
+              source={Bee}
+              style={{
+                width: 6,
+                height: 6,
+                position: 'absolute',
+                marginLeft: 18,
+              }}
+            />
+            <Text style={{color: '#B4224F', fontWeight: 'bold', fontSize: 16}}>
+              Bisoo
+            </Text>
           </View>
         </View>
       </View>
@@ -113,9 +127,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
   },
   headerRow: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
-   },
+  },
   img: {
     height: 50,
     width: 100,

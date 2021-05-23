@@ -10,6 +10,8 @@ import LearnMoreScreen from '../Screens/LearnMore';
 import TeamScreen from '../Screens/TeamScreen';
 import MagzineScreen from '../Screens/MagzineScreen';
 import ProfileScreen from '../Screens/ProfileScreen';
+import BisooScreen from '../Screens/BisooScreen';
+import PurchaseBisooScreen from '../Screens/PurchaseBisooScreen';
 
 const Stack = createStackNavigator();
 function Navigator() {
@@ -52,15 +54,25 @@ function Navigator() {
           name="MagzineScreen"
           component={MagzineScreen}
         />
-          <Stack.Screen
+        <Stack.Screen
           options={{headerShown: false}}
           name="ProfileScreen"
           component={ProfileScreen}
         />
+
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="BisooScreen"
+          component={BisooScreen}
+        />
+
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="PurchaseBisooScreen"
+          component={PurchaseBisooScreen}
+        />
       </Stack.Navigator>
-
-
-     </NavigationContainer>
+    </NavigationContainer>
   );
 }
 
