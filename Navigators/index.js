@@ -66,10 +66,6 @@ function Navigator() {
           name="SubscribeScreen"
           component={SubscribeScreen}
         />
-
-
-      </Stack.Navigator>
-
         <Stack.Screen
           options={{headerShown: false}}
           name="BisooScreen"
