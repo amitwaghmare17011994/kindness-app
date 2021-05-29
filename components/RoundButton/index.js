@@ -5,7 +5,7 @@ import { Text, StyleSheet } from 'react-native'
 const RoundButton = (props) => {
     const {onPress=()=>{},disabled=false, text, customStyles = {}, textStyles = {} } = props
     return (
-        <Button disabled={disabled} onPress={onPress}  style={{ ...styles.postButton, ...customStyles }}>
+        <Button disabled={disabled} onPress={onPress}  style={{ ...styles.postButton, ...customStyles}}>
             { text && <Text style={{ ...textStyles }}>{text}</Text>
             }
             {props.children}
