@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import SubscribeButton from '../Buttons/SubscribeButton'
 import RoundButton from '../RoundButton'
 
 const SOCIAL_MEDIA = [
@@ -39,6 +40,7 @@ const AppFooter = () => {
                 <RoundButton customStyles={{width:200,height:30,marginTop:20}}>
                     <Text style={{ color: '#2F7A80' }}>DONATE</Text>
                 </RoundButton>
+                <SubscribeButton/>
             </View>
         </View>
     )

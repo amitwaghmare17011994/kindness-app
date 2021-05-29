@@ -43,7 +43,7 @@ const AppHeader = props => {
       showNotifications();
       return;
     }
-    onMenuItemSelected(i);
+    if (i.route) onMenuItemSelected(i.route);
     hideMenu();
   };
   return (
