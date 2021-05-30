@@ -7,10 +7,8 @@ import {SCREEN_HEIGHT, MENU_ITEMS} from '../../constants';
 
 const AppLayout = props => {
   const navigation = useNavigation();
-  const onMenuItemSelected = item => {
-    if (item.route) {
-      navigation.navigate(item.route);
-    }
+  const onMenuItemSelected = route => {
+      navigation.navigate(route);
   };
 
   return (
@@ -20,7 +18,7 @@ const AppLayout = props => {
       </View>
       <ScrollView style={{flex: 1, maxHeight: SCREEN_HEIGHT}}>
         {props.children}
-        <AppFooter />
+        <AppFooter onMenuItemSelected={onMenuItemSelected}/>
       </ScrollView>
     </View>
   );

@@ -12,6 +12,7 @@ import MagzineScreen from '../Screens/MagzineScreen';
 import ProfileScreen from '../Screens/ProfileScreen';
 import BisooScreen from '../Screens/BisooScreen';
 import PurchaseBisooScreen from '../Screens/PurchaseBisooScreen';
+import SubscribeScreen from '../Screens/Subscribe';
 
 const Stack = createStackNavigator();
 function Navigator() {
@@ -60,6 +61,11 @@ function Navigator() {
           component={ProfileScreen}
         />
 
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="SubscribeScreen"
+          component={SubscribeScreen}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="BisooScreen"
