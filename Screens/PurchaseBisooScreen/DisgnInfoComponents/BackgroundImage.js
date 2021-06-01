@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
+import Icon from 'react-native-vector-icons/AntDesign';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {View, Text, Image} from 'react-native';
 import InputField from '../../../components/Input';
@@ -31,7 +32,7 @@ const BackgroundImage = () => {
         }}>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <Image
-            source={selectedImage ? {uri: selectedImage} : DesignImage}
+            source={selectedImage ? {uri: selectedImage.uri} : DesignImage}
             style={{height: '100%', margin: 5, flex: 0.5}}
           />
           <View style={{marginLeft: 5}}>
@@ -130,16 +131,25 @@ const BackgroundImage = () => {
           onPress={() =>
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
-              const image = value?.assets && value?.assets[0]?.uri;
-              if(image)
-              setSelectedImage(image);
-
+              const image = value?.assets;
+              if (image) setSelectedImage(value?.assets[0]);
             })
           }
           customStyles={{width: 200, height: 30}}>
           <Text>Upload Image</Text>
         </RoundButton>
       </View>
+      {!!selectedImage?.uri && (
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Icon
+            name={'close'}
+            size={16}
+            onPress={() => setSelectedImage('')}
+            style={{marginRight: 10}}
+          />
+          {<Text>image : {selectedImage.fileName.split("_")[selectedImage.fileName.split("_").length-1]}</Text>}
+        </View>
+      )}
     </View>
   );
 };
