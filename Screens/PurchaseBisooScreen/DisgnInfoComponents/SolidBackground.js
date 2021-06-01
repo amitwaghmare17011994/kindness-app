@@ -7,7 +7,7 @@ import ColorChooser from '../../ColorChooser';
 const SolidBackground = () => {
   const navigation = useNavigation();
   const [showColor, setShowColor] = useState('');
-  const [textColor, setTextColor] = useState('#000000');
+  const [textColor, setTextColor] = useState('brown');
   const [backgroundColor, setBackgroundColor] = useState('#ffcc4c');
   const onColorChange = color => {
     if (showColor === 'back') {
