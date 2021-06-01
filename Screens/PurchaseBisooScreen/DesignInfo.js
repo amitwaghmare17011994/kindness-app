@@ -2,15 +2,17 @@ import React, {useState} from 'react';
 import {Radio} from 'native-base';
 import {View, Text, Image} from 'react-native';
 import DesignImage from '../../assets/images/design.png';
+import SolidBackground from './DisgnInfoComponents/SolidBackground';
 
 const DesignInfo = () => {
   const [selectedOption, setSelectedOption] = useState(0);
   return (
-    <View style={{height: 400}}>
+    <View  >
       <Text style={{color: '#357B7F'}}>2 Design</Text>
       <Text style={{fontWeight: 'bold', marginTop: 10}}>
         Select Card Template
       </Text>
+      
 
       {/* First */}
       <View
@@ -18,7 +20,11 @@ const DesignInfo = () => {
         <View
           style={{flexDirection: 'row', flex: 0.6}}
           onTouchEnd={() => setSelectedOption(1)}>
-          <Radio selected={selectedOption === 1}      color={'black'}  selectedColor={'#357B7F'} />
+          <Radio
+            selected={selectedOption === 1}
+            color={'black'}
+            selectedColor={'#357B7F'}
+          />
           <Text style={{marginLeft: 5, fontWeight: '400'}}>
             Solid Background Colour
           </Text>
@@ -57,7 +63,11 @@ const DesignInfo = () => {
         <View
           style={{flexDirection: 'row', flex: 0.6}}
           onTouchEnd={() => setSelectedOption(2)}>
-          <Radio selected={selectedOption === 2} color={'black'}  selectedColor={'#357B7F'} />
+          <Radio
+            selected={selectedOption === 2}
+            color={'black'}
+            selectedColor={'#357B7F'}
+          />
           <Text style={{marginLeft: 5, fontWeight: '400'}}>
             Background Colour and Overlay Image
           </Text>
@@ -97,7 +107,11 @@ const DesignInfo = () => {
         <View
           style={{flexDirection: 'row', flex: 0.6}}
           onTouchEnd={() => setSelectedOption(3)}>
-          <Radio selected={selectedOption === 3} color={'black'}  selectedColor={'#357B7F'} />
+          <Radio
+            selected={selectedOption === 3}
+            color={'black'}
+            selectedColor={'#357B7F'}
+          />
 
           <Text style={{marginLeft: 5, fontWeight: '400'}}>
             Background Image
@@ -134,7 +148,11 @@ const DesignInfo = () => {
         <View
           style={{flexDirection: 'row', flex: 0.6}}
           onTouchEnd={() => setSelectedOption(4)}>
-          <Radio selected={selectedOption === 4} color={'black'}  selectedColor={'#357B7F'} />
+          <Radio
+            selected={selectedOption === 4}
+            color={'black'}
+            selectedColor={'#357B7F'}
+          />
           <Text style={{marginLeft: 5, fontWeight: '400'}}>
             Background Image and Overlay Image
           </Text>
@@ -168,7 +186,12 @@ const DesignInfo = () => {
         </View>
       </View>
       {/* Fourth */}
-    </View>
+     
+     
+     
+      {selectedOption === 1 && <SolidBackground />}
+
+     </View>
   );
 };
 
