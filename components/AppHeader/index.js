@@ -60,7 +60,7 @@ const AppHeader = props => {
           }>
           <MenuItem
             onPress={() => {
-              onMenuItemSelected({name: 'Bisoo', route: 'BisooScreen'});
+              onMeuItemSelectHandler({name: 'Bisoo', route: 'BisooScreen'});
             }}>
             <Text>Send a</Text>
             <Text style={{fontWeight: 'bold', flex: 1}}> BisOO</Text>
