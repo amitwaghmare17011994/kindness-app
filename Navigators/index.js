@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 function Navigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="PurchaseBisooScreen">
         <Stack.Screen
           options={{headerShown: false}}
           name="Home"
