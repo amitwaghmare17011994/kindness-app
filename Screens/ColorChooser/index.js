@@ -1,17 +1,12 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import {ColorPicker, toHsv} from 'react-native-color-picker';
+import {ColorPicker, toHsv, fromHsv} from 'react-native-color-picker';
 
 const ColorChooser = props => {
-  const [color, setColor] = useState(toHsv('green'));
-  useEffect(() => {
-      setColor(props.color || 'green')
-  }, [props.color])
-  
-  const onColorChange = color => {
-    setColor(color);
-   };
+   const onColorChange = color => {
+    props.onColorChangeHandler(fromHsv({...color}));
+  };
 
   return (
     <View style={{flex: 1, height: 200}}>
@@ -20,7 +15,8 @@ const ColorChooser = props => {
       </View>
 
       <ColorPicker
-        color={color}
+        hideSliders
+        color={toHsv(props.color)}
         style={{flex: 1}}
         onColorChange={onColorChange}
         onColorSelected={color => props.onColorChangeHandler(color)}

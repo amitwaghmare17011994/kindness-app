@@ -87,20 +87,31 @@ const SolidBackground = () => {
             }}></View>
         </View>
       </View>
+      <View style={{height: !!showColor?200:0}}></View>
+
       {!!showColor && (
-        <View style={{marginTop: 50}}>
-          <ColorChooser
-            onClose={() => setShowColor('')}
-            onColorChangeHandler={onColorChange}
-            color={
-              showColor === 'back'
-                ? backgroundColor
-                : showColor === 'text'
-                ? textColor
-                : ''
-            }
-          />
-        </View>
+        <>
+          <View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              backgroundColor: 'white',
+              zIndex:111
+            }}>
+            <ColorChooser
+              onClose={() => setShowColor('')}
+              onColorChangeHandler={onColorChange}
+              color={
+                showColor === 'back'
+                  ? backgroundColor
+                  : showColor === 'font'
+                  ? textColor
+                  : 'green'
+              }
+            />
+          </View>
+        </>
       )}
     </View>
   );
