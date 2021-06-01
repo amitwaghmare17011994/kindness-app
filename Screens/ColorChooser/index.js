@@ -15,9 +15,9 @@ const ColorChooser = props => {
       </View>
 
       <ColorPicker
-        hideSliders
+        // hideSliders
         color={toHsv(props.color)}
-        style={{height:160}}
+        style={{height:160,width:'100%'}}
         onColorChange={onColorChange}
         onColorSelected={color => props.onColorChangeHandler(color)}
       />

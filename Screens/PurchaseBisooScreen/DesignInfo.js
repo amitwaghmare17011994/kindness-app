@@ -3,6 +3,7 @@ import {Radio} from 'native-base';
 import {View, Text, Image} from 'react-native';
 import DesignImage from '../../assets/images/design.png';
 import SolidBackground from './DisgnInfoComponents/SolidBackground';
+import BackgroundImage from './DisgnInfoComponents/BackgroundImage';
 
 const DesignInfo = () => {
   const [selectedOption, setSelectedOption] = useState(0);
@@ -190,6 +191,7 @@ const DesignInfo = () => {
      
      
       {selectedOption === 1 && <SolidBackground />}
+      {selectedOption === 2 && <BackgroundImage/>}
 
      </View>
   );
