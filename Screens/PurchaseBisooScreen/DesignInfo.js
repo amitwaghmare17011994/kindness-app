@@ -4,16 +4,17 @@ import {View, Text, Image} from 'react-native';
 import DesignImage from '../../assets/images/design.png';
 import SolidBackground from './DisgnInfoComponents/SolidBackground';
 import BackgroundImage from './DisgnInfoComponents/BackgroundImage';
+import ViewBackground from './DisgnInfoComponents/ViewBackground';
+import BackgroundAndImage from './DisgnInfoComponents/BackgroundAndImage';
 
 const DesignInfo = () => {
   const [selectedOption, setSelectedOption] = useState(0);
   return (
-    <View  >
+    <View>
       <Text style={{color: '#357B7F'}}>2 Design</Text>
       <Text style={{fontWeight: 'bold', marginTop: 10}}>
         Select Card Template
       </Text>
-      
 
       {/* First */}
       <View
@@ -123,7 +124,10 @@ const DesignInfo = () => {
             elevation: 1,
             height: 80,
             flex: 1,
+            borderWidth: 1,
+            borderColor: '#cccccc',
             padding: 5,
+
             marginLeft: 40,
           }}>
           <View style={{flex: 1, alignItems: 'center'}}>
@@ -145,7 +149,7 @@ const DesignInfo = () => {
 
       {/* Fourth */}
       <View
-        style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-start'}}>
+        style={{flexDirection: 'row', marginTop: 10, marginBottom:10,alignItems: 'flex-start'}}>
         <View
           style={{flexDirection: 'row', flex: 0.6}}
           onTouchEnd={() => setSelectedOption(4)}>
@@ -166,6 +170,8 @@ const DesignInfo = () => {
             elevation: 1,
             marginLeft: 40,
             padding: 5,
+            borderWidth: 1,
+            borderColor: '#cccccc',
           }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Image
@@ -187,13 +193,13 @@ const DesignInfo = () => {
         </View>
       </View>
       {/* Fourth */}
-     
-     
-     
-      {selectedOption === 1 && <SolidBackground />}
-      {selectedOption === 2 && <BackgroundImage/>}
 
-     </View>
+      {selectedOption === 1 && <SolidBackground />}
+      {selectedOption === 2 && <BackgroundImage />}
+      {selectedOption === 3 && <ViewBackground />}
+      {selectedOption === 4 && <BackgroundAndImage />}
+      
+    </View>
   );
 };
 
