@@ -68,15 +68,21 @@ const LearnMoreScreen = () => {
         <Text style={styles.headerText}>Have a Question or Suggestion?</Text>
         <Text>We would love to hear from you.</Text>
         <View style={{marginTop: 10}}>
-          <Text style={{fontWeight: 'bold'}}>Name</Text>
-          <InputField placeholder={'Enter Name'} />
-          <Text style={{fontWeight: 'bold'}}>Email</Text>
-          <InputField placeholder={'Enter Email'} />
-          <Text style={{fontWeight: 'bold'}}>Question or Suggestion</Text>
-          <TextAreaField
-            customStyles={{borderRadius: 0}}
-            placeholder={'Enter Question or Suggestion'}
-          />
+          <View style={{marginBottom: 10}}>
+            <Text style={{fontWeight: 'bold'}}>Name</Text>
+            <InputField placeholder={'Enter Name'} />
+          </View>
+          <View style={{marginBottom: 10}}>
+            <Text style={{fontWeight: 'bold'}}>Email</Text>
+            <InputField placeholder={'Enter Email'} />
+          </View>
+          <View style={{marginBottom: 10}}>
+            <Text style={{fontWeight: 'bold'}}>Question or Suggestion</Text>
+            <TextAreaField
+              customStyles={{borderRadius: 0}}
+              placeholder={'Enter Question or Suggestion'}
+            />
+          </View>
           <View style={{marginTop: 10}}>
             <RoundButton customStyles={{width: 104, height: 30}}>
               <Text>Send</Text>

@@ -41,7 +41,6 @@ const AppHeader = props => {
   const onMeuItemSelectHandler = i => {
     if (i.name === 'NOTIFICATIONS') {
       showNotifications();
-      return;
     }
     if (i.route) onMenuItemSelected(i.route);
     hideMenu();

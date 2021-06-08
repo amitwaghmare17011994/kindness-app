@@ -17,13 +17,13 @@ const OurMissionScreen = () => {
           who is giving. It is vital in times of crisis - especially as we face
           Covid-19.
         </Text>
-        <Text style={{marginTop: 40}}>
+        <Text style={{marginTop: 10}}>
           Social distancing has been a challenge. Despite our physical distance,
           we are still connected to each other in so many ways. We have seen
           kindness emerge all over our communities - both online and in person,
           between friends, neighbours, families, and strangers.
         </Text>
-        <Text style={{marginTop: 40}}>
+        <Text style={{marginTop: 10}}>
           The spirit of our community during this pandemic is that we are all in
           this together and we must help each other if we want to see the other
           side. This spirit of kindness in our communities is sacred and
@@ -32,7 +32,7 @@ const OurMissionScreen = () => {
           tool to help people cope with anxiety, fear and grief - both during
           this time of uncertainty and instability, and whatever may come.
         </Text>
-        <Text style={{marginTop: 40}}>
+        <Text style={{marginTop: 10}}>
           Soon we will have to decide what we want our new “normal” to look
           like. We hope that the acts of kindness we have seen all over our
           city, country and around the globe become a part of it.
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   missionText: {
     fontSize: 16,
-    marginTop: 40,
+    marginTop: 10,
   },
 });
 export default OurMissionScreen;
