@@ -46,7 +46,13 @@ const PurchaseBisooScreen = () => {
             <Text>BACk</Text>
           </RoundButton>
           <RoundButton
-            onPress={() => currentStep !== 4 && setCurrentStep(currentStep + 1)}
+            onPress={() => {
+              if (currentStep == 4) {
+                navigation.navigate('Home')
+                return
+              }
+               setCurrentStep(currentStep + 1)
+              }}
             customStyles={{
               flex: 1,
               height: 30,

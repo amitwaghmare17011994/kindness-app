@@ -10,9 +10,9 @@ export default () => {
     return (
         <RoundButton
             onPress={() => navigation.navigate('SubscribeScreen')}
-            customStyles={{width:100, height:30}}
+            customStyles={{width:100, height:30, backgroundColor: '#90b6b9'}}
         >
-            <Text style={{ color: '#2F7A80' }}>Subscribe</Text>
+            <Text style={{ color: '#FFF' }}>SUBSCRIBE</Text>
         </RoundButton>
     )
 }

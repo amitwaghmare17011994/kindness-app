@@ -22,7 +22,7 @@ const AppFooter = () => {
             <View style={styles.footerColumn}>
                 <View style={styles.socialMediaSection}>
                     {SOCIAL_MEDIA.map((media, index) =>
-                        <View style={{ ...styles.socialMedia, marginTop: index === 0 ? 0 : 10 }} key={media}>
+                        <View style={{ ...styles.socialMedia, marginTop: index === 0 ? 0 : 5 }} key={media}>
                             <Icon name={media} />
                         </View>)}
 
@@ -30,24 +30,35 @@ const AppFooter = () => {
                 <View style={styles.donateView}>
                     <Text style={{ color: 'white' }}>Show Us Some Kindness</Text>
                     <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                        <Text style={{ color: 'white', fontSize: 9, marginRight: 5 }}>
+                        <Text style={{ color: 'white', fontSize: 11, marginRight: 5 }}>
                             LEARN MORE
                         </Text>
-                        <Text style={{ color: 'white', fontSize: 9 }}>
+                        <Text style={{ color: 'white', fontSize: 10 }}>
                             about how your donations
                     </Text>
                     </View>
-                    <Text style={{ color: 'white', fontSize: 9 }}>
+                    <Text style={{ color: 'white', fontSize: 10 }}>
                         can make the world a better place
                     </Text>
-                    <RoundButton customStyles={{width:100,height:30,marginTop:20, alignSelf: 'flex-start'}}>
+                    <RoundButton customStyles={{width:100,height:30,marginTop:15, alignSelf: 'flex-start'}}>
                         <Text style={{ color: '#2F7A80' }}>DONATE</Text>
                     </RoundButton>
                 </View>
             </View>
-            <View style={styles.footerColumn}>
-                <SubscribeButton/>
-                
+            <View style={{...styles.footerColumn, flexDirection: 'row-reverse'}}>
+                <View>
+                    <SubscribeButton/>
+                    <Text style={{ color: 'white', fontSize: 11,  alignSelf: 'flex-end', marginTop: 17, textDecorationLine:  'underline' }}>
+                        Community Guidelines
+                    </Text>
+                    <Text style={{ color: 'white', fontSize: 11,  alignSelf: 'flex-end', textDecorationLine:  'underline' }}>
+                        Privacy Policy
+                    </Text>
+                    <Text style={{ color: 'white', fontSize: 11, alignSelf: 'flex-end', textDecorationLine:  'underline'  }}>
+                        Terms of Service
+                    </Text>
+                    
+                </View>
             </View>
         </View>
     )
@@ -79,6 +90,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         color: '#357B7F',
         marginTop: 10
-    }
+    },
 })
 export default AppFooter

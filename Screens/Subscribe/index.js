@@ -29,7 +29,7 @@ const SubscribeScreen = () => {
         <InputField onChange={e => setLastName(e.target.value)} value={lastName} customStyles={styles.input}/>
         <Text style={styles.inputLabel}>Email</Text>
         <InputField onChange={e => setEmail(e.target.value)} value={email} customStyles={styles.input}/>
-        <RoundButton customStyles={styles.signUpButton}>
+        <RoundButton onPress={() => navigation.navigate('Home')} customStyles={styles.signUpButton}>
           <Text>SIGN UP</Text>
         </RoundButton>
       </View>
