@@ -16,6 +16,7 @@ const SOCIAL_MEDIA = [
 
 
 const AppFooter = () => {
+    const navigation = useNavigation();
      
     return (
         <View style={styles.footer}>
@@ -40,7 +41,7 @@ const AppFooter = () => {
                     <Text style={{ color: 'white', fontSize: 10 }}>
                         can make the world a better place
                     </Text>
-                    <RoundButton customStyles={{width:100,height:30,marginTop:15, alignSelf: 'flex-start'}}>
+                    <RoundButton onPress={() => navigation.navigate('DonationScreen')} customStyles={{width:100,height:30,marginTop:15, alignSelf: 'flex-start'}}>
                         <Text style={{ color: '#2F7A80' }}>DONATE</Text>
                     </RoundButton>
                 </View>

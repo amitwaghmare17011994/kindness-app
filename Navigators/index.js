@@ -14,6 +14,8 @@ import BisooScreen from '../Screens/BisooScreen';
 import PurchaseBisooScreen from '../Screens/PurchaseBisooScreen';
 import SubscribeScreen from '../Screens/Subscribe';
 import ColorChooser from '../Screens/ColorChooser';
+import DonationScreen from '../Screens/Donation';
+import CompleteDonation from '../Screens/Donation/CompleteDoation';
 
 const Stack = createStackNavigator();
 function Navigator() {
@@ -83,6 +85,13 @@ function Navigator() {
           name="ColorChooser"
           component={ColorChooser}
         />
+         <Stack.Screen
+          options={{headerShown: false}}
+          name="DonationScreen"
+          component={DonationScreen}
+        />
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
