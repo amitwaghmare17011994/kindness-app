@@ -3,12 +3,14 @@ import {StyleSheet} from 'react-native';
 import {Textarea} from 'native-base';
 
 const TextAreaField = props => {
-  const {placeholder, customStyles = {}} = props;
+  const {placeholder, customStyles = {}, id = '', values = {}, onChange} = props;
   return (
     <Textarea
       style={{...styles.textArea, ...customStyles}}
       rowSpan={5}
       placeholder={placeholder}
+      value={values[id] || ''}
+      onChangeText={(e) => onChange(e)}
     />
   );
 };

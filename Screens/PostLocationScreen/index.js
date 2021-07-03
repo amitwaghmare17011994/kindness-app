@@ -8,24 +8,14 @@ import GradientButton from '../../components/GradientButton';
 import PageHeader from '../../components/PageHeader';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants';
 
-const PostLocationScreen = () => {
-    const [selectedLocation, setSelectedLocation] = useState(null)
+const PostLocationScreen = ({
+    onLocationChnage,
+    enablePostButton,
+    coordinate,
+    goBack,
+    post
+}) => {
     const [showAlert, setShowAlert] = useState(false)
-
-    const navigation = useNavigation()
-
-    const onPost = () => {
-        setShowAlert(true)
-    }
-
-    const onBack = () => {
-        setSelectedLocation(null)
-        navigation.goBack()
-    }
-
-    const onLocationSelect = (e) => {
-        setSelectedLocation(e.nativeEvent.coordinate)
-    }
 
     return (
         <AppLayout>
@@ -39,29 +29,25 @@ const PostLocationScreen = () => {
             </View>}
 
             <View style={styles.contianer}>
-                <PageHeader onBack={onBack}>
+                <PageHeader onBack={goBack}>
                     <Text style={{ flex: 1, textAlign: 'center', fontWeight: '600', fontSize: 16 }}> Click to drop a pin on the map where this Act of Kindness happened </Text>
                 </PageHeader>
                 <GradientButton
-                    disabled={!selectedLocation}
-                    colors={selectedLocation ? false : ['#D8D8D8', '#D8D8D8']}
-                    onPress={() => { setShowAlert(true) }} text={'POST'} />
+                    disabled={!enablePostButton}
+                    colors={enablePostButton ? false : ['#D8D8D8', '#D8D8D8']}
+                    onPress={post} text={'POST'}
+                />
 
             </View>
             <View style={styles.mapContainer}>
                 <MapView
-                    onPress={onLocationSelect}
+                    onPress={onLocationChnage}
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
 
                 >
                     {
-                        selectedLocation && [selectedLocation].map((marker, i) => {
-                            const key = marker.longitude + marker.latitude + i
-                            return (<Marker key={key} coordinate={{ ...marker }} >
-
-                            </Marker>)
-                        })
+                        coordinate && <Marker coordinate={coordinate} />                        
                     }
                 </MapView>
             </View>

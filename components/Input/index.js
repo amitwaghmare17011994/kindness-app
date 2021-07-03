@@ -3,11 +3,12 @@ import {StyleSheet, TextInput} from 'react-native';
 import {Input, Textarea} from 'native-base';
 
 const InputField = props => {
-  const {placeholder, customStyles = {}} = props;
+  const {placeholder, customStyles = {}, id = '', values = {}} = props;
   return (
     <Input
       style={{...styles.textArea, ...customStyles}}
       placeholderTextColor={'black'}
+      value={values[id]}
       {...props}
     />
   );

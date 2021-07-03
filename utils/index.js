@@ -31,7 +31,7 @@ export const getServerURL = () => {
 
 export const getRequestedHeader = () => {
   const config = {
-    headers: {Authorization: getAnyUserInfoFromLocalStorage(`AUTH_TOKEN`)},
+    headers: {Authorization: getAnyUserInfoFromLocalStorage(`AUTH_TOKEN`), 'Content-Type': 'application/json'},
   };
 
   return config;

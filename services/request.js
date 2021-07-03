@@ -13,7 +13,7 @@ export const  doGet = async (url) => {
 
 export const doPost = (url, data) => {
 
-    return Axios.post(getServerURL() + url, data, getRequestedHeader())
+    return Axios.post('http://192.168.43.3:5000/' + url, data, getRequestedHeader())
         .then((response) => {
             return response.data;
         })
