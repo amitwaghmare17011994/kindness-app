@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, Image} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
@@ -9,9 +9,15 @@ import BissoTotalView from './BissoTotalView';
 import RoundButton from '../../components/RoundButton';
 import {useNavigation} from '@react-navigation/core';
 import BissoM from '../../assets/images/bissom.png';
+import { doGet } from '../../services/request';
+import { usePost } from '../../hooks/usePost';
+import {groupBy} from '../../utils';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const {loading, postList, error} = usePost()
+
+  const { bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
 
   const onPostClicked = () => {
     navigation.navigate('PostKindness');
@@ -29,10 +35,7 @@ const HomeScreen = () => {
             latitudeDelta:22.5726,
             longitudeDelta:88.3639,
           }}>
-          <Marker coordinate={{latitude:  18.5204, longitude:  73.8567}} icon={BissoM} />
-
-          <Marker coordinate={{latitude: 22.5726, longitude: 88.3639}} icon={BissoM} />
-
+          {bisoo.map((ins) => <Marker key={ins.post_id} coordinate={{latitude:  Number(ins.metaData.latitude), longitude:  Number(ins.metaData.longitude)}} icon={BissoM} />)}
         </MapView>
       </View>
       <PostView onPost={onPostClicked} />
@@ -41,8 +44,7 @@ const HomeScreen = () => {
         <Text style={{fontWeight: '400', fontSize: 16}}>
           SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
         </Text>
-        {Array(5)
-          .fill('')
+        {bisoo
           .map(() => (
             <View style={{marginTop: 10, borderBottomWidth: 0.3, height: 60}}>
               <View>
@@ -69,3 +71,4 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+

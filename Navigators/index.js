@@ -21,6 +21,7 @@ const Stack = createStackNavigator();
 function Navigator() {
   return (
     <NavigationContainer>
+      {/* <script source="http://localhost:8097"/> */}
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           options={{headerShown: false}}
