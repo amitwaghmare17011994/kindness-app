@@ -9,10 +9,12 @@ import AddOns from './AddOns';
 import DatesInfo from './DatesInfo';
 import DesignInfo from './DesignInfo';
 import InfoForm from './InfoForm';
+import { useCreatePost } from './../../hooks/useCreatePost';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigation = useNavigation();
+  const useCreatePostProps = useCreatePost('bisoo')
   const goBack = () => {
     navigation.goBack();
   };
@@ -31,10 +33,10 @@ const PurchaseBisooScreen = () => {
           <Text style={styles.progressStep}> ADD ON’S</Text>
         </View>
         <View style={{marginTop: 20}}>
-          {currentStep === 1 && <InfoForm />}
-          {currentStep === 2 && <DesignInfo />}
-          {currentStep === 3 && <DatesInfo />}
-          {currentStep === 4 && <AddOns />}
+          {currentStep === 1 && <InfoForm useCreatePostProps={useCreatePostProps} />}
+          {currentStep === 2 && <DesignInfo useCreatePostProps={useCreatePostProps} />}
+          {currentStep === 3 && <DatesInfo useCreatePostProps={useCreatePostProps}/>}
+          {currentStep === 4 && <AddOns  useCreatePostProps={useCreatePostProps} />}
         </View>
 
         <View style={{flexDirection: 'row', marginTop: 10}}>

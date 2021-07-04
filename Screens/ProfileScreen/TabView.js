@@ -3,6 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import ProfileListItem from './ProfileListItem';
 import {groupBy} from './../../utils/index';
 import {usePost} from './../../hooks/usePost';
+import { BisooBody } from './BisooBody';
 const TABS = ['ACTS', 'LIKES', 'FOLLOWING'];
 
 const TabView = () => {
@@ -23,7 +24,7 @@ const TabView = () => {
       break;
 
     case 'BisOO':
-      body = <BisooBody/>;
+      body = <BisooBody bisooList={bisoo} />;
       break;
 
     default:
