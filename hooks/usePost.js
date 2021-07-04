@@ -11,7 +11,6 @@ export const usePost = (userId) => {
       setLoading(true);
       console.log('usePost', userId);
       let data = await doGet(userId ? `post/${userId}` :'post');
-      console.log(data)
       const groupMetaData = flatPostMeta(data.allPostMeta);
       const postWithMeta = data.allPost.map(ins => ({
         ...ins,

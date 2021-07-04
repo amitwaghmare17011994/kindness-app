@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {StyleSheet, ImageBackground} from 'react-native';
 import {Radio} from 'native-base';
 import {View, Text, Image} from 'react-native';
 import DesignImage from '../../assets/images/design.png';
@@ -7,6 +8,7 @@ import BackgroundImage from './DisgnInfoComponents/BackgroundImage';
 import ViewBackground from './DisgnInfoComponents/ViewBackground';
 import BackgroundAndImage from './DisgnInfoComponents/BackgroundAndImage';
 import {addUpdatePostMetaAction} from './../../hooks/useCreatePost';
+import InputField from '../../components/Input';
 
 export const CARD_TYPE = {
   solidBG: 'Solid Background Colour',
@@ -16,7 +18,7 @@ export const CARD_TYPE = {
 };
 
 const DesignInfo = ({useCreatePostProps}) => {
-  const {state: values, dispatch, status, addUpdatePost} = useCreatePostProps;
+  const {state: values, dispatch} = useCreatePostProps;
 
   const cardType = values.postMeta.card_template;
   const updateType = card_template =>
@@ -32,7 +34,7 @@ const DesignInfo = ({useCreatePostProps}) => {
       <View
         style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-start'}}>
         <View
-          style={{flexDirection: 'row', flex: 0.6}}
+          style={{flexDirection: 'row', width: '45%'}}
           onTouchEnd={() => updateType(CARD_TYPE.solidBG)}>
           <Radio
             selected={cardType === CARD_TYPE.solidBG}
@@ -43,7 +45,9 @@ const DesignInfo = ({useCreatePostProps}) => {
             Solid Background Colour
           </Text>
         </View>
-        <SolidBgColor />
+        <View style={{width: '55%'}}>
+          <SolidBgColor />
+        </View>
       </View>
       {/* First */}
 
@@ -56,7 +60,7 @@ const DesignInfo = ({useCreatePostProps}) => {
           alignItems: 'flex-start',
         }}>
         <View
-          style={{flexDirection: 'row', flex: 0.6}}
+          style={{flexDirection: 'row', width: '45%'}}
           onTouchEnd={() => updateType(CARD_TYPE.bgColorOverImg)}>
           <Radio
             selected={cardType === CARD_TYPE.bgColorOverImg}
@@ -67,7 +71,9 @@ const DesignInfo = ({useCreatePostProps}) => {
             Background Colour and Overlay Image
           </Text>
         </View>
-        <BGColorOverlayImg />
+        <View style={{width: '55%'}}>
+          <BGColorOverlayImg />
+        </View>
       </View>
       {/* Sec */}
 
@@ -75,7 +81,7 @@ const DesignInfo = ({useCreatePostProps}) => {
       <View
         style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-start'}}>
         <View
-          style={{flexDirection: 'row', flex: 0.6}}
+          style={{flexDirection: 'row', width: '45%'}}
           onTouchEnd={() => updateType(CARD_TYPE.bgImage)}>
           <Radio
             selected={cardType === CARD_TYPE.bgImage}
@@ -87,7 +93,9 @@ const DesignInfo = ({useCreatePostProps}) => {
             Background Image
           </Text>
         </View>
-        <BgImage />
+        <View style={{width: '55%'}}>
+          <BgImage />
+        </View>
       </View>
       {/* Third */}
 
@@ -100,7 +108,7 @@ const DesignInfo = ({useCreatePostProps}) => {
           alignItems: 'flex-start',
         }}>
         <View
-          style={{flexDirection: 'row', flex: 0.6}}
+          style={{flexDirection: 'row', width: '45%'}}
           onTouchEnd={() => updateType(CARD_TYPE.bgImgOverImg)}>
           <Radio
             selected={cardType === CARD_TYPE.bgImgOverImg}
@@ -111,73 +119,84 @@ const DesignInfo = ({useCreatePostProps}) => {
             Background Image and Overlay Image
           </Text>
         </View>
-        <BGImageAndOverlayImg />
+        <View style={{width: '55%'}}>
+          <BGImageAndOverlayImg />
+        </View>
       </View>
       {/* Fourth */}
 
-      <RenderCard cardType={cardType}/>
+      <RenderCard cardType={cardType} useCreatePostProps={useCreatePostProps} />
     </View>
   );
 };
 
 export default DesignInfo;
 
-export const RenderCard = ({cardType}) => {
+export const RenderCard = ({cardType, ...props}) => {
   switch (cardType) {
     case CARD_TYPE.solidBG:
-      return <SolidBackground />;
+      return <SolidBackground {...props} />;
     case CARD_TYPE.bgColorOverImg:
-      return <BackgroundImage />;
+      return <BackgroundImage {...props} />;
     case CARD_TYPE.bgImage:
-      return <ViewBackground />;
+      return <ViewBackground {...props} />;
     case CARD_TYPE.bgImgOverImg:
-      return <BackgroundAndImage />;
+      return <BackgroundAndImage {...props} />;
     default:
       return null;
   }
 };
 
-export const SolidBgColor = ({name = '', content = ''}) => {
+export const SolidBgColor = ({
+  main_header = 'Card Title eg. Thanks Nurses',
+  message = 'Personalized thank you message here',
+  font_colour = '#000',
+  card_colour = '#ffcc4c',
+}) => {
   return (
     <View
       style={{
-        backgroundColor: '#ffcc4c',
-        height: 80,
+        backgroundColor: card_colour,
+        height: 100,
         flex: 1,
-        marginLeft: 40,
-        elevation: 4,
+        elevation: 7,
       }}>
       <View style={{alignItems: 'center', flex: 1}}>
-        <Text>{name}</Text>
-        <Text style={{fontSize: 8}}>{content}</Text>
+        <Text style={{color: font_colour}}>{main_header}</Text>
+        <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
-        <Text style={{fontSize: 8, flex: 1}}>Closing Date/Signature #</Text>
-        <Text style={{fontSize: 8}}>10 / 100 Signatures</Text>
+        <Text style={{color: font_colour, fontSize: 8, flex: 1}}>
+          Closing Date/Signature #
+        </Text>
+        <Text style={{color: font_colour, fontSize: 8}}>
+          10 / 100 Signatures
+        </Text>
       </View>
     </View>
   );
 };
 
-export const BGColorOverlayImg = () => {
+export const BGColorOverlayImg = ({
+  main_header = 'Card Title eg. Thanks Nurses',
+  message = 'Personalized thank you message here',
+  font_colour = '#000',
+  card_colour = '#ffcc4c',
+  image = DesignImage,
+}) => {
   return (
     <View
       style={{
-        backgroundColor: '#ffcc4c',
-        height: 80,
+        backgroundColor: card_colour,
+        height: 100,
         flex: 1,
-
-        marginLeft: 40,
+        elevation: 7,
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image
-          source={DesignImage}
-          style={{width: 50, height: 50, margin: 5}}
-        />
-        <View style={{marginLeft: 5}}>
-          <Text>Card Title eg.</Text>
-          <Text>Thanks Nurses</Text>
-          <Text style={{fontSize: 5}}>Personalized thank you message here</Text>
+        <Image source={image} style={{width: '30%', height: 50, margin: 5}} />
+        <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
+          <Text style={{color: font_colour}}>{main_header}</Text>
+          <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
         </View>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
@@ -188,62 +207,98 @@ export const BGColorOverlayImg = () => {
   );
 };
 
-export const BgImage = () => {
+export const BgImage = ({
+  main_header = 'Card Title eg. Thanks Nurses',
+  message = 'Personalized thank you message here',
+  font_colour = '#000',
+  image,
+}) => {
   return (
-    <View
+    <ImageBackground
+      source={{uri: (image && image.uri) || null}}
       style={{
+        height: 100,
         elevation: 1,
-        height: 80,
-        flex: 1,
         borderWidth: 1,
         borderColor: '#cccccc',
-        padding: 5,
-
-        marginLeft: 40,
       }}>
       <View style={{flex: 1, alignItems: 'center'}}>
         <View style={{marginLeft: 5}}>
-          <Text>Card Title eg.</Text>
-          <Text>Thanks Nurses</Text>
-          <Text style={{fontSize: 5}}>Personalized thank you message here</Text>
+          <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
+            <Text style={{color: font_colour}}>{main_header}</Text>
+            <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
+          </View>
         </View>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
         <Text style={{fontSize: 8, flex: 1}}>Closing Date/Signature #</Text>
         <Text style={{fontSize: 8}}>10 / 100 Signatures</Text>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
-export const BGImageAndOverlayImg = () => {
+export const BGImageAndOverlayImg = ({
+  main_header = 'Card Title eg. Thanks Nurses',
+  message = 'Personalized thank you message here',
+  font_colour = '#000',
+  image = DesignImage,
+  bgImage,
+}) => {
   return (
-    <View
+    <ImageBackground
+      source={(bgImage && bgImage.uri) || null}
       style={{
-        // backgroundColor: '#ffcc4c',
-        height: 80,
-        flex: 1,
+        height: 100,
         elevation: 1,
-        marginLeft: 40,
-        padding: 5,
         borderWidth: 1,
         borderColor: '#cccccc',
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image
-          source={DesignImage}
-          style={{width: 50, height: 50, margin: 5}}
-        />
-        <View style={{marginLeft: 5}}>
-          <Text>Card Title eg.</Text>
-          <Text>Thanks Nurses</Text>
-          <Text style={{fontSize: 5}}>Personalized thank you message here</Text>
+        <Image source={image} style={{width: '30%', height: 50, margin: 5}} />
+        <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
+          <Text style={{color: font_colour}}>{main_header}</Text>
+          <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
         </View>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
-        <Text style={{fontSize: 8, flex: 1}}>Closing Date/Signature #</Text>
-        <Text style={{fontSize: 8}}>10 / 100 Signatures</Text>
+        <Text style={{fontSize: 10, flex: 1}}>Closing Date/Signature #</Text>
+        <Text style={{fontSize: 10}}>10 / 100 Signatures</Text>
       </View>
+    </ImageBackground>
+  );
+};
+
+export const BisooTextDetails = ({useCreatePostProps}) => {
+  const {state, dispatch} = useCreatePostProps;
+  const updateMeta = payload => addUpdatePostMetaAction(dispatch, payload);
+  const values = state.postMeta;
+
+  return (
+    <View>
+      <Text style={testStyle.inputLabel}>Main Header</Text>
+      <InputField
+        onChangeText={main_header => updateMeta({main_header})}
+        value={values.main_header}
+        customStyles={testStyle.input}
+      />
+      <Text style={testStyle.inputLabel}>Message</Text>
+      <InputField
+        onChangeText={message => updateMeta({message})}
+        value={values.message}
+        customStyles={testStyle.input}
+      />
     </View>
   );
 };
+
+const testStyle = StyleSheet.create({
+  inputLabel: {
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  input: {
+    height: 40,
+    fontSize: 15,
+  },
+});

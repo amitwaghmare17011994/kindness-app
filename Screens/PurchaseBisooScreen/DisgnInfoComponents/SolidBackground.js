@@ -3,44 +3,27 @@ import {useNavigation} from '@react-navigation/core';
 import {View, Text} from 'react-native';
 import InputField from '../../../components/Input';
 import ColorChooser from '../../ColorChooser';
+import { addUpdatePostMetaAction } from './../../../hooks/useCreatePost';
+import { BisooTextDetails, SolidBgColor } from '../DesignInfo';
 
-const SolidBackground = () => {
-  const navigation = useNavigation();
+const SolidBackground = ({useCreatePostProps}) => {
+  const {state, dispatch} = useCreatePostProps;
+  const updateMeta = payload => addUpdatePostMetaAction(dispatch, payload);
   const [showColor, setShowColor] = useState('');
-  const [textColor, setTextColor] = useState('brown');
-  const [backgroundColor, setBackgroundColor] = useState('#ffcc4c');
+  const values = state.postMeta;
+
   const onColorChange = color => {
     if (showColor === 'back') {
-      setBackgroundColor(color);
+      updateMeta({card_colour: color});
     }
     if (showColor === 'font') {
-      setTextColor(color);
+      updateMeta({font_colour: color});
     }
   };
   return (
     <View>
-      <View
-        style={{
-          backgroundColor: backgroundColor,
-          height: 100,
-          elevation: 4,
-        }}>
-        <View style={{alignItems: 'center', flex: 1}}>
-          <Text style={{color: textColor}}>Card Title eg.</Text>
-          <Text style={{color: textColor}}>Thanks Nurses</Text>
-          <Text style={{fontSize: 8, color: textColor}}>
-            Personalized thank you message here
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', padding: 5}}>
-          <Text style={{fontSize: 8, flex: 1, color: textColor}}>
-            Closing Date/Signature #
-          </Text>
-          <Text style={{fontSize: 8, color: textColor}}>
-            10 / 100 Signatures
-          </Text>
-        </View>
-      </View>
+      <SolidBgColor {...values}/>
+      <BisooTextDetails useCreatePostProps={useCreatePostProps}/>
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>
         <Text style={{fontWeight: 'bold'}}>Card Colour</Text>
@@ -55,7 +38,7 @@ const SolidBackground = () => {
           }}>
           <Text style={{marginRight: 5}}>#</Text>
           <InputField
-            value={textColor}
+            value={values.font_colour}
             customStyles={{height: 40, fontSize: 18}}
           />
           <View
@@ -63,7 +46,7 @@ const SolidBackground = () => {
               setShowColor('font');
             }}
             style={{
-              backgroundColor: textColor || 'black',
+              backgroundColor: values.font_colour || 'black',
               height: 20,
               width: 20,
               borderRadius: 5,
@@ -72,7 +55,7 @@ const SolidBackground = () => {
         <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'center'}}>
           <Text style={{marginRight: 5}}>#</Text>
           <InputField
-            value={backgroundColor}
+            value={values.card_colour}
             customStyles={{height: 40, fontSize: 18}}
           />
           <View
@@ -80,14 +63,14 @@ const SolidBackground = () => {
               setShowColor('back');
             }}
             style={{
-              backgroundColor: backgroundColor || 'black',
+              backgroundColor: values.card_colour || 'black',
               height: 20,
               width: 20,
               borderRadius: 5,
             }}></View>
         </View>
       </View>
-      <View style={{height: !!showColor?200:0}}></View>
+      <View style={{height: !!showColor ? 200 : 0}}></View>
 
       {!!showColor && (
         <>
@@ -97,16 +80,16 @@ const SolidBackground = () => {
               bottom: 0,
               width: '100%',
               backgroundColor: 'white',
-              zIndex:111
+              zIndex: 111,
             }}>
             <ColorChooser
               onClose={() => setShowColor('')}
               onColorChangeHandler={onColorChange}
               color={
                 showColor === 'back'
-                  ? backgroundColor
+                  ? values.card_colour
                   : showColor === 'font'
-                  ? textColor
+                  ? values.font_colour
                   : 'green'
               }
             />
