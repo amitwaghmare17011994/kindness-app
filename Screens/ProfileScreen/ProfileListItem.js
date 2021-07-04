@@ -4,8 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import InputField from '../../components/Input';
 import RoundButton from '../../components/RoundButton';
 
-const ProfileListItem = (props) => {
-  const {showPostForm=false}=props
+const ProfileListItem = ({showPostForm=false, post = {}}) => {
   return (
     <View style={{paddingBottom: 10}}>
       <View style={styles.row}>
@@ -17,8 +16,7 @@ const ProfileListItem = (props) => {
         <Icon name="dots-three-vertical" />
       </View>
       <Text style={{fontWeight: '700', marginTop: 5}}>
-        I’ve been bringing my dog over to my downstairs neighbour to help him
-        feel less isolated, he told me it’s the best part of his day!
+        {post.post_content}
       </Text>
       <View style={{flexDirection: 'row-reverse', marginTop: 5}}>
         <View style={{flexDirection: 'row', marginLeft: 20}}>

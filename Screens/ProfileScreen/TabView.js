@@ -1,10 +1,34 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import ProfileListItem from './ProfileListItem';
+import {groupBy} from './../../utils/index';
+import {usePost} from './../../hooks/usePost';
 const TABS = ['ACTS', 'LIKES', 'FOLLOWING'];
 
 const TabView = () => {
   const [selectedTab, setSelectedTab] = useState('ACTS');
+  const {loading, postList, error} = usePost(77);
+  const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
+
+  let body = '';
+
+  switch (selectedTab) {
+    case 'ACTS':
+      body = act.map((post) => (
+        <View key={post.post_id}>
+          <ProfileListItem post={post} />
+          <View style={{borderWidth: 1, height: 1, borderColor: '#cccccc'}} />
+        </View>
+      ))
+      break;
+
+    case 'BisOO':
+      body = <BisooBody/>;
+      break;
+
+    default:
+      break;
+  }
 
   return (
     <View>
@@ -33,15 +57,7 @@ const TabView = () => {
         </Text>
       </View>
       <View style={{marginTop: 10}}>
-        {Array(20)
-          .fill()
-          .map(() => (
-            <View>
-            <ProfileListItem />
-            <View style={{borderWidth:1,height:1,borderColor:'#cccccc'}}/>
-            </View>
-
-          ))}
+        {body}
       </View>
     </View>
   );

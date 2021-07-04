@@ -20,12 +20,16 @@ import {
 const PostScreen = () => {
   const navigation = useNavigation();
   const onBack = () => navigation.goBack();
-  const {state: values, dispatch, loading, addUpdatePost} = useCreatePost('post');
+  const {state: values, dispatch, status, addUpdatePost} = useCreatePost('post');
   const [step, setStep] = React.useState(1);
   const disablePostInputButton = !values.content;
 
   const {postMeta} = values;
   const enablePostButton = postMeta.longitude && postMeta.latitude;
+
+  if (status === 2) {
+    navigation.navigate('Home');
+  }
 
   if (step === 2) {
     return (
@@ -41,6 +45,7 @@ const PostScreen = () => {
         }
         goBack={() => setStep(1)}
         post={async() => await addUpdatePost()}
+        apiCallInProgess={status === 1}
       />
     );
   }

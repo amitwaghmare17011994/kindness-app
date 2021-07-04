@@ -100,9 +100,7 @@ export const useCreatePost = (type, initialData = {}) => {
 
       })
       setStatus(2)
-      console.log(2)
     } catch (error) {
-      setStatus(3)
       console.log(error)
     }
   }

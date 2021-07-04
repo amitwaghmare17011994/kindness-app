@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {doGet} from '../services/request';
 
-export const usePost = () => {
+export const usePost = (userId) => {
   const [loading, setLoading] = useState(true);
   const [postList, setPostList] = useState([]);
   const [error, setError] = useState('');
@@ -9,7 +9,9 @@ export const usePost = () => {
   const getPostData = async () => {
     try {
       setLoading(true);
-      let data = await doGet('post');
+      console.log('usePost', userId);
+      let data = await doGet(userId ? `post/${userId}` :'post');
+      console.log(data)
       const groupMetaData = flatPostMeta(data.allPostMeta);
       const postWithMeta = data.allPost.map(ins => ({
         ...ins,
@@ -18,7 +20,7 @@ export const usePost = () => {
       setPostList(postWithMeta);
     } catch (error) {
       setError('unable to get post details.');
-      console.warn('Post error api');
+      console.warn(error);
     } finally {
       setLoading(false);
     }
