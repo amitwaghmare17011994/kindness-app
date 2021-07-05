@@ -1,7 +1,10 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import { TransitionSpecs, HeaderStyleInterpolators } from '@react-navigation/stack';
+import {
+  TransitionSpecs,
+  HeaderStyleInterpolators,
+} from '@react-navigation/stack';
 
 import HomeScreen from '../Screens/HomeScreen';
 import PostScreen from '../Screens/PostScreen';
@@ -18,6 +21,7 @@ import SubscribeScreen from '../Screens/Subscribe';
 import ColorChooser from '../Screens/ColorChooser';
 import DonationScreen from '../Screens/Donation';
 import CompleteDonation from '../Screens/Donation/CompleteDoation';
+import CheckoutScreen from '../Screens/CheckoutScreen';
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -26,7 +30,7 @@ const MyTransition = {
     close: TransitionSpecs.TransitionIOSSpec,
   },
   headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-  cardStyleInterpolator: ({ current, next, layouts }) => {
+  cardStyleInterpolator: ({current, next, layouts}) => {
     return {
       cardStyle: {
         transform: [
@@ -36,7 +40,7 @@ const MyTransition = {
               outputRange: [layouts.screen.width, 0],
             }),
           },
-           
+
           {
             scale: next
               ? next.progress.interpolate({
@@ -55,7 +59,7 @@ const MyTransition = {
       },
     };
   },
-}
+};
 const Stack = createStackNavigator();
 function Navigator() {
   return (
@@ -125,13 +129,16 @@ function Navigator() {
           name="ColorChooser"
           component={ColorChooser}
         />
-         <Stack.Screen
+        <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="DonationScreen"
           component={DonationScreen}
         />
-
-
+        <Stack.Screen
+          options={{headerShown: false, ...MyTransition}}
+          name="CheckoutScreen"
+          component={CheckoutScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

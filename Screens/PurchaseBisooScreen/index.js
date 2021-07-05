@@ -50,7 +50,7 @@ const PurchaseBisooScreen = () => {
           <RoundButton
             onPress={() => {
               if (currentStep == 4) {
-                navigation.navigate('Home')
+                navigation.navigate('CheckoutScreen')
                 return
               }
                setCurrentStep(currentStep + 1)
@@ -61,7 +61,7 @@ const PurchaseBisooScreen = () => {
               backgroundColor: '#2F7A80',
               marginLeft: 10,
             }}>
-            <Text style={{color: 'white'}}>NEXT</Text>
+            <Text style={{color: 'white'}}>{currentStep===4?'PROCEED TO CHECKOUT':'NEXT'}</Text>
           </RoundButton>
         </View>
       </Container>
