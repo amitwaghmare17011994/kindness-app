@@ -29,103 +29,112 @@ const DesignInfo = ({useCreatePostProps}) => {
       <Text style={{fontWeight: 'bold', marginTop: 10}}>
         Select Card Template
       </Text>
-
-      {/* First */}
-      <View
-        style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-start'}}>
+      <View style={{zIndex: 1}}>
+        {/* First */}
         <View
-          style={{flexDirection: 'row', width: '45%'}}
-          onTouchEnd={() => updateType(CARD_TYPE.solidBG)}>
-          <Radio
-            selected={cardType === CARD_TYPE.solidBG}
-            color={'black'}
-            selectedColor={'#357B7F'}
-          />
-          <Text style={{marginLeft: 5, fontWeight: '400'}}>
-            Solid Background Colour
-          </Text>
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            alignItems: 'flex-start',
+          }}>
+          <View
+            style={{flexDirection: 'row', width: '45%'}}
+            onTouchEnd={() => updateType(CARD_TYPE.solidBG)}>
+            <Radio
+              selected={cardType === CARD_TYPE.solidBG}
+              color={'black'}
+              selectedColor={'#357B7F'}
+            />
+            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+              Solid Background Colour
+            </Text>
+          </View>
+          <View style={{width: '55%'}}>
+            <SolidBgColor />
+          </View>
         </View>
-        <View style={{width: '55%'}}>
-          <SolidBgColor />
-        </View>
-      </View>
-      {/* First */}
+        {/* First */}
 
-      {/* Sec */}
-      <View
-        style={{
-          flexDirection: 'row',
-          elevation: 4,
-          marginTop: 10,
-          alignItems: 'flex-start',
-        }}>
+        {/* Sec */}
         <View
-          style={{flexDirection: 'row', width: '45%'}}
-          onTouchEnd={() => updateType(CARD_TYPE.bgColorOverImg)}>
-          <Radio
-            selected={cardType === CARD_TYPE.bgColorOverImg}
-            color={'black'}
-            selectedColor={'#357B7F'}
-          />
-          <Text style={{marginLeft: 5, fontWeight: '400'}}>
-            Background Colour and Overlay Image
-          </Text>
+          style={{
+            flexDirection: 'row',
+            elevation: 4,
+            marginTop: 10,
+            alignItems: 'flex-start',
+          }}>
+          <View
+            style={{flexDirection: 'row', width: '45%'}}
+            onTouchEnd={() => updateType(CARD_TYPE.bgColorOverImg)}>
+            <Radio
+              selected={cardType === CARD_TYPE.bgColorOverImg}
+              color={'black'}
+              selectedColor={'#357B7F'}
+            />
+            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+              Background Colour and Overlay Image
+            </Text>
+          </View>
+          <View style={{width: '55%'}}>
+            <BGColorOverlayImg />
+          </View>
         </View>
-        <View style={{width: '55%'}}>
-          <BGColorOverlayImg />
-        </View>
-      </View>
-      {/* Sec */}
+        {/* Sec */}
 
-      {/* Third */}
-      <View
-        style={{flexDirection: 'row', marginTop: 10, alignItems: 'flex-start'}}>
+        {/* Third */}
         <View
-          style={{flexDirection: 'row', width: '45%'}}
-          onTouchEnd={() => updateType(CARD_TYPE.bgImage)}>
-          <Radio
-            selected={cardType === CARD_TYPE.bgImage}
-            color={'black'}
-            selectedColor={'#357B7F'}
-          />
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            alignItems: 'flex-start',
+          }}>
+          <View
+            style={{flexDirection: 'row', width: '45%'}}
+            onTouchEnd={() => updateType(CARD_TYPE.bgImage)}>
+            <Radio
+              selected={cardType === CARD_TYPE.bgImage}
+              color={'black'}
+              selectedColor={'#357B7F'}
+            />
 
-          <Text style={{marginLeft: 5, fontWeight: '400'}}>
-            Background Image
-          </Text>
+            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+              Background Image
+            </Text>
+          </View>
+          <View style={{width: '55%'}}>
+            <BgImage />
+          </View>
         </View>
-        <View style={{width: '55%'}}>
-          <BgImage />
-        </View>
-      </View>
-      {/* Third */}
+        {/* Third */}
 
-      {/* Fourth */}
-      <View
-        style={{
-          flexDirection: 'row',
-          marginTop: 10,
-          marginBottom: 10,
-          alignItems: 'flex-start',
-        }}>
+        {/* Fourth */}
         <View
-          style={{flexDirection: 'row', width: '45%'}}
-          onTouchEnd={() => updateType(CARD_TYPE.bgImgOverImg)}>
-          <Radio
-            selected={cardType === CARD_TYPE.bgImgOverImg}
-            color={'black'}
-            selectedColor={'#357B7F'}
-          />
-          <Text style={{marginLeft: 5, fontWeight: '400'}}>
-            Background Image and Overlay Image
-          </Text>
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            marginBottom: 10,
+            alignItems: 'flex-start',
+          }}>
+          <View
+            style={{flexDirection: 'row', width: '45%'}}
+            onTouchEnd={() => updateType(CARD_TYPE.bgImgOverImg)}>
+            <Radio
+              selected={cardType === CARD_TYPE.bgImgOverImg}
+              color={'black'}
+              selectedColor={'#357B7F'}
+            />
+            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+              Background Image and Overlay Image
+            </Text>
+          </View>
+          <View style={{width: '55%'}}>
+            <BGImageAndOverlayImg />
+          </View>
         </View>
-        <View style={{width: '55%'}}>
-          <BGImageAndOverlayImg />
-        </View>
-      </View>
-      {/* Fourth */}
-
+        {/* Fourth */}
+     
       <RenderCard cardType={cardType} useCreatePostProps={useCreatePostProps} />
+      </View>
     </View>
   );
 };
