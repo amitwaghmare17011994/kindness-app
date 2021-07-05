@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {View, Text} from 'react-native';
 import AppLayout from '../../components/AppLayout';
@@ -6,6 +7,8 @@ import InputField from '../../components/Input';
 import RoundButton from '../../components/RoundButton';
 
 const CheckoutScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <AppLayout>
       <Container>
@@ -25,11 +28,11 @@ const CheckoutScreen = () => {
             justifyContent: 'space-between',
           }}>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}> First Name</Text>
+            <Text style={{marginBottom: 10}}> First Name</Text>
             <InputField />
           </View>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>Last Name</Text>
+            <Text style={{marginBottom: 10}}>Last Name</Text>
 
             <InputField />
           </View>
@@ -42,7 +45,7 @@ const CheckoutScreen = () => {
             justifyContent: 'space-between',
           }}>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>Address</Text>
+            <Text style={{marginBottom: 10}}>Address</Text>
             <InputField />
           </View>
         </View>
@@ -54,11 +57,11 @@ const CheckoutScreen = () => {
             justifyContent: 'space-between',
           }}>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>City</Text>
+            <Text style={{marginBottom: 10}}>City</Text>
             <InputField />
           </View>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>Zip/Postal Code</Text>
+            <Text style={{marginBottom: 10}}>Zip/Postal Code</Text>
             <InputField />
           </View>
         </View>
@@ -70,11 +73,11 @@ const CheckoutScreen = () => {
             justifyContent: 'space-between',
           }}>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>Province/State</Text>
+            <Text style={{marginBottom: 10}}>Province/State</Text>
             <InputField />
           </View>
           <View style={{flex: 1}}>
-            <Text style={{marginBottom:10}}>Country</Text>
+            <Text style={{marginBottom: 10}}>Country</Text>
             <InputField />
           </View>
         </View>
@@ -83,26 +86,27 @@ const CheckoutScreen = () => {
         </View>
         <View style={{height: 80, backgroundColor: '#D8D8D8'}}></View>
 
-
         <View style={{flexDirection: 'row', marginTop: 10}}>
           <RoundButton
-          
+            onPress={() => {
+              navigation.goBack();
+            }}
             customStyles={{flex: 1, height: 30}}>
             <Text>BACk</Text>
           </RoundButton>
           <RoundButton
-            
+            onPress={() => {
+              navigation.navigate('PurchaseDetailsScreen');
+            }}
             customStyles={{
               flex: 1,
               height: 30,
-            //   backgroundColor: '#2F7A80',
+              //   backgroundColor: '#2F7A80',
               marginLeft: 10,
             }}>
-            <Text style={{color: 'black'}}> CHECKOUT</Text>
+            <Text style={{color: 'black'}}>CHECKOUT</Text>
           </RoundButton>
         </View>
-
-
       </Container>
     </AppLayout>
   );

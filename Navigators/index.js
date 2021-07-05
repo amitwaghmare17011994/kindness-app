@@ -22,6 +22,7 @@ import ColorChooser from '../Screens/ColorChooser';
 import DonationScreen from '../Screens/Donation';
 import CompleteDonation from '../Screens/Donation/CompleteDoation';
 import CheckoutScreen from '../Screens/CheckoutScreen';
+import PurchaseDetailsScreen from '../Screens/PurchaseDetailsScreen';
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -138,6 +139,12 @@ function Navigator() {
           options={{headerShown: false, ...MyTransition}}
           name="CheckoutScreen"
           component={CheckoutScreen}
+        />
+
+        <Stack.Screen
+          options={{headerShown: false, ...MyTransition}}
+          name="PurchaseDetailsScreen"
+          component={PurchaseDetailsScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
