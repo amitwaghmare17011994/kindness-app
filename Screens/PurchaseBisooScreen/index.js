@@ -43,7 +43,7 @@ const PurchaseBisooScreen = () => {
         </View>
         <View style={{marginTop: 20}}>
           {currentStep === 1 && (
-            <AddOns useCreatePostProps={useCreatePostProps} />
+            <InfoForm useCreatePostProps={useCreatePostProps} />
           )}
           {currentStep === 2 && (
             <DesignInfo useCreatePostProps={useCreatePostProps} />
