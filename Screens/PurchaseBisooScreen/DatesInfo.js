@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, DatePickerAndroid, DatePickerIOS} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import InputField from '../../components/Input';
@@ -6,11 +6,21 @@ import {updateRawData} from '../../Reducers/actions';
 import {Radio} from 'native-base';
 
 const DatesInfo = () => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
   useEffect(() => {
     updateRawData({disableNext: true});
   }, []);
 
+  useEffect(() => {
+    if (selectedOption) {
+      updateRawData({disableNext: false});
+    }
+  }, [selectedOption]);
+
   const openCalender = async () => {
+    setSelectedOption('DATE');
+
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
@@ -72,14 +82,18 @@ const DatesInfo = () => {
           <View style={{flexDirection: 'row'}}>
             <View style={{width: '45%', marginRight: '10%'}}>
               <View style={{flexDirection: 'row'}} onTouchEnd={openCalender}>
-                <Radio />
+                <Radio selected={selectedOption === 'DATE'} />
                 <Text> Send on set date</Text>
               </View>
               <View>{/* <InputField /> */}</View>
             </View>
             <View style={{width: '45%'}}>
-              <View style={{flexDirection: 'row'}}>
-                <Radio />
+              <View
+                style={{flexDirection: 'row'}}
+                onTouchEnd={() => {
+                  setSelectedOption('SIGN');
+                }}>
+                <Radio selected={selectedOption === 'SIGN'} />
 
                 <Text> Send on set date</Text>
               </View>
