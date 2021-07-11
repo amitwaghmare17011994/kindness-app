@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 // import RNLocation from 'react-native-location';
 import Navigator from './Navigators';
+import {Provider} from 'react-redux';
+import store from './store';
 
 // RNLocation.configure({
 //   distanceFilter: null
@@ -26,13 +28,14 @@ const App = () => {
     //   let location = await RNLocation.getLatestLocation({timeout: 100});
     //   console.log(
     //     location,
- 
     //   );
     // })();
   }, []);
   return (
     <View style={styles.container}>
-      <Navigator />
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
     </View>
   );
 };

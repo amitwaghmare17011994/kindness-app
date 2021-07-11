@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import AppLayout from '../../components/AppLayout';
@@ -11,19 +11,22 @@ import DesignInfo from './DesignInfo';
 import InfoForm from './InfoForm';
 import {useCreatePost} from './../../hooks/useCreatePost';
 import CartDrawer from '../../components/CartDrawer/CartDrawer';
+import {useSelector} from 'react-redux';
+import {updateRawData} from '../../Reducers/actions';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigation = useNavigation();
   const useCreatePostProps = useCreatePost('bisoo');
+  const rawData = useSelector(state => state.rawData);
+
   const goBack = () => {
     navigation.goBack();
   };
   return (
     <AppLayout>
-     
-      <Container style={{paddingTop:60}}>
-      <CartDrawer />
+      <Container style={{paddingTop: 60}}>
+        <CartDrawer />
 
         <Text style={styles.headerText}> Purchase BisOO </Text>
         <View style={styles.progress}>
@@ -51,7 +54,7 @@ const PurchaseBisooScreen = () => {
           )}
         </View>
 
-        <View style={{flexDirection: 'row', marginTop: 10,zIndex:1}}>
+        <View style={{flexDirection: 'row', marginTop: 10, zIndex: 1}}>
           <RoundButton
             onPress={() => {
               currentStep !== 1 ? setCurrentStep(currentStep - 1) : goBack();
@@ -103,8 +106,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 30,
     color: 'black',
-     
-
   },
   progress: {
     marginTop: 20,
