@@ -19,10 +19,12 @@ const PurchaseBisooScreen = () => {
   const navigation = useNavigation();
   const useCreatePostProps = useCreatePost('bisoo');
   const rawData = useSelector(state => state.rawData);
+  const {disableNext} = rawData;
 
   const goBack = () => {
     navigation.goBack();
   };
+
   return (
     <AppLayout>
       <Container style={{paddingTop: 60}}>
@@ -57,12 +59,15 @@ const PurchaseBisooScreen = () => {
         <View style={{flexDirection: 'row', marginTop: 10, zIndex: 1}}>
           <RoundButton
             onPress={() => {
+              updateRawData({disableNext: false});
+
               currentStep !== 1 ? setCurrentStep(currentStep - 1) : goBack();
             }}
             customStyles={{flex: 1, height: 30}}>
             <Text>BACk</Text>
           </RoundButton>
           <RoundButton
+            disabled={disableNext}
             onPress={() => {
               if (currentStep == 4) {
                 navigation.navigate('CheckoutScreen');

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import InputField from '../../components/Input';
 
 import {View, Text, StyleSheet} from 'react-native';
+import { updateRawData } from '../../Reducers/actions';
 
 const InfoForm = () => {
+  useEffect(() => {
+    updateRawData({disableNext: false});
+  }, []);
+
   return (
     <>
-      <View  >
+      <View>
         <Text style={{color: '#2F7A80'}}>1 To/From</Text>
         <Text style={{fontWeight: 'bold', fontSize: 13, marginTop: 5}}>
           Senders Info

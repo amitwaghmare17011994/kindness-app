@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, ImageBackground} from 'react-native';
 import {Radio} from 'native-base';
 import {View, Text, Image} from 'react-native';
@@ -9,6 +9,7 @@ import ViewBackground from './DisgnInfoComponents/ViewBackground';
 import BackgroundAndImage from './DisgnInfoComponents/BackgroundAndImage';
 import {addUpdatePostMetaAction} from './../../hooks/useCreatePost';
 import InputField from '../../components/Input';
+import {updateRawData} from '../../Reducers/actions';
 
 export const CARD_TYPE = {
   solidBG: 'Solid Background Colour',
@@ -21,8 +22,18 @@ const DesignInfo = ({useCreatePostProps}) => {
   const {state: values, dispatch} = useCreatePostProps;
 
   const cardType = values.postMeta.card_template;
-  const updateType = card_template =>
+
+  useEffect(() => {
+    if (!cardType) {
+      updateRawData({disableNext: true});
+    }
+  }, [cardType]);
+
+  const updateType = card_template => {
+    updateRawData({disableNext: false});
     addUpdatePostMetaAction(dispatch, {card_template});
+  };
+
   return (
     <View>
       <Text style={{color: '#357B7F'}}>2 Design</Text>
@@ -132,8 +143,11 @@ const DesignInfo = ({useCreatePostProps}) => {
           </View>
         </View>
         {/* Fourth */}
-     
-      <RenderCard cardType={cardType} useCreatePostProps={useCreatePostProps} />
+
+        <RenderCard
+          cardType={cardType}
+          useCreatePostProps={useCreatePostProps}
+        />
       </View>
     </View>
   );
