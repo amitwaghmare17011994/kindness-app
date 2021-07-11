@@ -1,15 +1,29 @@
 import React, {useEffect} from 'react';
-import {View, Text, DatePickerAndroid} from 'react-native';
+import {View, Text, DatePickerAndroid, DatePickerIOS} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
-
-const value = new Date(1598051730000);
+import {Radio} from 'native-base';
 
 const DatesInfo = () => {
   useEffect(() => {
     updateRawData({disableNext: true});
   }, []);
+
+  const openCalender = async () => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: new Date(),
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+      }
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
+  };
 
   return (
     <View style={{height: 700}}>
@@ -57,34 +71,16 @@ const DatesInfo = () => {
           </Text>
           <View style={{flexDirection: 'row'}}>
             <View style={{width: '45%', marginRight: '10%'}}>
-              <View>
+              <View style={{flexDirection: 'row'}} onTouchEnd={openCalender}>
+                <Radio />
                 <Text> Send on set date</Text>
               </View>
-              <View
-                onTouchEnd={async () => {
-                  try {
-                    const {
-                      action,
-                      year,
-                      month,
-                      day,
-                    } = await DatePickerAndroid.open({
-                      // Use `new Date()` for current date.
-                      // May 25 2020. Month 0 is January.
-                      date: new Date(2020, 4, 25),
-                    });
-                    if (action !== DatePickerAndroid.dismissedAction) {
-                      // Selected year, month (0-11), day
-                    }
-                  } catch ({code, message}) {
-                    console.warn('Cannot open date picker', message);
-                  }
-                }}>
-                <InputField />
-              </View>
+              <View>{/* <InputField /> */}</View>
             </View>
             <View style={{width: '45%'}}>
-              <View>
+              <View style={{flexDirection: 'row'}}>
+                <Radio />
+
                 <Text> Send on set date</Text>
               </View>
               <View>
