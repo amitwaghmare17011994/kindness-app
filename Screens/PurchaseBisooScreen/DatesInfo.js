@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, DatePickerAndroid, DatePickerIOS} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import InputField from '../../components/Input';
+ import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
 import {Radio} from 'native-base';
 

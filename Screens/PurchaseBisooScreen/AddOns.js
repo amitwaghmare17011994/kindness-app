@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {View, Text, Picker} from 'react-native';
 
 const AddOns = () => {
+  const [selectedValue, setSelectedValue] = useState('java');
   return (
     <View style={{height: 'auto'}}>
       <Text style={{fontWeight: 'bold', fontSize: 20}}>
@@ -35,6 +36,7 @@ const AddOns = () => {
           <Text style={{fontWeight: 'bold', fontSize: 12, marginRight: 10}}>
             Allow more signatures on your BisOO
           </Text>
+
           <View
             style={{
               borderWidth: 1,
@@ -44,16 +46,17 @@ const AddOns = () => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
             }}>
-            <Text style={{flex: 1}}>6-24</Text>
+            <Picker
+              selectedValue={selectedValue}
+              style={{height: 20, width: 170}}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)
+              }>
+              <Picker.Item label="6-24     $4.99" value="6-24" />
+              <Picker.Item label="24-52     $4.99" value="6-52" />
+            </Picker>
 
-            <View style={{flexDirection: 'row'}}>
-              <Text>$4.99</Text>
-              <Icon
-                name="caretdown"
-                style={{color: 'black', marginLeft: 10}}
-                size={20}
-              />
-            </View>
+        
           </View>
         </View>
       </View>
@@ -69,10 +72,13 @@ const AddOns = () => {
       <View style={{marginTop: 10}}>
         <Text style={{color: '#2F7A80', fontSize: 20}}>7 Live Time</Text>
         <Text style={{marginTop: 10}}>
-        Once your BisOO is live, you will have one month to collect signatures and view it on our site. Add on more Live Time to extend the time you hace to collect signatures and see your BisOO!  You can edit this at any time from your profile and once cards expire they will remain in your archive.  
+          Once your BisOO is live, you will have one month to collect signatures
+          and view it on our site. Add on more Live Time to extend the time you
+          hace to collect signatures and see your BisOO! You can edit this at
+          any time from your profile and once cards expire they will remain in
+          your archive.
         </Text>
       </View>
-  
     </View>
   );
 };

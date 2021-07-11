@@ -66,7 +66,7 @@ function Navigator() {
   return (
     <NavigationContainer>
       {/* <script source="http://localhost:8097"/> */}
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="PurchaseBisooScreen">
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="Home"
