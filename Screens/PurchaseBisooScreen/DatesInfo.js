@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, DatePickerAndroid, DatePickerIOS} from 'react-native';
- import InputField from '../../components/Input';
+import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
 import {Radio} from 'native-base';
 
 const DatesInfo = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     updateRawData({disableNext: true});
@@ -27,6 +28,8 @@ const DatesInfo = () => {
         date: new Date(),
       });
       if (action !== DatePickerAndroid.dismissedAction) {
+        setSelectedDate(new Date(year, month, day));
+
         // Selected year, month (0-11), day
       }
     } catch ({code, message}) {
@@ -84,6 +87,7 @@ const DatesInfo = () => {
                 <Radio selected={selectedOption === 'DATE'} />
                 <Text> Send on set date</Text>
               </View>
+              <Text>{selectedDate?.toISOString().slice(0, 10)}</Text>
               <View>{/* <InputField /> */}</View>
             </View>
             <View style={{width: '45%'}}>
