@@ -1,10 +1,12 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {View, Text} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AppLayout from '../../components/AppLayout';
 import Container from '../../components/Container';
 import InputField from '../../components/Input';
 import RoundButton from '../../components/RoundButton';
+import { StripPanel } from '../StripProvider';
 
 const CheckoutScreen = () => {
   const navigation = useNavigation();
@@ -84,7 +86,12 @@ const CheckoutScreen = () => {
         <View style={{marginTop: 20}}>
           <Text style={{color: '#2F7A80', fontSize: 30}}>Payment</Text>
         </View>
-        <View style={{height: 80, backgroundColor: '#D8D8D8'}}></View>
+        <View style={{height: 80, paddingLeft: 10, paddingRight: 10}}>
+
+        <SafeAreaView>
+              <StripPanel/>
+            </SafeAreaView>
+        </View>
 
         <View style={{flexDirection: 'row', marginTop: 10}}>
           <RoundButton

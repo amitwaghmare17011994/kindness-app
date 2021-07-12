@@ -8,6 +8,8 @@ import InputField from '../../components/Input';
 import {Radio, Switch, Textarea} from 'native-base';
 import questionmark from '../../assets/images/que.png';
 import TextAreaField from '../../components/RoundButton/TextAreaField';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StripPanel } from '../StripProvider';
 
 const CompleteDonation = ({donationPrice, onBack}) => {
   const navigation = useNavigation();
@@ -76,9 +78,9 @@ const CompleteDonation = ({donationPrice, onBack}) => {
               }}>
               Payment
             </Text>
-            <View style={{borderColor: '#ccc', borderWidth: 0.3, padding: 20}}>
-              <Text>Payment Info Here</Text>
-            </View>
+            <SafeAreaView>
+              <StripPanel/>
+            </SafeAreaView>
             <View style={styles.row}>
               <RoundButton
                 onPress={() => navigation.navigate('Home')}
