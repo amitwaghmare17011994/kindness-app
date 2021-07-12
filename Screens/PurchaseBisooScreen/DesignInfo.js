@@ -315,6 +315,22 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
   );
 };
 
+
+export const RenderCardToShow = ({card_template, ...props}) => {
+  switch (card_template) {
+    case CARD_TYPE.solidBG:
+      return <SolidBgColor {...props} />;
+    case CARD_TYPE.bgColorOverImg:
+      return <BGImageAndOverlayImg {...props} />;
+    case CARD_TYPE.bgImage:
+      return <BgImage {...props} />;
+    case CARD_TYPE.bgImgOverImg:
+      return <BGImageAndOverlayImg {...props} />;
+    default:
+      return null;
+  }
+};
+
 const testStyle = StyleSheet.create({
   inputLabel: {
     fontWeight: 'bold',

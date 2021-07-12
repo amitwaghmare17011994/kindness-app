@@ -10,23 +10,48 @@ import questionmark from '../../assets/images/que.png';
 import TextAreaField from '../../components/RoundButton/TextAreaField';
 import CompleteDonation from './CompleteDoation';
 
-const disabledRadioProps  = {
-  color: '#ccc',
-}
-
 const DonationScreen = () => {
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
   const [emailError, setEmailError] = useState();
-  const [donationPrice, setDonationPrice] = useState(0)
-  const [donationType, setDonationType] = useState(0)
-  const [otherAmountFlag, setOtherAmountFlag] = useState(0)
-  const [step, setStep] = useState(0)
+  const [donationPrice, setDonationPrice] = useState(0);
+  const [donationType, setDonationType] = useState(true);
+  const [step, setStep] = useState(0);
 
-
-  if (step) return <CompleteDonation donationPrice={donationPrice} onBack={() => setStep(0)} />
+  if (step)
+    return (
+      <AppLayout>
+        <View>
+          <View style={{marginTop: 10}}>
+            <PageHeader onBack={() => setStep(0)}>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                }}>
+                Complete Your Donation
+              </Text>
+            </PageHeader>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: 'center',
+                fontSize: 14,
+              }}>
+              Proceed with your donation of ${donationPrice}
+            </Text>
+          </View>
+          <CompleteDonation
+            donationPrice={donationPrice}
+            onBack={() => setStep(0)}
+          />
+        </View>
+      </AppLayout>
+    );
 
   const InputHelper = ({helerText}) => (
     <View style={{...styles.row, marginTop: 10}}>
@@ -35,16 +60,11 @@ const DonationScreen = () => {
     </View>
   );
 
-  const chooseMonthlyDonationRadioProps = !donationType ? {selected: true} : disabledRadioProps;
-  const chooseOneDonationRadioProps = donationType ? {selected: true} : disabledRadioProps;
-
-
   return (
     <AppLayout>
       <View>
         <View style={{marginTop: 10}}>
-          <PageHeader
-            onBack={() => navigation.navigate('Home')}>
+          <PageHeader onBack={() => navigation.navigate('Home')}>
             <Text
               style={{
                 flex: 1,
@@ -67,16 +87,33 @@ const DonationScreen = () => {
               Choose Donation
             </Text>
             <View>
-              <View style={{flexDirection: 'row'}}>
-                <Radio {...chooseMonthlyDonationRadioProps}/>
-                <Text>Monthly Donation</Text>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View
+                  onPress={() => setDonationType(true)}
+                  style={{flexDirection: 'row'}}>
+                  <Radio selected={donationType} />
+                  <Text>Monthly Donation</Text>
+                </View>
+                <View
+                  onPress={() => setDonationType(false)}
+                  style={{flexDirection: 'row'}}>
+                  <Radio selected={donationType} />
+                  <Text>One Time Donation</Text>
+                </View>
               </View>
               <View style={styles.paymentRow}>
                 {[25, 50, 100].map((item, index) => {
                   return (
                     <Text
                       onPress={() => setDonationPrice(item)}
-                      style={{...styles.priceBox, ...(!donationType && donationPrice === item ? styles.activePriceBox : {})}} key={index}>
+                      style={{
+                        ...styles.priceBox,
+                        ...(donationPrice === item
+                          ? styles.activePriceBox
+                          : {}),
+                      }}
+                      key={index}>
                       ${item}
                     </Text>
                   );
@@ -93,41 +130,8 @@ const DonationScreen = () => {
                 <InputField
                   customStyles={{height: 31, fontSize: 10}}
                   placeholder="Other Amount"
+                  onTextChange={amount => setDonationPrice(amount)}
                 />
-              </View>
-            </View>
-            <View>
-              <View>
-                <View style={{flexDirection: 'row'}}>
-                  <Radio />
-                  <Text>One Time Donation</Text>
-                </View>
-                <View style={styles.paymentRow}>
-                  {[25, 50, 100].map((item, index) => {
-                    return (
-                      <Text
-                        onPress={() => setDonationPrice(item)}
-                        style={{...styles.priceBox, ...(donationType && donationPrice === item ? styles.activePriceBox : {})}}
-                        key={index}
-                      >
-                        ${item}
-                      </Text>
-                    );
-                  })}
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width: '80%',
-                    paddingLeft: '10%',
-                  }}>
-                  <Radio/>
-                  <Text style={{marginRight: 20}}>Other Amount</Text>
-                  <InputField
-                    customStyles={{height: 31, fontSize: 10}}
-                    placeholder="Other Amount"
-                  />
-                </View>
               </View>
             </View>
           </View>
@@ -179,7 +183,8 @@ const DonationScreen = () => {
               </View>
               <RoundButton
                 onPress={() => setStep(1)}
-                customStyles={styles.signUpButton}>
+                customStyles={styles.signUpButton}
+                disabled={!donationPrice}>
                 <Text>Next</Text>
               </RoundButton>
             </View>
@@ -224,8 +229,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
   },
   activePriceBox: {
-    backgroundColor: '#FFC6B2'
-  }
+    backgroundColor: '#FFC6B2',
+  },
 });
 
 export default DonationScreen;

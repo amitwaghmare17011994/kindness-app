@@ -8,40 +8,24 @@ import InputField from '../../components/Input';
 import {Radio, Switch, Textarea} from 'native-base';
 import questionmark from '../../assets/images/que.png';
 import TextAreaField from '../../components/RoundButton/TextAreaField';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StripPanel } from '../StripProvider';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {StripPanel} from '../StripProvider';
 
-const CompleteDonation = ({donationPrice, onBack}) => {
+const CompleteDonation = ({donationPrice}) => {
   const navigation = useNavigation();
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
-  const [email, setEmail] = useState();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [country, setCoutry] = useState('');
+
   const [emailError, setEmailError] = useState();
 
   return (
-    <AppLayout>
       <View>
-        <View style={{marginTop: 10}}>
-          <PageHeader onBack={onBack}>
-            <Text
-              style={{
-                flex: 1,
-                textAlign: 'center',
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              Complete Your Donation
-            </Text>
-          </PageHeader>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: 'center',
-              fontSize: 14,
-            }}>
-            Proceed with your donation of ${donationPrice}
-          </Text>
-        </View>
+        
         <View style={styles.body}>
           <View
             style={{
@@ -53,20 +37,35 @@ const CompleteDonation = ({donationPrice, onBack}) => {
               Billing Details
             </Text>
             <View style={styles.row}>
-              <InputFieldWithLabel label="First Name" />
-              <InputFieldWithLabel label="Last Name" />
+              <InputFieldWithLabel
+                onChangeText={setFirstName}
+                label="First Name"
+              />
+              <InputFieldWithLabel
+                onChangeText={setLastName}
+                label="Last Name"
+              />
             </View>
             <View>
               <Text style={styles.inputLabel}>Address</Text>
-              <InputField customStyles={styles.input} />
+              <InputField
+                onChangeText={setAddress}
+                customStyles={styles.input}
+              />
             </View>
             <View style={styles.row}>
-              <InputFieldWithLabel label="City" />
-              <InputFieldWithLabel label="Zip/Postal Code" />
+              <InputFieldWithLabel onChangeText={setCity} label="City" />
+              <InputFieldWithLabel
+                onChangeText={setZipCode}
+                label="Zip/Postal Code"
+              />
             </View>
             <View style={styles.row}>
-              <InputFieldWithLabel label="Province/State" />
-              <InputFieldWithLabel label="Country" />
+              <InputFieldWithLabel
+                onChangeText={setState}
+                label="Province/State"
+              />
+              <InputFieldWithLabel onChangeText={setCoutry} label="Country" />
             </View>
 
             <Text
@@ -79,24 +78,22 @@ const CompleteDonation = ({donationPrice, onBack}) => {
               Payment
             </Text>
             <SafeAreaView>
-              <StripPanel/>
+              <StripPanel
+                amount={donationPrice}
+                billingDetails={{
+                  firstName,
+                  lastName,
+                  city,
+                  zipCode,
+                  country,
+                  state,
+                  address,
+                }}
+              />
             </SafeAreaView>
-            <View style={styles.row}>
-              <RoundButton
-                onPress={() => navigation.navigate('Home')}
-                customStyles={styles.signUpButton}>
-                <Text>CANCEl</Text>
-              </RoundButton>
-              <RoundButton
-                onPress={() => navigation.navigate('Home')}
-                customStyles={styles.signUpButton}>
-                <Text>DONATE</Text>
-              </RoundButton>
-            </View>
           </View>
         </View>
       </View>
-    </AppLayout>
   );
 };
 
@@ -118,8 +115,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
-    height: 31,
-    fontSize: 10,
+    height: 40,
+    fontSize: 12,
   },
   row: {
     flexDirection: 'row',
