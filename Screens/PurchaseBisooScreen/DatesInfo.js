@@ -2,21 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, DatePickerAndroid, DatePickerIOS} from 'react-native';
 import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
+import {addUpdatePostMetaAction} from './../../hooks/useCreatePost';
 import {Radio} from 'native-base';
 
-const DatesInfo = () => {
+const DatesInfo = ({useCreatePostProps}) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const {state: values, dispatch} = useCreatePostProps;
+  const selectedDate = values.postMeta.selectedDate;
 
   useEffect(() => {
-    updateRawData({disableNext: true});
+    updateRawData({disableNext: !selectedDate});
   }, []);
 
   useEffect(() => {
     if (selectedOption) {
-      updateRawData({disableNext: false});
+      if (selectedOption === 'DATE' && selectedDate) {
+        updateRawData({disableNext: false});
+      }
     }
-  }, [selectedOption]);
+  }, [selectedOption, selectedDate]);
 
   const openCalender = async () => {
     setSelectedOption('DATE');
@@ -28,7 +32,9 @@ const DatesInfo = () => {
         date: new Date(),
       });
       if (action !== DatePickerAndroid.dismissedAction) {
-        setSelectedDate(new Date(year, month, day));
+        addUpdatePostMetaAction(dispatch, {
+          selectedDate: new Date(year, month, day),
+        });
 
         // Selected year, month (0-11), day
       }
