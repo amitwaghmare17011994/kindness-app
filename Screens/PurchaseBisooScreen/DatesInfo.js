@@ -6,9 +6,8 @@ import {addUpdatePostMetaAction} from './../../hooks/useCreatePost';
 import {Radio} from 'native-base';
 
 const DatesInfo = ({useCreatePostProps}) => {
-  const [selectedOption, setSelectedOption] = useState(null);
   const {state: values, dispatch} = useCreatePostProps;
-  const selectedDate = values.postMeta.selectedDate;
+  const {selectedDate, selectedOption} = values.postMeta;
 
   useEffect(() => {
     updateRawData({disableNext: !selectedDate});
@@ -23,7 +22,9 @@ const DatesInfo = ({useCreatePostProps}) => {
   }, [selectedOption, selectedDate]);
 
   const openCalender = async () => {
-    setSelectedOption('DATE');
+    addUpdatePostMetaAction(dispatch, {
+      selectedOption: 'DATE',
+    });
 
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
@@ -100,7 +101,9 @@ const DatesInfo = ({useCreatePostProps}) => {
               <View
                 style={{flexDirection: 'row'}}
                 onTouchEnd={() => {
-                  setSelectedOption('SIGN');
+                  addUpdatePostMetaAction(dispatch, {
+                    selectedOption: 'SIGN',
+                  });
                 }}>
                 <Radio selected={selectedOption === 'SIGN'} />
 
