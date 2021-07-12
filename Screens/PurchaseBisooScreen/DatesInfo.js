@@ -36,8 +36,6 @@ const DatesInfo = ({useCreatePostProps}) => {
   const updateMetaData = metaObject =>
     addUpdatePostMetaAction(dispatch, metaObject);
 
-  const [selectedOption, setSelectedOption] = useState(null);
-
   useEffect(() => {
     updateRawData({disableNext: !selectedDate});
   }, []);
@@ -60,7 +58,6 @@ const DatesInfo = ({useCreatePostProps}) => {
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
         date: new Date(),
-
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         addUpdatePostMetaAction(dispatch, {
@@ -107,11 +104,21 @@ const DatesInfo = ({useCreatePostProps}) => {
           </Text>
           <View style={{flexDirection: 'row'}}>
             <View style={{width: '45%', marginRight: '10%'}}>
-              <View style={{flexDirection: 'row'}}>
-                <Radio />
+              <View
+                style={{flexDirection: 'row'}}
+                onTouchEnd={() => {
+                  addUpdatePostMetaAction(dispatch, {
+                    selectedOption: 'DATE',
+                  });
+                }}>
+                <Radio selected={selectedOption === 'DATE'} />
                 <Text> Send on set date</Text>
               </View>
-              <Text>{selectedDate?.toISOString().slice(0, 10)}</Text>
+              <Text
+                onTouchEnd={openCalender}
+                style={{height: 35, borderWidth: 0.3}}>
+                {selectedDate?.toISOString().slice(0, 10)}
+              </Text>
               <View>{/* <InputField /> */}</View>
             </View>
             <View style={{width: '45%'}}>
@@ -127,7 +134,7 @@ const DatesInfo = ({useCreatePostProps}) => {
                 <Text> Send at set number of signature </Text>
               </View>
               <View>
-                <InputField customStyles={{height: 32}}/>
+                <InputField customStyles={{height: 32}} />
               </View>
             </View>
             <View></View>
