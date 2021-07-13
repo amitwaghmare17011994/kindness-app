@@ -109,9 +109,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     position: 'absolute',
     right: 0,
-    zIndex: 11,
+    zIndex: 11111,
     backgroundColor: '#000000aa',
     width: SCREEN_WIDTH,
+    elevation: 5,
     // marginTop:500
   },
   drawer: {

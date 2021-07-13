@@ -11,7 +11,7 @@ import TextAreaField from '../../components/RoundButton/TextAreaField';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StripPanel} from '../StripProvider';
 
-const CompleteDonation = ({donationPrice}) => {
+const CompleteDonation = ({donationPrice, onSucess}) => {
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -80,6 +80,7 @@ const CompleteDonation = ({donationPrice}) => {
             <SafeAreaView>
               <StripPanel
                 amount={donationPrice}
+                onSucess={onSucess}
                 billingDetails={{
                   firstName,
                   lastName,

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-// import {Picker, Icon} from 'native-base';
-import { GetBisooCard } from './../PurchaseBisooScreen/DisgnInfoComponents/GetBisooCard';
+import {View, Text, StyleSheet, Picker} from 'react-native';
+import {GetBisooCard} from './../PurchaseBisooScreen/DisgnInfoComponents/GetBisooCard';
+import { RenderCardToShow } from './../PurchaseBisooScreen/DesignInfo';
 
 export const BisooBody = ({bisooList}) => {
   const [selectedBisoo, setSelectedBisoo] = useState(bisooList[0]);
@@ -9,7 +9,24 @@ export const BisooBody = ({bisooList}) => {
   const BisooDetails = () => {
     return (
       <View style={styles.bisooDetailsBg}>
-        <Text style={styles.title}>{selectedBisoo.post_name}</Text>
+        <View
+          style={{
+            borderWidth: 1,
+            padding: 3,
+            borderColor: 'black',
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+          }}>
+          <Picker
+            selectedValue={selectedBisoo.id}
+            style={{height: 20, width: '100%', backgroundColor: '#fff'}}
+            onValueChange={(itemValue, itemIndex) =>
+              setSelectedBisoo(bisooList[itemIndex])
+            }>
+            {bisooList.map(({id, post_name}, index) => <Picker.Item key={index} label={post_name} value={id} />)}
+          </Picker>
+        </View>
         <View style={{display: 'flex', flexDirection: 'row'}}>
           <View>
             {[
@@ -19,14 +36,14 @@ export const BisooBody = ({bisooList}) => {
               {label: 'Shared', value: '10/100'},
               {label: 'Closing', value: '10/100'},
             ].map(({label, value}, index) => (
-                <View key={index} style={styles.bisooDetailsRow}>
-                    <Text style={{color: '#337A7F', paddingLeft: 5}}>{value}</Text>
-                    <Text style={{fontSize: 12}}>{label}</Text>
-                </View>
+              <View key={index} style={styles.bisooDetailsRow}>
+                <Text style={{color: '#337A7F', paddingLeft: 5}}>{value}</Text>
+                <Text style={{fontSize: 12}}>{label}</Text>
+              </View>
             ))}
           </View>
           <View>
-              <GetBisooCard post={selectedBisoo}/>
+            <RenderCardToShow  {...selectedBisoo.metaData} />
           </View>
           <View></View>
         </View>
@@ -53,8 +70,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bisooDetailsRow: {
-      flexDirection: 'row-reverse',
-      marginTop: 5,
-      marginBottom: 5,
-  }
+    flexDirection: 'row-reverse',
+    marginTop: 5,
+    marginBottom: 5,
+  },
 });

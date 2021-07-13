@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {doPost} from '../../services/request';
 import RoundButton from './../../components/RoundButton/index';
 
-export const PaymentScreen = ({billingDetails = {}, amount, onPay}) => {
+export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
   const {confirmPayment} = useStripe();
   const [clientSecrete, setClientSecrete] = useState();
   const [buttonDisable, setButtonDisable] = useState();
@@ -15,10 +15,11 @@ export const PaymentScreen = ({billingDetails = {}, amount, onPay}) => {
 
   useEffect(() => {
     setButtonDisable(true);
-    doPost('create-payment-intent', {amount: amount * 100}).then(res => {
+    doPost('create-payment-intent', {amount: amount || 100 * 100}).then(res => {
       const secrete = res.clientSecret;
-      setClientSecrete(secrete);
+      console.log(secrete);
       setButtonDisable(false);
+      setClientSecrete(secrete);
     });
   }, []);
 
@@ -36,6 +37,7 @@ export const PaymentScreen = ({billingDetails = {}, amount, onPay}) => {
       return;
     }
 
+    onSucess();
     console.warn('Success');
   };
 
@@ -76,7 +78,7 @@ export const PaymentScreen = ({billingDetails = {}, amount, onPay}) => {
         </RoundButton>
         <RoundButton
           disabled={buttonDisable}
-          text="DONATE"
+          text={onSucess ? 'Pay Now' : 'DONATE'}
           onPress={handlePayment}
           customStyles={{width: 100}}></RoundButton>
       </View>

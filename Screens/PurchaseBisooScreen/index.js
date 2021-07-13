@@ -13,6 +13,7 @@ import {useCreatePost} from './../../hooks/useCreatePost';
 import CartDrawer from '../../components/CartDrawer/CartDrawer';
 import {useSelector} from 'react-redux';
 import {updateRawData} from '../../Reducers/actions';
+import CheckoutScreen from '../CheckoutScreen';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -24,6 +25,11 @@ const PurchaseBisooScreen = () => {
   const goBack = () => {
     navigation.goBack();
   };
+
+  if (currentStep === 5) {
+    return <CheckoutScreen amount={100} onPayment={useCreatePostProps.addUpdatePost}/>
+
+  }
 
   return (
     <AppLayout>
@@ -69,10 +75,7 @@ const PurchaseBisooScreen = () => {
           <RoundButton
             disabled={disableNext}
             onPress={() => {
-              if (currentStep == 4) {
-                navigation.navigate('CheckoutScreen');
-                return;
-              }
+
               setCurrentStep(currentStep + 1);
             }}
             customStyles={{

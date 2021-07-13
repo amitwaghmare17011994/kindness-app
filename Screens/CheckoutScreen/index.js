@@ -9,7 +9,7 @@ import RoundButton from '../../components/RoundButton';
 import CompleteDonation from '../Donation/CompleteDoation';
 import {StripPanel} from '../StripProvider';
 
-const CheckoutScreen = ({amount}) => {
+const CheckoutScreen = ({onPayment, amount}) => {
   const navigation = useNavigation();
 
 
@@ -25,7 +25,7 @@ const CheckoutScreen = ({amount}) => {
         <View style={{marginTop: 20}}>
           <Text style={{color: '#2F7A80', fontSize: 30}}>Billing</Text>
         </View>
-        <CompleteDonation amount={amount} onSucess={() => navigation.navigate('Home')} />
+        <CompleteDonation amount={amount} onSucess={() => onPayment()} />
       </Container>
     </AppLayout>
   );

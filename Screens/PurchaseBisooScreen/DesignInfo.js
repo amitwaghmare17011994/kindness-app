@@ -182,7 +182,7 @@ export const SolidBgColor = ({
         backgroundColor: card_colour,
         height: 100,
         flex: 1,
-        elevation: 7,
+        elevation: 2,
       }}>
       <View style={{alignItems: 'center', flex: 1}}>
         <Text style={{color: font_colour}}>{main_header}</Text>

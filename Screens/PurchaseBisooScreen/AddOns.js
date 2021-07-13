@@ -2,32 +2,26 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {View, Text, Picker} from 'react-native';
 import {Radio} from 'native-base';
+import { SelectedCardDetails } from './DatesInfo';
 
 const AddOns = ({useCreatePostProps}) => {
   const {state: values, dispatch} = useCreatePostProps;
+
 
   console.log(useCreatePostProps);
   const postMeta = values.postMeta;
   const updateMetaData = metaObject =>
     addUpdatePostMetaAction(dispatch, metaObject);
 
-  const [selectedValue, setSelectedValue] = useState('java');
+
+  const [selectedValue, setSelectedValue] = useState();
+
+
+
   return (
     <View style={{height: 'auto'}}>
-      <Text style={{fontWeight: 'bold', fontSize: 20}}>
-        Your Basic BisOO Includes:
-      </Text>
-      <Text>Up to 5 signatures</Text>
-      <Text style={{marginTop: 10}}>Generic URL</Text>
-      <Text style={{marginTop: 10}}>
-        Month Live Time beginning on the Start Date{' '}
-      </Text>
-      <Text style={{marginTop: 10}}>
-        {' '}
-        Delivery to Recipient(s) within the Live Time
-      </Text>
-
-      <View style={{marginTop: 50}}>
+      <SelectedCardDetails cardMeta={postMeta} />
+      <View style={{marginTop: 10}}>
         <Text style={{color: '#2F7A80', fontSize: 20}}>5 Signatures</Text>
         <Text style={{marginTop: 10}}>
           Your basic BisOO can be signed by up to 5 people, select from the
@@ -109,7 +103,12 @@ const AddOns = ({useCreatePostProps}) => {
           your archive.
         </Text>
       </View>
-      <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+        }}>
         {[
           {sublabel: 'inlcuded', value: 1, label: '1 Month'},
           {sublabel: '$30.00', value: 3, label: '3 Months'},
