@@ -102,7 +102,7 @@ const HomeScreen = () => {
             SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
           </Text>
           <BisooSignCard
-            onSelect={bissoItem => setSelectedBisso(bissoItem)}
+            onSelect={bissoItem => setSignData(bissoItem)}
             bisoo={bisoo}
           />
         </View>
