@@ -9,9 +9,6 @@ import {
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import {styles} from './styles';
-import MoreView from './MoreView';
-import PostView from './PostView';
-import BissoTotalView from './BissoTotalView';
 import RoundButton from '../../components/RoundButton';
 import {useNavigation} from '@react-navigation/core';
 import BissoM from '../../assets/images/bissom.png';
@@ -21,14 +18,13 @@ import {usePost} from '../../hooks/usePost';
 import {groupBy} from '../../utils';
 import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useCreatePost} from '../../hooks/useCreatePost';
-import BisoInfoCard from './BisoInfoCard';
+import MoreView from '../HomeScreen/MoreView';
 
-const HomeScreen = () => {
+const SignScreen = () => {
   const navigation = useNavigation();
   const {loading, postList, error} = usePost();
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
-  const [signData, setSignData] = useState(null);
 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
@@ -66,34 +62,7 @@ const HomeScreen = () => {
             />
           </MapView>
         </View>
-        {selectedBisso?.metaData?.card_template && (
-          <View
-            ref={component => {
-              childrenIds = component?._children[0]._children.map(
-                el => el._nativeTag,
-              );
-            }}
-            style={{position: 'absolute', marginTop: 60}}>
-            <BisoInfoCard
-              selectedBisso={selectedBisso}
-              onSign={bissoItem => {
-                setSignData(bissoItem);
-              }}
-            />
-          </View>
-        )}
-        {signData?.metaData?.card_template && (
-          <View style={{height: 'auto'}}>
-            <RenderCardToShow
-              card_template={signData?.metaData?.card_template}
-              {...signData}
-            />
-          </View>
-        )}
 
-        <PostView onPost={onPostClicked} />
-
-        <BissoTotalView count={bisoo.length} />
         <View style={{padding: 10}}>
           <Text style={{fontWeight: '400', fontSize: 16}}>
             SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
@@ -108,7 +77,7 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default SignScreen;
 
 export const BisooSignCard = ({bisoo, onSelect}) =>
   bisoo.map(item => {
