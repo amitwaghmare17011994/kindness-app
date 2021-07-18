@@ -1,26 +1,64 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { Textarea } from 'native-base';
+import React from 'react';
+import {View, Text} from 'react-native';
+import {Textarea} from 'native-base';
 import RoundButton from '../../components/RoundButton';
-import { styles } from './styles'
+import {styles} from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import TextAreaField from '../../components/TextAreaField';
 
-const PostView = (props) => {
-    const { onPost } = props
-    return (
-        <LinearGradient colors={['#FF9898', '#FF5579']} style={styles.postView}>
-            <Text style={styles.text}>Share an act of kindness</Text>
-            <View style={styles.postTextView}>
+const PostView = props => {
+  const {onPost, showPostForm = true} = props;
+  return (
+    <LinearGradient colors={['#FF9898', '#FF5579']} style={styles.postView}>
+      {showPostForm ? (
+        <View>
+          <Text style={styles.text}>Share an act of kindness</Text>
+          <View style={styles.postTextView}>
+            <TextAreaField placeholder="When is a time you experienced an act of kindness…" />
+            <RoundButton
+              onPress={onPost}
+              text={'POST'}
+              customStyles={{width: 60}}
+            />
+          </View>
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.text}>Sign you thank you card</Text>
 
-                <TextAreaField
-                    placeholder="When is a time you experienced an act of kindness…"
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{marginRight: 10, color: 'white', fontWeight: 'bold'}}>
+              Name
+            </Text>
+            <TextAreaField
+              customStyles={{height: 40}}
+              placeholder="Thank you card signee"
+            />
+          </View>
 
-                />
-                <RoundButton onPress={onPost} text={'POST'} customStyles={{ width: 60 }} />
-            </View>
-        </LinearGradient>
-    )
-}
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+            <Text style={{marginRight: 10, color: 'white', fontWeight: 'bold'}}>
+              Email
+            </Text>
+            <TextAreaField
+              customStyles={{height: 40}}
+              placeholder="user123@gmail.com"
+            />
+          </View>
 
-export default PostView
+          <View style={{marginTop: 20, ...styles.postTextView}}>
+            <TextAreaField placeholder="When is a time you experienced an act of kindness…" />
+            <RoundButton
+              onPress={onPost}
+              text={'POST'}
+              customStyles={{width: 60}}
+            />
+          </View>
+        </View>
+      )}
+    </LinearGradient>
+  );
+};
+
+export default PostView;

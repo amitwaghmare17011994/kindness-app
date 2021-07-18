@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     },
     postView: {
         // backgroundColor: '#FF9898',
-        height: 200,
+        height: 'auto',
         paddingHorizontal: 10,
         paddingVertical: 20
     },

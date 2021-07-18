@@ -91,7 +91,10 @@ const HomeScreen = () => {
           </View>
         )}
 
-        <PostView onPost={onPostClicked} />
+        <PostView onPost={onPostClicked}
+        
+        showPostForm={!signData?.metaData?.card_template }
+        />
 
         <BissoTotalView count={bisoo.length} />
         <View style={{padding: 10}}>
