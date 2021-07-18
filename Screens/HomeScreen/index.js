@@ -13,13 +13,16 @@ import kindnessM from '../../assets/images/kindnessM.png';
 import {doGet} from '../../services/request';
 import {usePost} from '../../hooks/usePost';
 import {groupBy} from '../../utils';
+import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
+import {useCreatePost} from '../../hooks/useCreatePost';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {loading, postList, error} = usePost();
+  const [selectedBisso, setSelectedBisso] = useState(null);
+  const useCreatePostProps = useCreatePost('bisoo');
 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
-
   const onPostClicked = () => {
     navigation.navigate('PostKindness');
   };
@@ -29,6 +32,9 @@ const HomeScreen = () => {
       <View style={styles.container}>
         <MapView
           provider={PROVIDER_GOOGLE}
+          onPress={() => {
+            console.warn('selected');
+          }}
           style={styles.map}
           initialRegion={{
             latitude: 18.5204,
@@ -36,16 +42,33 @@ const HomeScreen = () => {
             latitudeDelta: 22.5726,
             longitudeDelta: 88.3639,
           }}>
-            <ShowLocationMarker list={[...bisoo, ...act]}/>
+          <ShowLocationMarker
+            onSelect={bissoItem => setSelectedBisso(bissoItem)}
+            list={[...bisoo, ...act]}
+          />
         </MapView>
       </View>
+      {selectedBisso?.metaData?.card_template ? (
+        <View style={{height: 200}}>
+          <RenderCardToShow
+            card_template={selectedBisso?.metaData?.card_template}
+            {...selectedBisso?.metaData}
+          />
+        </View>
+      ) : (
+        <View></View>
+      )}
       <PostView onPost={onPostClicked} />
-      <BissoTotalView count={bisoo.length}/>
+
+      <BissoTotalView count={bisoo.length} />
       <View style={{padding: 10}}>
         <Text style={{fontWeight: '400', fontSize: 16}}>
           SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
         </Text>
-        <BisooSignCard bisoo={bisoo} />
+        <BisooSignCard
+          onSelect={bissoItem => setSelectedBisso(bissoItem)}
+          bisoo={bisoo}
+        />
       </View>
     </AppLayout>
   );
@@ -53,47 +76,57 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-export const BisooSignCard = ({bisoo}) =>
-  bisoo.map(({post_id, post_name}) => (
-    <View
-      key={post_id}
-      style={{marginTop: 10, borderBottomWidth: 0.3, height: 60}}>
-      <View>
-        <Text style={{fontWeight: 'bold', color: '#337A7E'}}>{post_name}</Text>
-
+export const BisooSignCard = ({bisoo, onSelect}) =>
+  bisoo.map(item => {
+    const {post_id, post_name} = item;
+    return (
+      <View
+        key={post_id}
+        style={{marginTop: 10, borderBottomWidth: 0.3, height: 60}}>
         <View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{fontSize: 12, color: '#979797', flex: 1}}>
-              98/100 Signatures Closing in 3 Days
-            </Text>
-            <RoundButton customStyles={{width: 100, height: 30}}>
-              <Text>SIGN</Text>
-            </RoundButton>
+          <Text style={{fontWeight: 'bold', color: '#337A7E'}}>
+            {post_name}
+          </Text>
+
+          <View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontSize: 12, color: '#979797', flex: 1}}>
+                98/100 Signatures Closing in 3 Days
+              </Text>
+              <RoundButton
+                onPress={() => onSelect(item)}
+                customStyles={{width: 100, height: 30}}>
+                <Text>SIGN</Text>
+              </RoundButton>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-  ));
+    );
+  });
 
-const setIcon = (ins) => {
+const setIcon = ins => {
   switch (ins.post_type) {
     case 'bisoo':
       return BissoM;
 
     case 'act':
-        return kindnessM;
+      return kindnessM;
 
     default:
       break;
   }
-}
+};
 
-export const ShowLocationMarker = ({list}) => {
+export const ShowLocationMarker = ({list, onSelect = () => {}}) => {
   return list.reduce((jsxList, ins) => {
     if (ins.metaData.latitude && ins.metaData.longitude) {
       jsxList = [
         ...jsxList,
         <Marker
+          onPress={() => {
+            onSelect(ins);
+          }}
           key={ins.post_id}
           coordinate={{
             latitude: Number(ins.metaData.latitude),

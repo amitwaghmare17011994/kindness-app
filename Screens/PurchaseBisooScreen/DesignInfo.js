@@ -13,7 +13,7 @@ import {updateRawData} from '../../Reducers/actions';
 
 export const CARD_TYPE = {
   solidBG: 'Solid Background Colour',
-  bgColorOverImg: 'Backgroung Colour and Overlay Image',
+  bgColorOverImg: 'Background Colour and Overlay Image',
   bgImage: 'Background Image',
   bgImgOverImg: 'Background Image and Overlay Image',
 };
@@ -268,7 +268,7 @@ export const BGImageAndOverlayImg = ({
   image = DesignImage,
   bgImage,
 }) => {
-  return (
+   return (
     <ImageBackground
       source={(bgImage && bgImage.uri) || null}
       style={{
@@ -314,7 +314,6 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
     </View>
   );
 };
-
 
 export const RenderCardToShow = ({card_template, ...props}) => {
   switch (card_template) {

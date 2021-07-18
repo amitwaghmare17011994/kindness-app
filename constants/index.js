@@ -13,3 +13,6 @@ export const MENU_ITEMS = [
   {name: 'PROFILE', route: 'ProfileScreen'},
   {name: 'HELP CENTER'},
 ];
+
+
+export const END_POINT='http://192.168.1.110:5000/'
