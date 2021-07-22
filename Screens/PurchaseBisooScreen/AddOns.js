@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {View, Text, Picker} from 'react-native';
 import {Radio} from 'native-base';
 import { SelectedCardDetails } from './DatesInfo';
+import { addUpdatePostMetaAction } from '../../hooks/useCreatePost';
 
 const AddOns = ({useCreatePostProps}) => {
   const {state: values, dispatch} = useCreatePostProps;

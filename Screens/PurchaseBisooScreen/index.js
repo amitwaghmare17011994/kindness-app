@@ -9,7 +9,11 @@ import AddOns from './AddOns';
 import DatesInfo from './DatesInfo';
 import DesignInfo from './DesignInfo';
 import InfoForm from './InfoForm';
-import {useCreatePost} from './../../hooks/useCreatePost';
+import {
+  addOrUpdateRecipientDetails,
+  useCreatePost,
+  addOrUpdateSenderDetails,
+} from './../../hooks/useCreatePost';
 import CartDrawer from '../../components/CartDrawer/CartDrawer';
 import {useSelector} from 'react-redux';
 import {updateRawData} from '../../Reducers/actions';
@@ -22,19 +26,65 @@ const PurchaseBisooScreen = () => {
   const rawData = useSelector(state => state.rawData);
   const {disableNext} = rawData;
 
+  const [senderName, setSenderName] = useState();
+  const [senderMail, setSenderMail] = useState();
+  const [rname, setRname] = useState();
+  const [rmail, setRmail] = useState();
+
+  const addSender = () => {
+    console.log(senderName, senderMail);
+    if (!senderName || !senderMail) return;
+    addOrUpdateSenderDetails(useCreatePostProps.dispatch, {
+      data: {name: senderName, mail: senderMail},
+    });
+    setSenderName('');
+    setSenderMail('');
+  };
+
+  const addRei = () => {
+    if (!rname || !rmail) return;
+    addOrUpdateRecipientDetails(useCreatePostProps.dispatch, {
+      data: {name: rname, mail: rmail},
+    });
+    setRname('');
+    setRmail('');
+  };
+
+  const senderInfo = useCreatePostProps.state.senderInfo;
+  const receiverInfo = useCreatePostProps.state.receiverInfo;
+
+  const infoProps = {
+    senderName,
+    setSenderName,
+    senderMail,
+    setSenderMail,
+    rname,
+    setRname,
+    rmail,
+    setRmail,
+    addSender,
+    addRei,
+    senderInfo,
+    receiverInfo,
+  };
+
   const goBack = () => {
     navigation.goBack();
   };
 
   if (currentStep === 5) {
-    return <CheckoutScreen amount={100} onPayment={useCreatePostProps.addUpdatePost}/>
-
+    return (
+      <CheckoutScreen
+        amount={100}
+        onPayment={useCreatePostProps.addUpdatePost}
+      />
+    );
   }
 
   return (
     <AppLayout>
       <Container style={{paddingTop: 60}}>
-        <CartDrawer />
+        <CartDrawer useCreatePostProps={useCreatePostProps} />
 
         <Text style={styles.headerText}> Purchase BisOO </Text>
         <View style={styles.progress}>
@@ -49,7 +99,10 @@ const PurchaseBisooScreen = () => {
         </View>
         <View style={{marginTop: 20}}>
           {currentStep === 1 && (
-            <InfoForm useCreatePostProps={useCreatePostProps} />
+            <InfoForm
+              useCreatePostProps={useCreatePostProps}
+              infoProps={infoProps}
+            />
           )}
           {currentStep === 2 && (
             <DesignInfo useCreatePostProps={useCreatePostProps} />
@@ -73,9 +126,8 @@ const PurchaseBisooScreen = () => {
             <Text>BACk</Text>
           </RoundButton>
           <RoundButton
-            disabled={disableNext}
+            disabled={disableNext || !senderInfo.length || !receiverInfo.length}
             onPress={() => {
-
               setCurrentStep(currentStep + 1);
             }}
             customStyles={{

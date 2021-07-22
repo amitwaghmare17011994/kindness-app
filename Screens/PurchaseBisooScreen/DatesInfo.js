@@ -6,6 +6,7 @@ import {RenderCardToShow} from './DesignInfo';
 import {DatePicker, Radio} from 'native-base';
 import {addUpdatePostMetaAction} from '../../hooks/useCreatePost';
 import {updateRawData} from '../../Reducers/actions';
+import { addUpdatePostAttributeAction } from './../../hooks/useCreatePost';
 
 const value = new Date(1598051730000);
 
@@ -47,6 +48,7 @@ const DatesInfo = ({useCreatePostProps}) => {
       }
     }
   }, [selectedOption, selectedDate]);
+  
 
   const openCalender = async () => {
     addUpdatePostMetaAction(dispatch, {
@@ -67,7 +69,26 @@ const DatesInfo = ({useCreatePostProps}) => {
         // Selected year, month (0-11), day
       }
     } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
+      //console.warn('Cannot open date picker', message);
+    }
+  };
+
+  const openCalenderForSetDate = async () => {
+    try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: new Date(),
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        addUpdatePostAttributeAction(dispatch, {
+          postDate: new Date(year, month, day),
+        });
+
+        // Selected year, month (0-11), day
+      }
+    } catch ({code, message}) {
+      //console.warn('Cannot open date picker', message);
     }
   };
 
@@ -83,7 +104,9 @@ const DatesInfo = ({useCreatePostProps}) => {
           This date will be when your BisOO goes live. Once it is live, you can
           start collecting signatures!
         </Text>
-        <InputField value="dd/mm/yyyy" />
+        <Text onTouchEnd={openCalenderForSetDate} style={{marginVertical: 5, height: 35, width: '50%', borderWidth: 0.3, padding: 6}}>
+          {values?.postDate?.toISOString().slice(0, 10)}
+        </Text>
         <View>
           <Text style={{fontWeight: 'bold', fontSize: 12, marginTop: 12}}>
             Set Your Start Dates
@@ -116,7 +139,7 @@ const DatesInfo = ({useCreatePostProps}) => {
               </View>
               <Text
                 onTouchEnd={openCalender}
-                style={{height: 35, borderWidth: 0.3}}>
+                style={{height: 35, borderWidth: 0.3, padding: 6}}>
                 {selectedDate?.toISOString().slice(0, 10)}
               </Text>
               <View>{/* <InputField /> */}</View>

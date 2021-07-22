@@ -22,7 +22,7 @@ const SolidBackground = ({useCreatePostProps}) => {
   };
   return (
     <View>
-      <SolidBgColor {...values}/>
+      <SolidBgColor {...values} main_header={state.content}/>
       <BisooTextDetails useCreatePostProps={useCreatePostProps}/>
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>
