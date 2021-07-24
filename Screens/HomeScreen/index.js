@@ -62,6 +62,7 @@ const HomeScreen = () => {
             <ShowLocationMarker
               onSelect={bissoItem => {
                 setSelectedBisso(bissoItem);
+                setSignData(null)
               }}
               list={[...bisoo, ...act]}
             />
