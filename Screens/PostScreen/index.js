@@ -16,16 +16,20 @@ import {
   addUpdatePostAttributeAction,
   addUpdatePostMetaAction,
 } from './../../hooks/useCreatePost';
+import { SCREEN_HEIGHT } from '../../constants';
 
-const PostScreen = () => {
+const PostScreen = ({route}) => {
   const navigation = useNavigation();
   const onBack = () => navigation.goBack();
-  const {state: values, dispatch, status, addUpdatePost} = useCreatePost('post');
+  const {state: values, dispatch, status, addUpdatePost} = useCreatePost(
+    'post',
+  );
   const [step, setStep] = React.useState(1);
   const disablePostInputButton = !values.content;
 
   const {postMeta} = values;
   const enablePostButton = postMeta.longitude && postMeta.latitude;
+  const {selectedBisso} = route.params;
 
   if (status === 2) {
     navigation.navigate('Home');
@@ -44,7 +48,7 @@ const PostScreen = () => {
             : null
         }
         goBack={() => setStep(1)}
-        post={async() => await addUpdatePost()}
+        post={async () => await addUpdatePost()}
         apiCallInProgess={status === 1}
       />
     );
@@ -62,7 +66,7 @@ const PostScreen = () => {
                 fontWeight: '600',
                 fontSize: 16,
               }}>
-              Share your act of kindness
+              {selectedBisso ? 'Sign our BisOO' : 'Share your act of kindness'}
             </Text>
           </PageHeader>
         </View>
@@ -73,61 +77,73 @@ const PostScreen = () => {
             addUpdatePostAttributeAction(dispatch, {content: value});
           }}
           values={values}
-          placeholder="Share your kindness story…"
+          placeholder={
+            selectedBisso ? 'Kind Message...' : 'Share your kindness story…'
+          }
         />
         <View style={{marginTop: 10}}>
-          <Text style={{fontWeight: '600', fontSize: 18}}>Tag Friends</Text>
-          <Text style={{fontSize: 12, color: '#777373', fontWeight: '100'}}>
-            Add the emails of friends you would like to tag and they will be
-            notified that you have tagged them.
-          </Text>
-          <View style={{height: 40, marginVertical: 10}}>
-            <InputField
-              values={values.postMeta}
-              id="tag"
-              onChange={tag => {
-                addUpdatePostMetaAction(dispatch, {tag});
-              }}
-            />
-          </View>
-          <View style={{marginTop: 10}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>Post To</Text>
-            <View
-              style={{
-                marginVertical: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <View style={{flex: 1}}>
-                <Text style={{fontWeight: '600', fontSize: 16}}>Facebook</Text>
-                <Text style={styles.subtitle}>
-                  https://www.facebook.com/erin.dobson1
-                </Text>
+          {!selectedBisso ? (
+            <>
+              <Text style={{fontWeight: '600', fontSize: 18}}>Tag Friends</Text>
+              <Text style={{fontSize: 12, color: '#777373', fontWeight: '100'}}>
+                Add the emails of friends you would like to tag and they will be
+                notified that you have tagged them.
+              </Text>
+              <View style={{height: 40, marginVertical: 10}}>
+                <InputField
+                  values={values.postMeta}
+                  id="tag"
+                  onChange={tag => {
+                    addUpdatePostMetaAction(dispatch, {tag});
+                  }}
+                />
               </View>
-              <Switch size="lg" value={true} />
-            </View>
-          </View>
-          <View
-            style={{
-              marginVertical: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Text style={{fontWeight: 'bold', fontSize: 18, flex: 1}}>
-              Post Anonymously
-            </Text>
-            <Switch
-              onTouchEnd={() => {
-                console.log(values.postMeta.postanonymously);
-                addUpdatePostMetaAction(dispatch, {
-                  postanonymously:
-                    values.postMeta.postanonymously === 'Yes' ? 'No' : 'Yes',
-                });
-              }}
-              size="lg"
-              value={values.postMeta.postanonymously === 'Yes'}
-            />
-          </View>
+              <View style={{marginTop: 10}}>
+                <Text style={{fontWeight: 'bold', fontSize: 20}}>Post To</Text>
+                <View
+                  style={{
+                    marginVertical: 10,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <View style={{flex: 1}}>
+                    <Text style={{fontWeight: '600', fontSize: 16}}>
+                      Facebook
+                    </Text>
+                    <Text style={styles.subtitle}>
+                      https://www.facebook.com/erin.dobson1
+                    </Text>
+                  </View>
+                  <Switch size="lg" value={true} />
+                </View>
+              </View>
+              <View
+                style={{
+                  marginVertical: 10,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold', fontSize: 18, flex: 1}}>
+                  Post Anonymously
+                </Text>
+                <Switch
+                  onTouchEnd={() => {
+                    console.log(values.postMeta.postanonymously);
+                    addUpdatePostMetaAction(dispatch, {
+                      postanonymously:
+                        values.postMeta.postanonymously === 'Yes'
+                          ? 'No'
+                          : 'Yes',
+                    });
+                  }}
+                  size="lg"
+                  value={values.postMeta.postanonymously === 'Yes'}
+                />
+              </View>{' '}
+            </>
+          ) : (
+            <View style={{height:SCREEN_HEIGHT-450}}></View>
+          )}
 
           <View>
             <GradientButton

@@ -29,10 +29,11 @@ const HomeScreen = () => {
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
   const [signData, setSignData] = useState(null);
-
+ 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
-    navigation.navigate('PostKindness');
+    navigation.navigate('PostKindness',{selectedBisso:selectedBisso});
+
   };
   let childrenIds = [];
   return (
@@ -44,7 +45,7 @@ const HomeScreen = () => {
             if (childrenIds.includes(evt.target)) {
               return;
             }
-            // setSelectedBisso({metaData: {}});
+           
           }
         }}>
         <MoreView />
@@ -91,21 +92,24 @@ const HomeScreen = () => {
           </View>
         )}
 
-        <PostView onPost={onPostClicked}
-        
-        showPostForm={!signData?.metaData?.card_template }
+        <PostView
+          onPost={onPostClicked}
+          showPostForm={!signData?.metaData?.card_template}
         />
-
-        <BissoTotalView count={bisoo.length} />
-        <View style={{padding: 10}}>
-          <Text style={{fontWeight: '400', fontSize: 16}}>
-            SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
-          </Text>
-          <BisooSignCard
-            onSelect={bissoItem => setSignData(bissoItem)}
-            bisoo={bisoo}
-          />
-        </View>
+        {!selectedBisso?.metaData?.card_template && (
+          <>
+            <BissoTotalView count={bisoo.length} />
+            <View style={{padding: 10}}>
+              <Text style={{fontWeight: '400', fontSize: 16}}>
+                SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
+              </Text>
+              <BisooSignCard
+                onSelect={bissoItem => setSignData(bissoItem)}
+                bisoo={bisoo}
+              />
+            </View>
+          </>
+        )}
       </View>
     </AppLayout>
   );
