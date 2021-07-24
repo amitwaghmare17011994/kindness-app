@@ -14,7 +14,7 @@ import {DONATION_TYPES} from '../../constants';
 const DonationScreen = () => {
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
+  const [location, setLocation] = useState();
   const [email, setEmail] = useState();
   const [emailError, setEmailError] = useState();
   const [donationPrice, setDonationPrice] = useState(0);
@@ -185,21 +185,21 @@ const DonationScreen = () => {
             <View style={{marginTop: 20, marginBottom: 20}}>
               <Text style={styles.inputLabel}>Name *</Text>
               <InputField
-                onChange={e => setFirstName(e.target.value)}
+                onChangeText={name => setFirstName(name)}
                 value={firstName}
                 customStyles={styles.input}
               />
               <InputHelper helerText="Please indicate who we will dedicate our Thank You Pin to" />
               <Text style={styles.inputLabel}>Location</Text>
               <InputField
-                onChange={e => setLastName(e.target.value)}
-                value={lastName}
+                onChangeText={value => setLocation(value)}
+                value={location}
                 customStyles={styles.input}
               />
               <InputHelper helerText="This is where we will drop the pin to represent where the donations from" />
               <Text style={styles.inputLabel}>Message</Text>
               <TextAreaField
-                onChange={e => setEmail(e.tar > t.value)}
+                onChangeText={emailText => setEmail(emailText)}
                 value={email}
               />
               <InputHelper helerText="Add a message we will include with the Thank You Pin" />
