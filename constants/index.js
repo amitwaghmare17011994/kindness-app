@@ -14,5 +14,6 @@ export const MENU_ITEMS = [
   {name: 'HELP CENTER'},
 ];
 
+export const DONATION_TYPES={MONTHLY:'Monthly Donation',ONE_TIME:'One Time Donation'}
 
 export const END_POINT='http://192.168.1.110:5000/'

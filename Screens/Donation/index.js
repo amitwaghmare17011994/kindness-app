@@ -9,6 +9,7 @@ import {Radio, Switch, Textarea} from 'native-base';
 import questionmark from '../../assets/images/que.png';
 import TextAreaField from '../../components/RoundButton/TextAreaField';
 import CompleteDonation from './CompleteDoation';
+import {DONATION_TYPES} from '../../constants';
 
 const DonationScreen = () => {
   const navigation = useNavigation();
@@ -17,8 +18,10 @@ const DonationScreen = () => {
   const [email, setEmail] = useState();
   const [emailError, setEmailError] = useState();
   const [donationPrice, setDonationPrice] = useState(0);
-  const [donationType, setDonationType] = useState(true);
+  const [donationType, setDonationType] = useState(DONATION_TYPES.MONTHLY);
+  const [isOtherAmount, setIsOtherAmount] = useState(false);
   const [step, setStep] = useState(0);
+  const [isAnonymously, setIsAnonymously] = useState(true);
 
   if (step)
     return (
@@ -90,15 +93,23 @@ const DonationScreen = () => {
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View
-                  onPress={() => setDonationType(true)}
+                  onTouchEnd={() => setDonationType(DONATION_TYPES.MONTHLY)}
                   style={{flexDirection: 'row'}}>
-                  <Radio selected={donationType} />
+                  <Radio
+                    color={'black'}
+                    selectedColor={'#357B7F'}
+                    selected={donationType === DONATION_TYPES.MONTHLY}
+                  />
                   <Text>Monthly Donation</Text>
                 </View>
                 <View
-                  onPress={() => setDonationType(false)}
+                  onTouchEnd={() => setDonationType(DONATION_TYPES.ONE_TIME)}
                   style={{flexDirection: 'row'}}>
-                  <Radio selected={donationType} />
+                  <Radio
+                    color={'black'}
+                    selectedColor={'#357B7F'}
+                    selected={donationType === DONATION_TYPES.ONE_TIME}
+                  />
                   <Text>One Time Donation</Text>
                 </View>
               </View>
@@ -106,7 +117,7 @@ const DonationScreen = () => {
                 {[25, 50, 100].map((item, index) => {
                   return (
                     <Text
-                      onPress={() => setDonationPrice(item)}
+                      onPress={() => !isOtherAmount && setDonationPrice(item)}
                       style={{
                         ...styles.priceBox,
                         ...(donationPrice === item
@@ -125,12 +136,34 @@ const DonationScreen = () => {
                   width: '80%',
                   paddingLeft: '10%',
                 }}>
-                <Radio />
-                <Text style={{marginRight: 20}}>Other Amount</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}
+                  onTouchEnd={() => {
+                    setIsOtherAmount(!isOtherAmount);
+                    setDonationPrice(null);
+                  }}>
+                  <Radio
+                    selected={isOtherAmount}
+                    color={'black'}
+                    selectedColor={'#357B7F'}
+                  />
+                  <Text style={{marginRight: 20}}>Other Amount</Text>
+                </View>
+
                 <InputField
                   customStyles={{height: 31, fontSize: 10}}
                   placeholder="Other Amount"
-                  onTextChange={amount => setDonationPrice(amount)}
+                  disabled={!isOtherAmount}
+                  onChangeText={amount => {
+                    if (!isNaN(amount)) {
+                      setDonationPrice(amount);
+                    }
+                    if (amount?.length === 0) {
+                      setDonationPrice(null);
+                    }
+                  }}
                 />
               </View>
             </View>
@@ -150,7 +183,7 @@ const DonationScreen = () => {
               your gratitude. No private or monetary information will be shared.{' '}
             </Text>
             <View style={{marginTop: 20, marginBottom: 20}}>
-              <Text style={styles.inputLabel}>Name</Text>
+              <Text style={styles.inputLabel}>Name *</Text>
               <InputField
                 onChange={e => setFirstName(e.target.value)}
                 value={firstName}
@@ -166,7 +199,7 @@ const DonationScreen = () => {
               <InputHelper helerText="This is where we will drop the pin to represent where the donations from" />
               <Text style={styles.inputLabel}>Message</Text>
               <TextAreaField
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setEmail(e.tar > t.value)}
                 value={email}
               />
               <InputHelper helerText="Add a message we will include with the Thank You Pin" />
@@ -175,16 +208,19 @@ const DonationScreen = () => {
                   marginVertical: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
+                }}
+                onTouchEnd={() => {
+                  setIsAnonymously(!isAnonymously);
                 }}>
                 <Text style={{fontWeight: 'bold', fontSize: 18, flex: 1}}>
                   Post Anonymously
                 </Text>
-                <Switch size="lg" value={true} />
+                <Switch size="lg" value={isAnonymously} />
               </View>
               <RoundButton
                 onPress={() => setStep(1)}
                 customStyles={styles.signUpButton}
-                disabled={!donationPrice}>
+                disabled={!donationPrice || !firstName}>
                 <Text>Next</Text>
               </RoundButton>
             </View>
