@@ -22,18 +22,35 @@ import {groupBy} from '../../utils';
 import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useCreatePost} from '../../hooks/useCreatePost';
 import BisoInfoCard from './BisoInfoCard';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {loading, postList, error} = usePost();
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
+  const userDetails = useSelector((state) => state.rawData.userDetails) || {}
+  console.log(`userDetails`, userDetails);
   const [signData, setSignData] = useState(null);
- 
+  const [user, setUser] = useState(userDetails.name);
+  const [email, setEmail] = useState(userDetails.email);
+  const [post, setPost] = useState();
+
+  const postViewProps = {
+    user,
+    setUser,
+    email,
+    setEmail,
+    post,
+    setPost,
+  };
+
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
-    navigation.navigate('PostKindness',{selectedBisso:selectedBisso});
-
+    navigation.navigate('PostKindness', {
+      selectedBisso: selectedBisso,
+      data: {post, user, email},
+    });
   };
   let childrenIds = [];
   return (
@@ -45,7 +62,6 @@ const HomeScreen = () => {
             if (childrenIds.includes(evt.target)) {
               return;
             }
-           
           }
         }}>
         <MoreView />
@@ -62,7 +78,7 @@ const HomeScreen = () => {
             <ShowLocationMarker
               onSelect={bissoItem => {
                 setSelectedBisso(bissoItem);
-                setSignData(null)
+                setSignData(null);
               }}
               list={[...bisoo, ...act]}
             />
@@ -96,6 +112,7 @@ const HomeScreen = () => {
         <PostView
           onPost={onPostClicked}
           showPostForm={!signData?.metaData?.card_template}
+          postViewProps={postViewProps}
         />
         {!selectedBisso?.metaData?.card_template && (
           <>

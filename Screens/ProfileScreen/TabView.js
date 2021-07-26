@@ -3,24 +3,29 @@ import {View, Text, StyleSheet} from 'react-native';
 import ProfileListItem from './ProfileListItem';
 import {groupBy} from './../../utils/index';
 import {usePost} from './../../hooks/usePost';
-import { BisooBody } from './BisooBody';
+import {BisooBody} from './BisooBody';
+import {useSelector} from 'react-redux';
 const TABS = ['ACTS', 'LIKES', 'FOLLOWING'];
 
-const TabView = () => {
+const TabView = React.memo(() => {
   const [selectedTab, setSelectedTab] = useState('ACTS');
-  const {loading, postList, error} = usePost(77);
+  const userDetails = useSelector(state => state.rawData.userDetails) || {};
+
+  console.log(`userDetails`, userDetails);
+
+  const {loading, postList, error} = usePost(userDetails.id);
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
 
   let body = '';
 
   switch (selectedTab) {
     case 'ACTS':
-      body = act.map((post) => (
+      body = act.map(post => (
         <View key={post.post_id}>
           <ProfileListItem post={post} />
           <View style={{borderWidth: 1, height: 1, borderColor: '#cccccc'}} />
         </View>
-      ))
+      ));
       break;
 
     case 'BisOO':
@@ -36,6 +41,7 @@ const TabView = () => {
       <View style={styles.tabs}>
         {TABS.map(i => (
           <Text
+            index={i}
             onPress={() => setSelectedTab(i)}
             style={{
               ...styles.tab,
@@ -57,12 +63,10 @@ const TabView = () => {
           BisOO
         </Text>
       </View>
-      <View style={{marginTop: 10}}>
-        {body}
-      </View>
+      <View style={{marginTop: 10}}>{body}</View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   selectedTab: {

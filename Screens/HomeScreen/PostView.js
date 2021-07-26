@@ -5,16 +5,25 @@ import RoundButton from '../../components/RoundButton';
 import {styles} from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import TextAreaField from '../../components/TextAreaField';
+import InputField from '../../components/Input';
 
 const PostView = props => {
-  const {onPost, showPostForm = true} = props;
+  const {onPost, showPostForm = true, postViewProps = {}} = props;
+  const {user, setUser, email, setEmail, post, setPost} = postViewProps;
+
+  console.log(`post`, post);
   return (
     <LinearGradient colors={['#FF9898', '#FF5579']} style={styles.postView}>
       {showPostForm ? (
         <View>
           <Text style={styles.text}>Share an act of kindness</Text>
           <View style={styles.postTextView}>
-            <TextAreaField placeholder="When is a time you experienced an act of kindness…" />
+            <TextAreaField
+              id="post"
+              values={{post}}
+              onChange={e => setPost(e)}
+              placeholder="When is a time you experienced an act of kindness…"
+            />
             <RoundButton
               onPress={onPost}
               text={'POST'}
@@ -30,9 +39,10 @@ const PostView = props => {
             <Text style={{marginRight: 10, color: 'white', fontWeight: 'bold'}}>
               Name
             </Text>
-            <TextAreaField
+            <InputField
+              value={user}
               customStyles={{height: 40}}
-              placeholder="Thank you card signee"
+              onChangeText={setUser}
             />
           </View>
 
@@ -41,14 +51,20 @@ const PostView = props => {
             <Text style={{marginRight: 10, color: 'white', fontWeight: 'bold'}}>
               Email
             </Text>
-            <TextAreaField
+            <InputField
               customStyles={{height: 40}}
-              placeholder="user123@gmail.com"
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
 
           <View style={{marginTop: 20, ...styles.postTextView}}>
-            <TextAreaField placeholder="When is a time you experienced an act of kindness…" />
+            <TextAreaField
+              id="post"
+              values={{post}}
+              onChange={e => setPost(e)}
+              placeholder="When is a time you experienced an act of kindness…"
+            />
             <RoundButton
               onPress={onPost}
               text={'POST'}
