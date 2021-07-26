@@ -9,13 +9,11 @@ import {useNavigation} from '@react-navigation/core';
 import {STRIPE_KEY} from '../../constants';
 import {showToaster} from '../../utils';
 
-export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
+export const PaymentScreen = ({billingDetails = {}, amount, onSucess=()=>{}}) => {
   const navigation = useNavigation();
   const {confirmPayment} = useStripe();
   const [clientSecrete, setClientSecrete] = useState();
   const [buttonDisable, setButtonDisable] = useState();
-
-  console.log(billingDetails);
 
   useEffect(() => {
     setButtonDisable(true);
@@ -38,10 +36,11 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
     if (error) {
       showToaster(error.message, {type: 'danger', duration: 3000});
       return;
+      
     }
 
     onSucess();
-    showToaster('Payment Successful!', {type: 'success', duration: 3000});
+    showToaster('Payment Successful!', {type: 'success', duration: 1000});
   };
 
   return (

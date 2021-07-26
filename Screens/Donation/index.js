@@ -22,7 +22,11 @@ const DonationScreen = () => {
   const [isOtherAmount, setIsOtherAmount] = useState(false);
   const [step, setStep] = useState(0);
   const [isAnonymously, setIsAnonymously] = useState(true);
-
+  const onSuccess = () => {
+    setTimeout(() => {
+      navigation.navigate('Home');
+    }, 1000);
+  };
   if (step)
     return (
       <AppLayout>
@@ -51,6 +55,7 @@ const DonationScreen = () => {
           <CompleteDonation
             donationPrice={donationPrice}
             onBack={() => setStep(0)}
+            onSucess={onSuccess}
           />
         </View>
       </AppLayout>
@@ -208,7 +213,7 @@ const DonationScreen = () => {
                   marginVertical: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
-                }} 
+                }}
                 onTouchEnd={() => {
                   setIsAnonymously(!isAnonymously);
                 }}>
