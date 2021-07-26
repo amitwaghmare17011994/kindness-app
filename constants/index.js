@@ -16,4 +16,6 @@ export const MENU_ITEMS = [
 
 export const DONATION_TYPES={MONTHLY:'Monthly Donation',ONE_TIME:'One Time Donation'}
 
-export const END_POINT='http://192.168.43.3:5000/'
+export const END_POINT='http://192.168.1.110:5000/'
+
+export const STRIPE_KEY='pk_test_51J9xKuSIDB7z7pvSNoQLrDzASYm0SNfqLtDnJn45r2kWJgwkEd4K7YHDUG6kziIgqkAfphAX8ptzG9TG3RVAaJQG00cJgwfdV9'

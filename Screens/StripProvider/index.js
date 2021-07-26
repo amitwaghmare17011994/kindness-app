@@ -5,8 +5,12 @@ import {View, Text, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {doPost} from '../../services/request';
 import RoundButton from './../../components/RoundButton/index';
+import {useNavigation} from '@react-navigation/core';
+import {STRIPE_KEY} from '../../constants';
+import {showToaster} from '../../utils';
 
 export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
+  const navigation = useNavigation();
   const {confirmPayment} = useStripe();
   const [clientSecrete, setClientSecrete] = useState();
   const [buttonDisable, setButtonDisable] = useState();
@@ -32,13 +36,12 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
 
     setButtonDisable(false);
     if (error) {
-      console.warn(error);
-
+      showToaster(error.message, {type: 'danger', duration: 3000});
       return;
     }
 
     onSucess();
-    console.warn('Success');
+    showToaster('Payment Successful!', {type: 'success', duration: 3000});
   };
 
   return (
@@ -89,7 +92,7 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess}) => {
 export const StripPanel = props => {
   return (
     <StripeProvider
-      publishableKey="pk_test_51J9xKuSIDB7z7pvSNoQLrDzASYm0SNfqLtDnJn45r2kWJgwkEd4K7YHDUG6kziIgqkAfphAX8ptzG9TG3RVAaJQG00cJgwfdV9"
+      publishableKey={STRIPE_KEY}
       merchantIdentifier="merchant.identifier">
       <SafeAreaView>
         <PaymentScreen {...props} />
