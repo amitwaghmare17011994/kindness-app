@@ -208,7 +208,7 @@ const DonationScreen = () => {
                   marginVertical: 10,
                   flexDirection: 'row',
                   alignItems: 'center',
-                }}
+                }} 
                 onTouchEnd={() => {
                   setIsAnonymously(!isAnonymously);
                 }}>
