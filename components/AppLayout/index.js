@@ -1,19 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppFooter from '../AppFooter';
 import AppHeader from '../AppHeader';
 import {SCREEN_HEIGHT, MENU_ITEMS, SCREEN_WIDTH} from '../../constants';
-import {Spinner} from 'native-base';
+import {Button, Spinner, Toast} from 'native-base';
 import {useSelector} from 'react-redux';
+import {showToaster} from '../../utils';
+import {updateRawData} from '../../Reducers/actions';
 
 const AppLayout = props => {
   const navigation = useNavigation();
   const showLoader = useSelector(state => state.rawData.showLoader);
+  const toastObject = useSelector(state => state.rawData.toastObject || {});
+
+  useEffect(() => {
+    if (Object.keys(toastObject).length) {
+      Toast.show({
+        text: toastObject.message,
+        type: toastObject.type,
+        duration: toastObject.duration || 1000,
+        position: 'top',
+      });
+      setTimeout(() => {
+        updateRawData({toastObject: {}});
+      }, toastObject.duration || 1000);
+    }
+  }, [JSON.stringify(toastObject)]);
+
   const onMenuItemSelected = route => {
     navigation.navigate(route);
   };
-   return (
+
+  return (
     <View style={{flex: 1}}>
       {showLoader && (
         <View style={styles.loader}>

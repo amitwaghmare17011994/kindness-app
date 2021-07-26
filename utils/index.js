@@ -65,6 +65,7 @@ export const setUserInLocalStorage = token => {
   return true;
 };
 
+import {updateRawData} from '../Reducers/actions';
 // //define your utils methods here
 // import * as React from 'react';
 // import moment from 'moment';
@@ -681,3 +682,7 @@ import store from './../store';
 // export const changeLanguage = (lng) => {
 //     i18n.changeLanguage(lng);
 // };
+
+export const showToaster = (text = '', others = {}) => {
+  updateRawData({toastObject: {message:text, ...others}});
+};

@@ -1,8 +1,9 @@
+import {Root} from 'native-base';
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 // import RNLocation from 'react-native-location';
-import Navigator from './Navigators';
 import {Provider} from 'react-redux';
+import Navigator from './Navigators';
 import store from './store';
 
 // RNLocation.configure({
@@ -32,11 +33,13 @@ const App = () => {
     // })();
   }, []);
   return (
-    <View style={styles.container}>
-      <Provider store={store}>
-        <Navigator />
-      </Provider>
-    </View>
+    <Root>
+      <View style={styles.container}>
+        <Provider store={store}>
+          <Navigator />
+        </Provider>
+      </View>
+    </Root>
   );
 };
 

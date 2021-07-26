@@ -18,7 +18,7 @@ import BissoM from '../../assets/images/bissom.png';
 import kindnessM from '../../assets/images/kindnessM.png';
 import {doGet} from '../../services/request';
 import {usePost} from '../../hooks/usePost';
-import {groupBy} from '../../utils';
+import {groupBy, showToaster} from '../../utils';
 import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useCreatePost} from '../../hooks/useCreatePost';
 import BisoInfoCard from './BisoInfoCard';
@@ -29,11 +29,10 @@ const HomeScreen = () => {
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
   const [signData, setSignData] = useState(null);
- 
+
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
-    navigation.navigate('PostKindness',{selectedBisso:selectedBisso});
-
+    navigation.navigate('PostKindness', {selectedBisso: selectedBisso});
   };
   let childrenIds = [];
   return (
@@ -45,7 +44,6 @@ const HomeScreen = () => {
             if (childrenIds.includes(evt.target)) {
               return;
             }
-           
           }
         }}>
         <MoreView />
@@ -62,7 +60,7 @@ const HomeScreen = () => {
             <ShowLocationMarker
               onSelect={bissoItem => {
                 setSelectedBisso(bissoItem);
-                setSignData(null)
+                setSignData(null);
               }}
               list={[...bisoo, ...act]}
             />
