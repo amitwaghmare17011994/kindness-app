@@ -21,8 +21,8 @@ export const Login = (props) => {
     });
 
     if (data.token) {
-      updateRawData({authUser: data.token});
-      navigation.navigate(props.name || 'Home');
+      updateRawData({authUser: data.token, userDetails: data.userDetails});
+      navigation.navigate(props.route.name || 'Home');
 
       return;
     }

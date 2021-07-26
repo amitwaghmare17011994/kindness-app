@@ -20,7 +20,6 @@ import PurchaseBisooScreen from '../Screens/PurchaseBisooScreen';
 import SubscribeScreen from '../Screens/Subscribe';
 import ColorChooser from '../Screens/ColorChooser';
 import DonationScreen from '../Screens/Donation';
-import CompleteDonation from '../Screens/Donation/CompleteDoation';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import PurchaseDetailsScreen from '../Screens/PurchaseDetailsScreen';
 import SignScreen from '../Screens/SignScreen';
@@ -64,11 +63,25 @@ const MyTransition = {
     };
   },
 };
+
+const nameComponentMap = {
+  PostKindness: PostScreen,
+  PurchaseDetailsScreen: PurchaseDetailsScreen,
+  ProfileScreen: ProfileScreen,
+  BisooScreen: BisooScreen,
+  PurchaseBisooScreen: PurchaseBisooScreen
+};
+
 const Stack = createStackNavigator();
 function Navigator() {
   const {authToken = '', authUser = ''} = useSelector(state => state.rawData);
 
   const isLoggedIn = authToken && authUser;
+
+  const AuthRouth = props => {
+    const Component = nameComponentMap[props.route.name]
+    return isLoggedIn ? <Component {...props} /> : <Login {...props} />;
+  };
 
   return (
     <NavigationContainer>
@@ -81,9 +94,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PostKindness"
-          component={props =>
-            isLoggedIn ? <PostScreen {...props} /> : <Login {...props} />
-          }
+          component={AuthRouth}
         />
 
         <Stack.Screen
@@ -120,9 +131,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="ProfileScreen"
-          component={props =>
-            isLoggedIn ? <ProfileScreen {...props} /> : <Login {...props} />
-          }
+          component={AuthRouth}
         />
 
         <Stack.Screen
@@ -133,21 +142,13 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="BisooScreen"
-          component={props =>
-            isLoggedIn ? <BisooScreen {...props} /> : <Login {...props} />
-          }
+          component={AuthRouth}
         />
 
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseBisooScreen"
-          component={props =>
-            isLoggedIn ? (
-              <PurchaseBisooScreen {...props} />
-            ) : (
-              <Login {...props} />
-            )
-          }
+          component={AuthRouth}
         />
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -168,13 +169,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseDetailsScreen"
-          component={props =>
-            isLoggedIn ? (
-              <PurchaseDetailsScreen {...props} />
-            ) : (
-              <Login {...props} />
-            )
-          }
+          component={AuthRouth}
         />
 
         <Stack.Screen
