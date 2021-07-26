@@ -20,10 +20,11 @@ import PurchaseBisooScreen from '../Screens/PurchaseBisooScreen';
 import SubscribeScreen from '../Screens/Subscribe';
 import ColorChooser from '../Screens/ColorChooser';
 import DonationScreen from '../Screens/Donation';
-import CompleteDonation from '../Screens/Donation/CompleteDoation';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import PurchaseDetailsScreen from '../Screens/PurchaseDetailsScreen';
 import SignScreen from '../Screens/SignScreen';
+import {Login} from './../Screens/Auth/Login';
+import {useSelector} from 'react-redux';
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -62,11 +63,28 @@ const MyTransition = {
     };
   },
 };
+
+const nameComponentMap = {
+  PostKindness: PostScreen,
+  PurchaseDetailsScreen: PurchaseDetailsScreen,
+  ProfileScreen: ProfileScreen,
+  BisooScreen: BisooScreen,
+  PurchaseBisooScreen: PurchaseBisooScreen
+};
+
 const Stack = createStackNavigator();
 function Navigator() {
+  const {authToken = '', authUser = ''} = useSelector(state => state.rawData);
+
+  const isLoggedIn = authToken && authUser;
+
+  const AuthRouth = props => {
+    const Component = nameComponentMap[props.route.name]
+    return isLoggedIn ? <Component {...props} /> : <Login {...props} />;
+  };
+
   return (
     <NavigationContainer>
-      {/* <script source="http://localhost:8097"/> */}
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -76,7 +94,13 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PostKindness"
-          component={PostScreen}
+          component={AuthRouth}
+        />
+
+        <Stack.Screen
+          options={{headerShown: false, ...MyTransition}}
+          name="Login"
+          component={Login}
         />
 
         <Stack.Screen
@@ -107,7 +131,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="ProfileScreen"
-          component={ProfileScreen}
+          component={AuthRouth}
         />
 
         <Stack.Screen
@@ -118,13 +142,13 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="BisooScreen"
-          component={BisooScreen}
+          component={AuthRouth}
         />
 
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseBisooScreen"
-          component={PurchaseBisooScreen}
+          component={AuthRouth}
         />
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -145,7 +169,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseDetailsScreen"
-          component={PurchaseDetailsScreen}
+          component={AuthRouth}
         />
 
         <Stack.Screen
