@@ -43,7 +43,7 @@ export const BisooBody = ({bisooList}) => {
             ))}
           </View>
           <View>
-            <RenderCardToShow  {...selectedBisoo.metaData} />
+            <RenderCardToShow  {...selectedBisoo.metaData} main_header={selectedBisoo.post_name}/>
           </View>
           <View></View>
         </View>

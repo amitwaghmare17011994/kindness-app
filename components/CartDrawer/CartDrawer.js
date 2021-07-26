@@ -6,12 +6,21 @@ import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../constants';
 import Container from '../Container';
 import {BoldText, PrimaryText} from '../Texts';
 
-const CartDrawer = () => {
+const CartDrawer = ({useCreatePostProps}) => {
   const [show, setShow] = useState(false);
+  const {
+    state: {postMeta},
+  } = useCreatePostProps;
 
   const onToggle = () => {
     setShow(!show);
   };
+
+  const senderInfo = useCreatePostProps.state.senderInfo;
+  const receiverInfo = useCreatePostProps.state.receiverInfo;
+
+  const sendermail = senderInfo.map(item => item.mail).join();
+  const recipientemail = receiverInfo.map(item => item.mail).join();
   return (
     <View style={[styles.container, !show ? styles.close : {}]}>
       <View style={{flexDirection: 'row'}}>
@@ -37,7 +46,7 @@ const CartDrawer = () => {
               <PrimaryText style={{fontSize: 16}}>Card Details</PrimaryText>
 
               <BoldText>Card Type</BoldText>
-              <Text>Small Card, 1-25 signatures</Text>
+              <Text>{postMeta.type || 'Small Card, 1-25 signatures'}</Text>
 
               <BoldText style={{marginTop: 10}}>URL</BoldText>
               <Text>Custom</Text>
@@ -48,13 +57,15 @@ const CartDrawer = () => {
               <BoldText style={{marginTop: 10}}>
                 Signature Collection Timeframe
               </BoldText>
-              <Text>Closing on July 5th 2020</Text>
+              <Text>
+                Closing on {postMeta?.selectedDate?.toISOString().slice(0, 10)}
+              </Text>
 
               <BoldText style={{marginTop: 10}}>Recipient(s)</BoldText>
-              <Text>erindobson@email.com</Text>
+              <Text>{sendermail}</Text>
 
               <BoldText style={{marginTop: 10}}>Sender(s)</BoldText>
-              <Text>sender@email.com</Text>
+              <Text>{recipientemail}</Text>
 
               <BoldText style={{marginTop: 10}}>Card Signing</BoldText>
               <Text>Private</Text>

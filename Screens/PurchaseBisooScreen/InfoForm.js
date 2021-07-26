@@ -1,11 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import InputField from '../../components/Input';
 
 import {View, Text, StyleSheet} from 'react-native';
-import { updateRawData } from '../../Reducers/actions';
+import {updateRawData} from '../../Reducers/actions';
 
-const InfoForm = () => {
+
+const InfoForm = ({useCreatePostProps, infoProps}) => {
+  const {state, dispatch} = useCreatePostProps;
+  const {
+    senderName,
+    setSenderName,
+    senderMail,
+    setSenderMail,
+    rname,
+    setRname,
+    rmail,
+    setRmail,
+    addSender,
+    addRei,
+    senderInfo,
+    receiverInfo
+  } = infoProps;
+
   useEffect(() => {
     updateRawData({disableNext: false});
   }, []);
@@ -21,16 +38,36 @@ const InfoForm = () => {
           This is who the card will appear to be from when it is sent to the
           recipient
         </Text>
+        {senderInfo.map(({name, mail}) => {
+          return (
+            <View style={{marginTop: 10}}>
+              <InputField
+                customStyles={{height: 40, fontSize: 16}}
+                value={name}
+                disabled
+              />
+              <InputField
+                customStyles={{height: 40, fontSize: 16, marginTop: 5}}
+                value={mail}
+                disabled
+              />
+            </View>
+          );
+        })}
         <View style={{marginTop: 10}}>
           <InputField
             customStyles={{height: 40, fontSize: 16}}
             placeholder={'Name'}
+            value={senderName}
+            onChangeText={value => setSenderName(value)}
           />
           <InputField
             customStyles={{height: 40, fontSize: 16, marginTop: 5}}
             placeholder={'Email'}
+            value={senderMail}
+            onChangeText={value => setSenderMail(value)}
           />
-          <View style={styles.circle}>
+          <View style={styles.circle} onTouchStart={addSender}>
             <Icon name="plus" size={15} color={'black'} />
           </View>
         </View>
@@ -50,16 +87,36 @@ const InfoForm = () => {
           This is who the card will appear to be from when it is sent to the
           recipient
         </Text>
+        {receiverInfo.map(({name, mail}) => {
+          return (
+            <View style={{marginTop: 10}}>
+              <InputField
+                customStyles={{height: 40, fontSize: 16}}
+                value={name}
+                disabled
+              />
+              <InputField
+                customStyles={{height: 40, fontSize: 16, marginTop: 5}}
+                value={mail}
+                disabled
+              />
+            </View>
+          );
+        })}
         <View style={{marginTop: 10}}>
           <InputField
             customStyles={{height: 40, fontSize: 16}}
             placeholder={'Name'}
+            value={rname}
+            onChangeText={value => setRname(value)}
           />
           <InputField
             customStyles={{height: 40, fontSize: 16, marginTop: 5}}
             placeholder={'Email'}
+            value={rmail}
+            onChangeText={value => setRmail(value)}
           />
-          <View style={styles.circle}>
+          <View style={styles.circle} onTouchStart={addRei}>
             <Icon name="plus" size={15} color={'black'} />
           </View>
         </View>

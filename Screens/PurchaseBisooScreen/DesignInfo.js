@@ -7,7 +7,7 @@ import SolidBackground from './DisgnInfoComponents/SolidBackground';
 import BackgroundImage from './DisgnInfoComponents/BackgroundImage';
 import ViewBackground from './DisgnInfoComponents/ViewBackground';
 import BackgroundAndImage from './DisgnInfoComponents/BackgroundAndImage';
-import {addUpdatePostMetaAction} from './../../hooks/useCreatePost';
+import { addUpdatePostMetaAction, addUpdatePostAttributeAction } from './../../hooks/useCreatePost';
 import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
 
@@ -170,29 +170,25 @@ export const RenderCard = ({cardType, ...props}) => {
   }
 };
 
-export const SolidBgColor = ({
-  main_header = 'Card Title eg. Thanks Nurses',
-  message = 'Personalized thank you message here',
-  font_colour = '#000',
-  card_colour = '#ffcc4c',
-}) => {
+export const SolidBgColor = (props) => {
+  console.log('sb', props)
   return (
     <View
       style={{
-        backgroundColor: card_colour,
+        backgroundColor: props.card_colour,
         height: 100,
         flex: 1,
         elevation: 2,
       }}>
       <View style={{alignItems: 'center', flex: 1}}>
-        <Text style={{color: font_colour}}>{main_header}</Text>
-        <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
+        <Text style={{color: props.font_colour}}>{props.main_header || 'Add Your Title Here'}</Text>
+        <Text style={{color: props.font_colour, fontSize: 8}}>{props.message || 'Add Your Message Here'}</Text>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
-        <Text style={{color: font_colour, fontSize: 8, flex: 1}}>
+        <Text style={{color: props.font_colour, fontSize: 8, flex: 1}}>
           Closing Date/Signature #
         </Text>
-        <Text style={{color: font_colour, fontSize: 8}}>
+        <Text style={{color: props.font_colour, fontSize: 8}}>
           10 / 100 Signatures
         </Text>
       </View>
@@ -301,8 +297,8 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
     <View>
       <Text style={testStyle.inputLabel}>Main Header</Text>
       <InputField
-        onChangeText={main_header => updateMeta({main_header})}
-        value={values.main_header}
+        onChangeText={content => addUpdatePostAttributeAction(dispatch, {content})}
+        value={state.content}
         customStyles={testStyle.input}
       />
       <Text style={testStyle.inputLabel}>Message</Text>
@@ -316,6 +312,9 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
 };
 
 export const RenderCardToShow = ({card_template, ...props}) => {
+
+
+  console.log('data', props);
   switch (card_template) {
     case CARD_TYPE.solidBG:
       return <SolidBgColor {...props} />;
