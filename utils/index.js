@@ -2,9 +2,11 @@ const packageJson = require('../package.json');
 const localConfigJson = require('../localConfig.json');
 
 export const groupBy = (list, f) => {
-  return list.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), {});
+  return list.reduce(
+    (r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r),
+    {},
+  );
 };
-
 
 export function getEnvironment() {
   return process.env.NODE_ENV || '';
@@ -15,7 +17,7 @@ export function getConfig() {
 }
 
 export function isEmpty(object) {
-    return (!object || !Object.keys(object).length);
+  return !object || !Object.keys(object).length;
 }
 
 export const getServerURL = () => {
@@ -30,16 +32,23 @@ export const getServerURL = () => {
 };
 
 export const getRequestedHeader = () => {
+  const rawData = store.getState().rawData || '';
+
+  console.log(rawData);
   const config = {
-    headers: {Authorization: getAnyUserInfoFromLocalStorage(`AUTH_TOKEN`), 'Content-Type': 'application/json'},
+    headers: {
+      'auth-token': rawData.authToken || '',
+      'auth-user': rawData.authUser || '',
+      'Content-Type': 'application/json',
+    },
   };
 
   return config;
 };
 
 export const getAnyUserInfoFromLocalStorage = key => {
-//   const userInfo = localStorage.getItem('USER_INFO');
-let userInfo
+  //   const userInfo = localStorage.getItem('USER_INFO');
+  let userInfo;
   if (!userInfo) return '';
 
   return userInfo ? JSON.parse(userInfo)[key] : '';
@@ -51,15 +60,10 @@ export const setUserInLocalStorage = token => {
     return false;
   }
 
-  localStorage.setItem(
-    'USER_INFO',
-    JSON.stringify({AUTH_TOKEN: token}),
-  );
+  localStorage.setItem('USER_INFO', JSON.stringify({AUTH_TOKEN: token}));
 
   return true;
 };
-
-
 
 // //define your utils methods here
 // import * as React from 'react';
@@ -76,6 +80,8 @@ export const setUserInLocalStorage = token => {
 // import {PUSHER_KEY} from '../constants/index';
 // import {PersianReshaper} from '../utils/persian-script-reshape';
 // import {COUNTRY_CODES} from '../constants/countryCodes.js';
+import {rawData} from './../Reducers/rawData';
+import store from './../store';
 
 // //Check whether the environment is desktop environment.
 // export const isDesktop = () => {
@@ -433,7 +439,6 @@ export const setUserInLocalStorage = token => {
 //     return str.trim().toLowerCase();
 // };
 
-
 // export const setKeyValueToTheList = (list, fk, fv, sk, sv) => {
 //     return list.filter((ins) => {
 //         if (ins[fk] === fv) {
@@ -534,7 +539,6 @@ export const setUserInLocalStorage = token => {
 // export const charToNumber = (char) => {
 //     return parseInt(char, 36) - 9;
 // };
-
 
 // export const getSessionData = () => {
 //     return store.getState().forms.sessionData || {};
@@ -677,5 +681,3 @@ export const setUserInLocalStorage = token => {
 // export const changeLanguage = (lng) => {
 //     i18n.changeLanguage(lng);
 // };
-
-

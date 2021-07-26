@@ -24,6 +24,8 @@ import CompleteDonation from '../Screens/Donation/CompleteDoation';
 import CheckoutScreen from '../Screens/CheckoutScreen';
 import PurchaseDetailsScreen from '../Screens/PurchaseDetailsScreen';
 import SignScreen from '../Screens/SignScreen';
+import {Login} from './../Screens/Auth/Login';
+import {useSelector} from 'react-redux';
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -64,9 +66,12 @@ const MyTransition = {
 };
 const Stack = createStackNavigator();
 function Navigator() {
+  const {authToken = '', authUser = ''} = useSelector(state => state.rawData);
+
+  const isLoggedIn = authToken && authUser;
+
   return (
     <NavigationContainer>
-      {/* <script source="http://localhost:8097"/> */}
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -76,7 +81,15 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PostKindness"
-          component={PostScreen}
+          component={props =>
+            isLoggedIn ? <PostScreen {...props} /> : <Login {...props} />
+          }
+        />
+
+        <Stack.Screen
+          options={{headerShown: false, ...MyTransition}}
+          name="Login"
+          component={Login}
         />
 
         <Stack.Screen
@@ -107,7 +120,9 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="ProfileScreen"
-          component={ProfileScreen}
+          component={props =>
+            isLoggedIn ? <ProfileScreen {...props} /> : <Login {...props} />
+          }
         />
 
         <Stack.Screen
@@ -118,13 +133,21 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="BisooScreen"
-          component={BisooScreen}
+          component={props =>
+            isLoggedIn ? <BisooScreen {...props} /> : <Login {...props} />
+          }
         />
 
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseBisooScreen"
-          component={PurchaseBisooScreen}
+          component={props =>
+            isLoggedIn ? (
+              <PurchaseBisooScreen {...props} />
+            ) : (
+              <Login {...props} />
+            )
+          }
         />
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -145,7 +168,13 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseDetailsScreen"
-          component={PurchaseDetailsScreen}
+          component={props =>
+            isLoggedIn ? (
+              <PurchaseDetailsScreen {...props} />
+            ) : (
+              <Login {...props} />
+            )
+          }
         />
 
         <Stack.Screen
