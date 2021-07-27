@@ -41,6 +41,7 @@ const TabView = React.memo(() => {
       <View style={styles.tabs}>
         {TABS.map(i => (
           <Text
+            key={i}
             index={i}
             onPress={() => setSelectedTab(i)}
             style={{

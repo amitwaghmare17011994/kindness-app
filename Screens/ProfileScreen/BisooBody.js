@@ -31,8 +31,8 @@ export const BisooBody = ({bisooList = []}) => {
             ))}
           </Picker>
         </View>
-        <View style={{display: 'flex', flexDirection: 'row'}}>
-          <View>
+        <View style={{display: 'flex', flexDirection: 'row', marginTop: 10}}>
+          <View style={{width: '30%'}}>
             {[
               {label: 'Signatures', value: '10/100'},
               {label: 'Likes', value: '10/100'},
@@ -46,7 +46,7 @@ export const BisooBody = ({bisooList = []}) => {
               </View>
             ))}
           </View>
-          <View>
+          <View style={{width: '70%', marginLeft: 10}}>
             <RenderCardToShow
               {...selectedBisoo.metaData}
               main_header={selectedBisoo.post_name}

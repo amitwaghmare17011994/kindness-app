@@ -6,7 +6,7 @@ import {RenderCardToShow} from './DesignInfo';
 import {DatePicker, Radio} from 'native-base';
 import {addUpdatePostMetaAction} from '../../hooks/useCreatePost';
 import {updateRawData} from '../../Reducers/actions';
-import { addUpdatePostAttributeAction } from './../../hooks/useCreatePost';
+import {addUpdatePostAttributeAction} from './../../hooks/useCreatePost';
 
 const value = new Date(1598051730000);
 
@@ -32,23 +32,30 @@ export const SelectedCardDetails = ({cardMeta}) => {
 const DatesInfo = ({useCreatePostProps}) => {
   const {state: values, dispatch} = useCreatePostProps;
 
-  const {selectedDate, selectedOption} = values.postMeta;
+  const {startDate, selectedOption} = values.postMeta;
   const postMeta = values.postMeta;
   const updateMetaData = metaObject =>
     addUpdatePostMetaAction(dispatch, metaObject);
 
   useEffect(() => {
-    updateRawData({disableNext: !selectedDate});
+    updateRawData({disableNext: !startDate});
   }, []);
 
-  useEffect(() => {
-    if (selectedOption) {
-      if (selectedOption === 'DATE' && selectedDate) {
-        updateRawData({disableNext: false});
-      }
-    }
-  }, [selectedOption, selectedDate]);
-  
+  // useEffect(() => {
+  //   if (selectedOption) {
+  //     if (selectedOption === 'DATE' && startDate) {
+  //       updateRawData({disableNext: false});
+  //     }
+  //   }
+  // }, [selectedOption, startDate]);
+
+  // useEffect(() => {
+  //   if (selectedOption) {
+  //     if (selectedOption === 'DATE' && startDate) {
+  //       updateRawData({disableNext: false});
+  //     }
+  //   }
+  // }, [selectedOption, startDate]);
 
   const openCalender = async () => {
     addUpdatePostMetaAction(dispatch, {
@@ -63,7 +70,7 @@ const DatesInfo = ({useCreatePostProps}) => {
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         addUpdatePostMetaAction(dispatch, {
-          selectedDate: new Date(year, month, day),
+          startDate: new Date(year, month, day),
         });
 
         // Selected year, month (0-11), day
@@ -104,7 +111,15 @@ const DatesInfo = ({useCreatePostProps}) => {
           This date will be when your BisOO goes live. Once it is live, you can
           start collecting signatures!
         </Text>
-        <Text onTouchEnd={openCalenderForSetDate} style={{marginVertical: 5, height: 35, width: '50%', borderWidth: 0.3, padding: 6}}>
+        <Text
+          onTouchEnd={openCalenderForSetDate}
+          style={{
+            marginVertical: 5,
+            height: 35,
+            width: '50%',
+            borderWidth: 0.3,
+            padding: 6,
+          }}>
           {values?.postDate?.toISOString().slice(0, 10)}
         </Text>
         <View>
@@ -140,7 +155,7 @@ const DatesInfo = ({useCreatePostProps}) => {
               <Text
                 onTouchEnd={openCalender}
                 style={{height: 35, borderWidth: 0.3, padding: 6}}>
-                {selectedDate?.toISOString().slice(0, 10)}
+                {startDate?.toISOString().slice(0, 10)}
               </Text>
               <View>{/* <InputField /> */}</View>
             </View>
@@ -157,7 +172,14 @@ const DatesInfo = ({useCreatePostProps}) => {
                 <Text> Send at set number of signature </Text>
               </View>
               <View>
-                <InputField customStyles={{height: 32}} />
+                <InputField
+                  value={postMeta.numberofsignature}
+                  type="number"
+                  onChangeText={(numberofsignature) => {
+                    addUpdatePostMetaAction(dispatch, {numberofsignature})
+                  }}
+                  customStyles={{height: 32}}
+                />
               </View>
             </View>
             <View></View>

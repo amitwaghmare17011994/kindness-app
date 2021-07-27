@@ -11,7 +11,6 @@ const PostView = props => {
   const {onPost, showPostForm = true, postViewProps = {}} = props;
   const {user, setUser, email, setEmail, post, setPost} = postViewProps;
 
-  console.log(`post`, post);
   return (
     <LinearGradient colors={['#FF9898', '#FF5579']} style={styles.postView}>
       {showPostForm ? (
@@ -33,8 +32,7 @@ const PostView = props => {
         </View>
       ) : (
         <View>
-          <Text style={styles.text}>Sign you thank you card</Text>
-
+          <Text style={styles.text}>Sign your thank you card</Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{marginRight: 10, color: 'white', fontWeight: 'bold'}}>
               Name

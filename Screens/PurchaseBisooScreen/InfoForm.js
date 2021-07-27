@@ -4,7 +4,8 @@ import InputField from '../../components/Input';
 
 import {View, Text, StyleSheet} from 'react-native';
 import {updateRawData} from '../../Reducers/actions';
-
+import { addUpdatePostAttributeAction } from './../../hooks/useCreatePost';
+import { doGet } from '../../services/request';
 
 const InfoForm = ({useCreatePostProps, infoProps}) => {
   const {state, dispatch} = useCreatePostProps;
@@ -20,13 +21,19 @@ const InfoForm = ({useCreatePostProps, infoProps}) => {
     addSender,
     addRei,
     senderInfo,
-    receiverInfo
+    receiverInfo,
   } = infoProps;
+
+  const initiateBisoo = async () => {
+    const data = await doGet('initiateBisoo');
+    console.log(data, data);
+    addUpdatePostAttributeAction(dispatch, {id: data.id})
+  };
 
   useEffect(() => {
     updateRawData({disableNext: false});
+    // initiateBisoo()
   }, []);
-
   return (
     <>
       <View>
@@ -40,7 +47,7 @@ const InfoForm = ({useCreatePostProps, infoProps}) => {
         </Text>
         {senderInfo.map(({name, mail}) => {
           return (
-            <View style={{marginTop: 10}}>
+            <View key={name} style={{marginTop: 10}}>
               <InputField
                 customStyles={{height: 40, fontSize: 16}}
                 value={name}

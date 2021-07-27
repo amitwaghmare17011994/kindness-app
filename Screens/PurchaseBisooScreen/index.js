@@ -18,6 +18,7 @@ import CartDrawer from '../../components/CartDrawer/CartDrawer';
 import {useSelector} from 'react-redux';
 import {updateRawData} from '../../Reducers/actions';
 import CheckoutScreen from '../CheckoutScreen';
+import { getTotal } from './../../components/CartDrawer/CartDrawer';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -75,7 +76,7 @@ const PurchaseBisooScreen = () => {
   if (currentStep === 5) {
     return (
       <CheckoutScreen
-        amount={100}
+        amount={getTotal(useCreatePostProps.state.postMeta)}
         onPayment={useCreatePostProps.addUpdatePost}
       />
     );
@@ -85,7 +86,6 @@ const PurchaseBisooScreen = () => {
     <AppLayout>
       <Container style={{paddingTop: 60}}>
         <CartDrawer useCreatePostProps={useCreatePostProps} />
-
         <Text style={styles.headerText}> Purchase BisOO </Text>
         <View style={styles.progress}>
           <View

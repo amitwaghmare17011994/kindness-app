@@ -7,7 +7,7 @@ import Bee from '../../assets/images/bee.png';
 
 import {MENU_ITEMS} from '../../constants';
 import Notifications from './Notifications';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const AppHeader = props => {
   const navigation = useNavigation();
@@ -49,7 +49,7 @@ const AppHeader = props => {
   };
   return (
     <View style={styles.headerRow}>
-      <View style={{flex: 1}} onTouchStart={ e => navigation.navigate('Home')}>
+      <View style={{flex: 1}} onTouchStart={e => navigation.navigate('Home')}>
         <Image source={Logo} style={styles.img} resizeMode="contain" />
       </View>
       <View style={{alignItems: 'flex-end', marginRight: 20}}>
@@ -77,7 +77,7 @@ const AppHeader = props => {
                 }}>
                 {i.name}
               </MenuItem>
-              <MenuDivider />
+              <MenuDivider key={i} />
             </>
           ))}
         </Menu>

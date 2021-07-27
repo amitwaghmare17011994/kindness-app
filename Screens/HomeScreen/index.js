@@ -22,14 +22,14 @@ import {groupBy, showToaster} from '../../utils';
 import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useCreatePost} from '../../hooks/useCreatePost';
 import BisoInfoCard from './BisoInfoCard';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {loading, postList, error} = usePost();
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
-  const userDetails = useSelector((state) => state.rawData.userDetails) || {}
+  const userDetails = useSelector(state => state.rawData.userDetails) || {};
   console.log(`userDetails`, userDetails);
   const [signData, setSignData] = useState(null);
   const [user, setUser] = useState(userDetails.name);
@@ -94,8 +94,9 @@ const HomeScreen = () => {
             style={{position: 'absolute', marginTop: 60}}>
             <BisoInfoCard
               selectedBisso={selectedBisso}
-              onSign={bissoItem => {
-                setSignData(bissoItem);
+              onSign={() => {
+                setSignData(selectedBisso);
+                console.log(selectedBisso);
               }}
             />
           </View>
@@ -104,7 +105,7 @@ const HomeScreen = () => {
           <View style={{height: 'auto'}}>
             <RenderCardToShow
               card_template={signData?.metaData?.card_template}
-              {...signData}
+              {...signData.metaData}
             />
           </View>
         )}

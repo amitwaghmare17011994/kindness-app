@@ -49,16 +49,21 @@ const CartDrawer = ({useCreatePostProps}) => {
               <Text>{postMeta.type || 'Small Card, 1-25 signatures'}</Text>
 
               <BoldText style={{marginTop: 10}}>URL</BoldText>
-              <Text>Custom</Text>
+              <Text>
+                {postMeta.custom_url_price === '$5' ? 'Custom' : '$0'}
+              </Text>
 
               <BoldText style={{marginTop: 10}}>Live Time</BoldText>
-              <Text>6 months</Text>
+              <Text>{postMeta.card_live_time}</Text>
 
               <BoldText style={{marginTop: 10}}>
                 Signature Collection Timeframe
               </BoldText>
               <Text>
-                Closing on {postMeta?.selectedDate?.toISOString().slice(0, 10)}
+                Closing{' '}
+                {postMeta.selectedOption === 'DATE'
+                  ? 'on' + postMeta?.selectedDate?.toISOString().slice(0, 10)
+                  : `after ${postMeta.numberofsignature}`}
               </Text>
 
               <BoldText style={{marginTop: 10}}>Recipient(s)</BoldText>
@@ -68,7 +73,7 @@ const CartDrawer = ({useCreatePostProps}) => {
               <Text>{recipientemail}</Text>
 
               <BoldText style={{marginTop: 10}}>Card Signing</BoldText>
-              <Text>Private</Text>
+              <Text>{postMeta.card_signing}</Text>
 
               <PrimaryText style={{fontSize: 20, marginTop: 50}}>
                 Order Summary
@@ -80,35 +85,54 @@ const CartDrawer = ({useCreatePostProps}) => {
                 <BoldText style={{fontSize: 12, flex: 1}}>
                   Kindness Card - Small
                 </BoldText>
-                <BoldText>$10.00</BoldText>
+                <BoldText>{postMeta.bisoo_price}</BoldText>
+              </View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <BoldText style={{fontSize: 12, flex: 1}}>Signature Price</BoldText>
+                <BoldText>{postMeta.signature_price}</BoldText>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
                 <BoldText style={{fontSize: 12, flex: 1}}>Custom URL</BoldText>
-                <BoldText>$10.00</BoldText>
+                <BoldText>{postMeta.custom_url_price}</BoldText>
               </View>
               <View style={{flexDirection: 'row', marginTop: 10}}>
                 <BoldText style={{fontSize: 12, flex: 1}}>
-                  Live Time - 6 Months
+                  Live Time - {postMeta.card_live_time}
                 </BoldText>
-                <BoldText>$10.00</BoldText>
+                <BoldText>{postMeta.live_time_price}</BoldText>
               </View>
 
               <View
                 style={{flexDirection: 'row', marginTop: 10, marginBottom: 10}}>
                 <BoldText style={{fontSize: 12, flex: 1}}>Taxes</BoldText>
-                <BoldText>$10.00</BoldText>
+                <BoldText>$0.00</BoldText>
               </View>
 
               <MenuDivider />
               <View style={{flexDirection: 'row', marginTop: 10}}>
                 <BoldText style={{fontSize: 12, flex: 1}}>TOTAL</BoldText>
-                <BoldText>$40.00</BoldText>
+                <BoldText>{getTotal(postMeta)}</BoldText>
               </View>
             </Container>
           </View>
         )}
       </View>
     </View>
+  );
+};
+
+export const getTotal = ({
+  bisoo_price = '$0',
+  live_time_price = '$0',
+  signature_price = '$0',
+  custom_url_price = '$0',
+}) => {
+  return (
+    '$' +
+    (Number(bisoo_price.replace('$', '')) +
+      Number(live_time_price.replace('$', '')) +
+      Number(signature_price.replace('$', '')) +
+      Number(custom_url_price.replace('$', '')))
   );
 };
 

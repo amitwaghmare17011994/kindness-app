@@ -20,7 +20,7 @@ const CheckoutScreen = ({onPayment, amount}) => {
           Purchase Kindness Card
         </Text>
         <Text style={{fontWeight: '600', fontSize: 20}}>
-          Purchase Total: $73.00
+          Purchase Total: {amount}
         </Text>
         <View style={{marginTop: 20}}>
           <Text style={{color: '#2F7A80', fontSize: 30}}>Billing</Text>

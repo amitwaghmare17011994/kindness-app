@@ -111,6 +111,19 @@ const bisooOtherData = {
   postMeta: {
     font_colour: '#000',
     card_colour: '#ffcc4c',
+    bisoo_price: '$0',
+    live_time_price: '$0',
+    signature_price: '$0',
+    custom_url_price: '$0',
+    amount: '$0',
+    card_live_time: '1 Month',
+    customize_url: 'url',
+    sendDate: new Date(),
+    startDate: new Date(),
+    numberofsignature: 10,
+    card_viewing: 'Private',
+    card_signing: 'Private',
+    selectedOption: 'DATE'
   },
 };
 

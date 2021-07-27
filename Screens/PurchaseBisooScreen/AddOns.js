@@ -2,22 +2,23 @@ import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {View, Text, Picker} from 'react-native';
 import {Radio} from 'native-base';
-import { SelectedCardDetails } from './DatesInfo';
-import { addUpdatePostMetaAction } from '../../hooks/useCreatePost';
+import {SelectedCardDetails} from './DatesInfo';
+import {addUpdatePostMetaAction} from '../../hooks/useCreatePost';
 
 const AddOns = ({useCreatePostProps}) => {
   const {state: values, dispatch} = useCreatePostProps;
-
 
   console.log(useCreatePostProps);
   const postMeta = values.postMeta;
   const updateMetaData = metaObject =>
     addUpdatePostMetaAction(dispatch, metaObject);
 
-
   const [selectedValue, setSelectedValue] = useState();
 
-
+  const setSignature = data => {
+    setSelectedValue(data);
+    updateMetaData({signature_price: data});
+  };
 
   return (
     <View style={{height: 'auto'}}>
@@ -52,12 +53,10 @@ const AddOns = ({useCreatePostProps}) => {
           }}>
           <Picker
             selectedValue={selectedValue}
-            style={{height: 20, width: '50%', backgroundColor: '#fff'}}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }>
-            <Picker.Item label="6-24     $4.99" value="6-24" />
-            <Picker.Item label="24-52     $4.99" value="6-52" />
+            style={{height: 20, width: '50%', backgroundColor: '#ffffff'}}
+            onValueChange={(itemValue, itemIndex) => setSignature(itemValue)}>
+            <Picker.Item label="6-24     $4.99" value=" $4.99" />
+            <Picker.Item label="24-52     $5.99" value="$5.99" />
           </Picker>
         </View>
       </View>
@@ -71,24 +70,24 @@ const AddOns = ({useCreatePostProps}) => {
       </View>
       <View style={{width: '45%', marginRight: '10%'}}>
         <View
-          onTouchStart={() => updateMetaData({card_signing: 'Private'})}
+          onTouchStart={() => updateMetaData({custom_url_price: '$0'})}
           style={{flexDirection: 'row'}}>
           <Radio
             color={'black'}
             selectedColor={'#357B7F'}
-            selected={postMeta.card_signing === 'Private'}
+            selected={postMeta.custom_url_price === '$0'}
           />
           <Text>Default</Text>
         </View>
       </View>
       <View style={{width: '45%'}}>
         <View
-          onTouchStart={() => updateMetaData({card_signing: 'Public'})}
+          onTouchStart={() => updateMetaData({custom_url_price: '$5'})}
           style={{flexDirection: 'row'}}>
           <Radio
             color={'black'}
             selectedColor={'#357B7F'}
-            selected={postMeta.card_signing === 'Public'}
+            selected={postMeta.custom_url_price === '$5'}
           />
           <Text>Custom</Text>
         </View>
@@ -111,22 +110,28 @@ const AddOns = ({useCreatePostProps}) => {
           justifyContent: 'space-between',
         }}>
         {[
-          {sublabel: 'inlcuded', value: 1, label: '1 Month'},
+          {sublabel: '$0', value: 1, label: '1 Month'},
           {sublabel: '$30.00', value: 3, label: '3 Months'},
           {sublabel: '$50.00', value: 6, label: '6 Months'},
           {sublabel: '$80.00', value: 12, label: '1 Year'},
         ].map(({sublabel, label, value}) => {
           return (
             <View
-              onTouchStart={() => updateMetaData({valid: value})}
+              key={value}
+              onTouchStart={() =>
+                updateMetaData({
+                  card_live_time: label,
+                  live_time_price: sublabel,
+                })
+              }
               style={{flexDirection: 'row', width: '50%'}}>
               <Radio
                 color={'black'}
                 selectedColor={'#357B7F'}
-                selected={postMeta.value === value}
+                selected={postMeta.card_live_time === label}
               />
               <Text>{label} </Text>
-              <Text>{sublabel}</Text>
+              <Text>{sublabel === '$0' ? 'included' : sublabel}</Text>
             </View>
           );
         })}
