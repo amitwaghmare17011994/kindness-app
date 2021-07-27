@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import {Button, Switch} from 'native-base';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -16,20 +16,40 @@ import {
   addUpdatePostAttributeAction,
   addUpdatePostMetaAction,
 } from './../../hooks/useCreatePost';
-import { SCREEN_HEIGHT } from '../../constants';
+import {SCREEN_HEIGHT} from '../../constants';
+import {useSelector} from 'react-redux';
 
 const PostScreen = ({route}) => {
   const navigation = useNavigation();
+  const {selectedBisso, data} = route.params;
+  const userDetails = useSelector(state => state.rawData.userDetails) || {};
   const onBack = () => navigation.goBack();
-  const {state: values, dispatch, status, addUpdatePost} = useCreatePost(
-    'post',
-  );
+  const {
+    state: values,
+    dispatch,
+    status,
+    addUpdatePost,
+  } = useCreatePost(selectedBisso ? 'signBisoo' : 'post');
   const [step, setStep] = React.useState(1);
   const disablePostInputButton = !values.content;
 
   const {postMeta} = values;
   const enablePostButton = postMeta.longitude && postMeta.latitude;
-  const {selectedBisso} = route.params;
+
+  useEffect(() => {
+    console.log(`data`, selectedBisso);
+
+    if (selectedBisso) {
+      addUpdatePostMetaAction(dispatch, {
+        bisooSignin: 'yes',
+        bisooEmail: data.email,
+        bisooName: data.user,
+        thankYouId: selectedBisso.id,
+      });
+    }
+
+    addUpdatePostAttributeAction(dispatch, {content: data.post});
+  }, []);
 
   if (status === 2) {
     navigation.navigate('Home');
@@ -83,7 +103,7 @@ const PostScreen = ({route}) => {
         />
         <View style={{marginTop: 10}}>
           {!selectedBisso ? (
-            <>
+            <View>
               <Text style={{fontWeight: '600', fontSize: 18}}>Tag Friends</Text>
               <Text style={{fontSize: 12, color: '#777373', fontWeight: '100'}}>
                 Add the emails of friends you would like to tag and they will be
@@ -139,10 +159,10 @@ const PostScreen = ({route}) => {
                   size="lg"
                   value={values.postMeta.postanonymously === 'Yes'}
                 />
-              </View>{' '}
-            </>
+              </View>
+            </View>
           ) : (
-            <View style={{height:SCREEN_HEIGHT-450}}></View>
+            <View style={{height: SCREEN_HEIGHT - 450}} />
           )}
 
           <View>

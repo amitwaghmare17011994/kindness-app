@@ -32,7 +32,7 @@ export const getServerURL = () => {
 };
 
 export const getRequestedHeader = () => {
-  const rawData = store.getState().rawData || '';
+  const rawData = store.getState().rawData || {};
 
   console.log(rawData);
   const config = {

@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Picker} from 'react-native';
 import {GetBisooCard} from './../PurchaseBisooScreen/DisgnInfoComponents/GetBisooCard';
-import { RenderCardToShow } from './../PurchaseBisooScreen/DesignInfo';
+import {RenderCardToShow} from './../PurchaseBisooScreen/DesignInfo';
 
-export const BisooBody = ({bisooList}) => {
-  const [selectedBisoo, setSelectedBisoo] = useState(bisooList[0]);
+export const BisooBody = ({bisooList = []}) => {
+  const [selectedBisoo, setSelectedBisoo] = useState(
+    bisooList.length ? bisooList[0] : {},
+  );
 
   const BisooDetails = () => {
     return (
@@ -24,7 +26,9 @@ export const BisooBody = ({bisooList}) => {
             onValueChange={(itemValue, itemIndex) =>
               setSelectedBisoo(bisooList[itemIndex])
             }>
-            {bisooList.map(({id, post_name}, index) => <Picker.Item key={index} label={post_name} value={id} />)}
+            {bisooList.map(({id, post_name}, index) => (
+              <Picker.Item key={index} label={post_name} value={id} />
+            ))}
           </Picker>
         </View>
         <View style={{display: 'flex', flexDirection: 'row'}}>
@@ -43,7 +47,10 @@ export const BisooBody = ({bisooList}) => {
             ))}
           </View>
           <View>
-            <RenderCardToShow  {...selectedBisoo.metaData} main_header={selectedBisoo.post_name}/>
+            <RenderCardToShow
+              {...selectedBisoo.metaData}
+              main_header={selectedBisoo.post_name}
+            />
           </View>
           <View></View>
         </View>

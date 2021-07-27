@@ -1,5 +1,6 @@
 import {useReducer, useState} from 'react';
 import {doPost} from '../services/request';
+import store from './../store';
 
 export const ADD_UPDATE_POST_ATTRIBUTE = 'ADD_UPDATE_POST_ATTRIBUTE';
 export const ADD_UPDATE_POST_META_ATTRIBUTE = 'ADD_UPDATE_POST_META_ATTRIBUTE';
@@ -94,7 +95,7 @@ const bisooInitial = {
 };
 
 const otherData = {
-  author: 77,
+  author: '',
   content: '',
   postStatus: 'Publish',
   postName: '',
@@ -113,15 +114,28 @@ const bisooOtherData = {
   },
 };
 
+const signBisoo = {
+  postMeta: {
+    bisooSignin: '',
+    bisooEmail: '',
+    bisooName: '',
+    thankYouId: '',
+  },
+};
+
 const initialStateByType = {
   bisoo: {
     ...bisooInitial,
     ...otherData,
-    ...bisooOtherData
+    ...bisooOtherData,
   },
   post: {
     ...postInitial,
     ...otherData,
+  },
+  signBisoo: {
+    ...postInitial,
+    ...signBisoo,
   },
 };
 
@@ -158,10 +172,12 @@ export const useCreatePost = (type, initialData = {}) => {
 
       console.log({
         ...state,
+        author: store.getState().rawData.userDetails.id,
         postMeta: JSON.stringify(meta),
       });
       await doPost('create-post', {
         ...state,
+        author: store.getState().rawData.userDetails.id,
         postMeta: JSON.stringify(meta),
       });
       setStatus(2);

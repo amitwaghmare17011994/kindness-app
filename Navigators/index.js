@@ -69,7 +69,7 @@ const nameComponentMap = {
   PurchaseDetailsScreen: PurchaseDetailsScreen,
   ProfileScreen: ProfileScreen,
   BisooScreen: BisooScreen,
-  PurchaseBisooScreen: PurchaseBisooScreen
+  PurchaseBisooScreen: PurchaseBisooScreen,
 };
 
 const Stack = createStackNavigator();
@@ -79,7 +79,7 @@ function Navigator() {
   const isLoggedIn = authToken && authUser;
 
   const AuthRouth = props => {
-    const Component = nameComponentMap[props.route.name]
+    const Component = nameComponentMap[props.route.name];
     return isLoggedIn ? <Component {...props} /> : <Login {...props} />;
   };
 
@@ -131,7 +131,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="ProfileScreen"
-          component={AuthRouth}
+          component={isLoggedIn ? ProfileScreen : Login}
         />
 
         <Stack.Screen
@@ -148,7 +148,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseBisooScreen"
-          component={AuthRouth}
+          component={isLoggedIn ? PurchaseBisooScreen : Login}
         />
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
@@ -169,7 +169,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="PurchaseDetailsScreen"
-          component={AuthRouth}
+          component={isLoggedIn ? PurchaseDetailsScreen : Login}
         />
 
         <Stack.Screen

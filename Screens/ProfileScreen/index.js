@@ -6,7 +6,13 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import Container from '../../components/Container';
 import AppLayout from '../../components/AppLayout';
 import TabView from './TabView';
-const ProfileScreen = () => {
+import {useSelector} from 'react-redux';
+
+const ProfileScreen = React.memo(() => {
+  const userDetails = useSelector(state => state.rawData.userDetails) || {};
+
+  console.log(`use`);
+
   return (
     <AppLayout>
       <View style={styles.headerView}>
@@ -25,7 +31,7 @@ const ProfileScreen = () => {
       </View>
       <Container>
         <Text style={{alignSelf: 'center', marginTop: 30, fontSize: 16}}>
-          ErinDobson
+          {userDetails.name}
         </Text>
         <Text style={{alignSelf: 'center', fontSize: 10}}>Vancouver, BC</Text>
         <View style={{marginTop: 20}}>
@@ -34,7 +40,7 @@ const ProfileScreen = () => {
       </Container>
     </AppLayout>
   );
-};
+});
 
 const styles = StyleSheet.create({
   selectedTab: {
