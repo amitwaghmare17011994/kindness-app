@@ -100,7 +100,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="Login"
-          component={Login}
+          component={isLoggedIn ? HomeScreen : Login }
         />
 
         <Stack.Screen
@@ -175,7 +175,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="SignScreen"
-          component={SignScreen}
+          component={isLoggedIn ? HomeScreen : SignScreen }
         />
       </Stack.Navigator>
     </NavigationContainer>

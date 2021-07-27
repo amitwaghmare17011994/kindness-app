@@ -7,24 +7,31 @@ import RoundButton from '../../components/RoundButton';
 import InputField from '../../components/Input';
 import {doPost} from '../../services/request';
 import {updateRawData} from '../../Reducers/actions';
+import { showToaster } from './../../utils/index';
 
-export const Login = (props) => {
-
+export const Login = props => {
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    const data = await doPost('login', {
-      username,
-      password,
-    });
+    try {
+      const data = await doPost('login', {
+        username,
+        password,
+      });
 
-    if (data.token) {
-      updateRawData({authUser: data.token, userDetails: data.userDetails});
-      navigation.navigate(props.route.name || 'Home');
+      if (data.token) {
+        updateRawData({authUser: data.token, userDetails: data.userDetails});
+        navigation.navigate(props.route.name || 'Home');
 
-      return;
+        return;
+      }
+    } catch (error) {
+      showToaster('Please check username and password.', {
+        type: 'danger',
+        duration: 3000,
+      });
     }
 
     //Alert
@@ -66,6 +73,11 @@ export const Login = (props) => {
             disabled={!username || !password}>
             <Text>Login</Text>
           </RoundButton>
+          <View
+            style={{justifyContent: 'center', fontWeight: 'bold', padding: 10}}
+            onTouchStart={() => navigation.navigate('SignScreen')}>
+            <Text>Are you a new user?</Text>
+          </View>
         </View>
       </View>
     </AppLayout>
