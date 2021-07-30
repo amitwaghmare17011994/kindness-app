@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -8,14 +8,23 @@ import ColorChooser from '../../ColorChooser';
 import RoundButton from '../../../components/RoundButton';
 import DesignImage from '../../../assets/images/design.png';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
+import { addUpdatePostMetaAction } from '../../../hooks/useCreatePost';
 
-const BackgroundAndImage = () => {
+const BackgroundAndImage = ({useCreatePostProps}) => {
   const navigation = useNavigation();
+  const {state: values, dispatch} = useCreatePostProps;
+
   const [selectedBackImage, setSelectedBackImage] = useState('');
   const [selectedImage, setSelectedImage] = useState('');
   const [showColor, setShowColor] = useState('');
   const [textColor, setTextColor] = useState('brown');
   const [backgroundColor, setBackgroundColor] = useState('#ffcc4c');
+  
+  useEffect(()=>{
+    addUpdatePostMetaAction(dispatch, {selectedBackImage,selectedImage});
+
+  },[selectedBackImage,selectedImage])
+ 
   const onColorChange = color => {
     if (showColor === 'back') {
       setBackgroundColor(color);
@@ -24,6 +33,8 @@ const BackgroundAndImage = () => {
       setTextColor(color);
     }
   };
+
+
   return (
     <View>
       <ImageBackground

@@ -1,36 +1,62 @@
 import Axios, {AxiosResponse, AxiosError} from 'axios';
-import { END_POINT } from '../constants';
-import { updateRawData } from '../Reducers/actions';
+import {Platform} from 'react-native';
+import {END_POINT} from '../constants';
+import {updateRawData} from '../Reducers/actions';
 import {getServerURL, getRequestedHeader} from '../utils';
 
-export const  doGet = async (url) => {
-    try {
-        updateRawData({showLoader:true})
-        const {data} = await Axios.get(`${END_POINT}${url}`, getRequestedHeader())
-        updateRawData({showLoader:false})
+export const doGet = async url => {
+  try {
+    updateRawData({showLoader: true});
+    const {data} = await Axios.get(`${END_POINT}${url}`, getRequestedHeader());
+    updateRawData({showLoader: false});
 
-        return data;
-    } catch (error) {
-        updateRawData({showLoader:false})
+    return data;
+  } catch (error) {
+    updateRawData({showLoader: false});
 
-        console.warn(error)
-    }
-}
+    console.warn(error);
+  }
+};
 
 export const doPost = (url, data) => {
-    updateRawData({showLoader:true})
+  updateRawData({showLoader: true});
 
-    return Axios.post(`${END_POINT}${url}`, data, getRequestedHeader())
-        .then((response) => {
-            updateRawData({showLoader:false})
+  return Axios.post(`${END_POINT}${url}`, data, getRequestedHeader())
+    .then(response => {
+      updateRawData({showLoader: false});
 
-            return response.data;
- 
-        })
-        .catch((error) => {
-            updateRawData({showLoader:false})
+      return response.data;
+    })
+    .catch(error => {
+      updateRawData({showLoader: false});
 
-            throw error;
-            
-        });
+      throw error;
+    });
+};
+
+export const uploadImage = async photo => {
+  try {
+    const data = new FormData();
+    data.append('file', {
+      name: photo.fileName,
+      type: photo.type,
+      uri: photo.uri,
+    });
+    updateRawData({showLoader: true});
+
+    const options = {
+      method: 'POST',
+      headers: {'content-type': 'multipart/form-data'},
+      data,
+      url: `${END_POINT}upload`,
+    };
+
+    const response = await Axios.post(`${END_POINT}upload`, data, {
+      'content-type': 'multipart/form-data',
+    }); // wrap in async function
+
+    updateRawData({showLoader: false});
+  } catch (err) {
+    updateRawData({showLoader: false});
+  }
 };

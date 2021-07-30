@@ -78,6 +78,7 @@ const PurchaseBisooScreen = () => {
       <CheckoutScreen
         amount={getTotal(useCreatePostProps.state.postMeta)}
         onPayment={useCreatePostProps.addUpdatePost}
+        {...useCreatePostProps.state.postMeta}
       />
     );
   }
@@ -126,7 +127,7 @@ const PurchaseBisooScreen = () => {
             <Text>BACk</Text>
           </RoundButton>
           <RoundButton
-            disabled={disableNext || !senderInfo.length || !receiverInfo.length}
+            // disabled={disableNext || !senderInfo.length || !receiverInfo.length}
             onPress={() => {
               setCurrentStep(currentStep + 1);
             }}
