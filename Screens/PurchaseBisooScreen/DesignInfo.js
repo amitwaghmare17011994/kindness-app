@@ -61,7 +61,7 @@ const DesignInfo = ({useCreatePostProps}) => {
             </Text>
           </View>
           <View style={{width: '55%'}}>
-            <SolidBgColor />
+            <SolidBgColor card_colour="#ffcc4c"/>
           </View>
         </View>
         {/* First */}
@@ -297,7 +297,10 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
     <View>
       <Text style={testStyle.inputLabel}>Main Header</Text>
       <InputField
-        onChangeText={content => addUpdatePostAttributeAction(dispatch, {content})}
+        onChangeText={content => {
+          addUpdatePostAttributeAction(dispatch, {content})
+          updateMeta({main_header: content})
+        }}
         value={state.content}
         customStyles={testStyle.input}
       />

@@ -3,8 +3,8 @@ import {useNavigation} from '@react-navigation/core';
 import {View, Text} from 'react-native';
 import InputField from '../../../components/Input';
 import ColorChooser from '../../ColorChooser';
-import { addUpdatePostMetaAction } from './../../../hooks/useCreatePost';
-import { BisooTextDetails, SolidBgColor } from '../DesignInfo';
+import {addUpdatePostMetaAction} from './../../../hooks/useCreatePost';
+import {BisooTextDetails, SolidBgColor} from '../DesignInfo';
 
 const SolidBackground = ({useCreatePostProps}) => {
   const {state, dispatch} = useCreatePostProps;
@@ -22,8 +22,8 @@ const SolidBackground = ({useCreatePostProps}) => {
   };
   return (
     <View>
-      <SolidBgColor {...values} main_header={state.content}/>
-      <BisooTextDetails useCreatePostProps={useCreatePostProps}/>
+      <SolidBgColor {...values} />
+      <BisooTextDetails useCreatePostProps={useCreatePostProps} />
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>
         <Text style={{fontWeight: 'bold'}}>Card Colour</Text>

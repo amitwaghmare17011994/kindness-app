@@ -28,7 +28,7 @@ const BackgroundImage = ({useCreatePostProps}) => {
   };
   return (
     <View>
-      <BGColorOverlayImg {...values} main_header={state.content} image={selectedImage} />
+      <BGColorOverlayImg {...values} image={selectedImage} />
       <BisooTextDetails useCreatePostProps={useCreatePostProps} />
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>

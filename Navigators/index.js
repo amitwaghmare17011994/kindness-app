@@ -25,6 +25,7 @@ import PurchaseDetailsScreen from '../Screens/PurchaseDetailsScreen';
 import SignScreen from '../Screens/SignScreen';
 import {Login} from './../Screens/Auth/Login';
 import {useSelector} from 'react-redux';
+import SignABisoo from '../Screens/HomeScreen/SignABisoo';
 
 const MyTransition = {
   gestureDirection: 'horizontal',
@@ -176,6 +177,11 @@ function Navigator() {
           options={{headerShown: false, ...MyTransition}}
           name="SignScreen"
           component={isLoggedIn ? HomeScreen : SignScreen }
+        />
+        <Stack.Screen
+          options={{headerShown: false, ...MyTransition}}
+          name="SignABisoo"
+          component={isLoggedIn ? SignABisoo : Login }
         />
       </Stack.Navigator>
     </NavigationContainer>

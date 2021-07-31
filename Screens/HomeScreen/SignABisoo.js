@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import {styles} from './styles';
@@ -14,30 +8,20 @@ import PostView from './PostView';
 import BissoTotalView from './BissoTotalView';
 import RoundButton from '../../components/RoundButton';
 import {useNavigation} from '@react-navigation/core';
-import BissoM from '../../assets/images/bisoo.png';
+import BissoM from '../../assets/images/bissom.png';
 import kindnessM from '../../assets/images/kindnessM.png';
-import {doGet} from '../../services/request';
-import {usePost} from '../../hooks/usePost';
-import {groupBy, showToaster} from '../../utils';
-import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
-import {useCreatePost} from '../../hooks/useCreatePost';
-import BisoInfoCard from './BisoInfoCard';
+import {groupBy} from '../../utils';
+import {RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
 
-const HomeScreen = () => {
+const SignABisoo = ({route}) => {
+  const {postList = [], signData = []} = route.params;
   const navigation = useNavigation();
-  const {loading, postList, error} = usePost();
-  const [selectedBisso, setSelectedBisso] = useState(null);
-  const useCreatePostProps = useCreatePost('bisoo');
   const userDetails = useSelector(state => state.rawData.userDetails) || {};
-  console.log(`userDetails`, userDetails);
-  const [signData, setSignData] = useState(null);
   const [user, setUser] = useState(userDetails.name);
   const [email, setEmail] = useState(userDetails.email);
   const [post, setPost] = useState();
 
-  const isFocused = useIsFocused();
   const postViewProps = {
     user,
     setUser,
@@ -47,16 +31,9 @@ const HomeScreen = () => {
     setPost,
   };
 
-  useEffect(() => {
-    // const {loading, postList, error} = usePost();
-    setSignData(null);
-    setSelectedBisso(null);
-  }, [isFocused]);
-
-  const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
     navigation.navigate('PostKindness', {
-      selectedBisso: selectedBisso,
+      selectedBisso: signData,
       data: {post, user, email},
     });
   };
@@ -83,34 +60,9 @@ const HomeScreen = () => {
               latitudeDelta: 22.5726,
               longitudeDelta: 88.3639,
             }}>
-            <ShowLocationMarker
-              onSelect={bissoItem => {
-                setSelectedBisso(bissoItem);
-                setSignData(null);
-              }}
-              list={[...bisoo, ...act]}
-            />
+            <ShowLocationMarker list={postList} />
           </MapView>
         </View>
-        {selectedBisso?.metaData?.card_template && (
-          <View
-            ref={component => {
-              childrenIds = component?._children[0]._children.map(
-                el => el._nativeTag,
-              );
-            }}
-            style={{position: 'absolute', marginTop: 60}}>
-            <BisoInfoCard
-              selectedBisso={selectedBisso}
-              onSign={() => {
-                navigation.navigate('SignABisoo', {
-                  postList: bisoo,
-                  signData: selectedBisso,
-                });
-              }}
-            />
-          </View>
-        )}
         {signData?.metaData?.card_template && (
           <View style={{height: 'auto'}}>
             <RenderCardToShow
@@ -125,42 +77,23 @@ const HomeScreen = () => {
           showPostForm={!signData?.metaData?.card_template}
           postViewProps={postViewProps}
         />
-        {!selectedBisso?.metaData?.card_template && (
-          <>
-            <BissoTotalView count={bisoo.length} />
-            <View style={{padding: 10}}>
-              <Text style={{fontWeight: '400', fontSize: 16}}>
-                SIGN A <Text style={{fontWeight: 'bold'}}> BisOO</Text>
-              </Text>
-              <BisooSignCard
-                onSelect={bissoItem =>
-                  navigation.navigate('SignABisoo', {
-                    postList: bisoo,
-                    signData: bissoItem,
-                  })
-                }
-                bisoo={bisoo}
-              />
-            </View>
-          </>
-        )}
       </View>
     </AppLayout>
   );
 };
 
-export default HomeScreen;
+export default SignABisoo;
 
 export const BisooSignCard = ({bisoo, onSelect}) =>
   bisoo.map(item => {
-    const {post_id, metaData} = item;
+    const {post_id, post_name} = item;
     return (
       <View
         key={post_id}
         style={{marginTop: 10, borderBottomWidth: 0.3, height: 60}}>
         <View>
           <Text style={{fontWeight: 'bold', color: '#337A7E'}}>
-            {metaData.main_header}
+            {post_name}
           </Text>
 
           <View>
