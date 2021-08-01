@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
 } from 'react-native';
-import LocationEnabler from 'react-native-location-enabler';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import {styles} from './styles';
@@ -27,13 +26,7 @@ import {useCreatePost} from '../../hooks/useCreatePost';
 import BisoInfoCard from './BisoInfoCard';
 import {useSelector} from 'react-redux';
 import {getCurrentLocation} from './helper';
-
-const {
-  PRIORITIES: {HIGH_ACCURACY},
-  useLocationSettings,
-  addListener,
-  requestResolutionSettings,
-} = LocationEnabler;
+import {updateRawData} from '../../Reducers/actions';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -46,14 +39,6 @@ const HomeScreen = () => {
   const [email, setEmail] = useState(userDetails.email);
   const [post, setPost] = useState();
   const [latLng, setLatLng] = useState({lat: null, lng: null});
-  const [enabled, requestResolution] = useLocationSettings(
-    {
-      priority: HIGH_ACCURACY,
-      alwaysShow: true,
-      needBle: true,
-    },
-    false /* optional: default undefined */,
-  );
 
   const postViewProps = {
     user,
@@ -65,26 +50,15 @@ const HomeScreen = () => {
   };
   useEffect(() => {
     try {
-      if (enabled) {
-        setCurrentLoc();
-      } else {
-        requestResolution();
-      }
-    } catch (err) {}
-    return () => {
-      listener.remove();
-    };
-  }, []);
-
-  const listener = addListener(({locationEnabled}) => {
-    if (locationEnabled) {
       setCurrentLoc();
-    }
-  });
+    } catch (err) {}
+  }, [ postList.length]);
 
   const setCurrentLoc = async () => {
-    const res = await getCurrentLocation();
-    setLatLng({lat: res.latitude, lng: res.longitude});
+    try {
+      const res = await getCurrentLocation();
+      setLatLng({lat: res.latitude, lng: res.longitude});
+    } catch (err) {}
   };
 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);

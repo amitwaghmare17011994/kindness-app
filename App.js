@@ -1,17 +1,37 @@
 import {Root} from 'native-base';
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
+import LocationEnabler from 'react-native-location-enabler';
+
 // import RNLocation from 'react-native-location';
 import {Provider} from 'react-redux';
 import Navigator from './Navigators';
 import store from './store';
-
+const {
+  PRIORITIES: {HIGH_ACCURACY},
+  useLocationSettings,
+  addListener,
+  requestResolutionSettings,
+} = LocationEnabler;
 // RNLocation.configure({
 //   distanceFilter: null
 //  })
 
 const App = () => {
+  const [enabled, requestResolution] = useLocationSettings(
+    {
+      priority: HIGH_ACCURACY,
+      alwaysShow: true,
+      needBle: true,
+    },
+    false /* optional: default undefined */,
+  );
+  
   useEffect(() => {
+    if (!enabled) {
+      requestResolution();
+    }
+
     // (async () => {
     //   let permission = await RNLocation.requestPermission({
     //     ios: 'whenInUse',
