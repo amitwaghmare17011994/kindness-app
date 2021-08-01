@@ -69,16 +69,15 @@ const AppHeader = props => {
           <MenuDivider />
 
           {MENU_ITEMS.map(i => (
-            <>
+            <View key={i.name}>
               <MenuItem
-                key={i}
                 onPress={() => {
                   onMeuItemSelectHandler(i);
                 }}>
                 {i.name}
               </MenuItem>
-              <MenuDivider key={i} />
-            </>
+              <MenuDivider />
+            </View>
           ))}
         </Menu>
 

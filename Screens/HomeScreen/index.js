@@ -2,10 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
+  Alert,
   Image,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  PermissionsAndroid,
 } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import {styles} from './styles';
@@ -23,6 +26,7 @@ import {RenderCard, RenderCardToShow} from '../PurchaseBisooScreen/DesignInfo';
 import {useCreatePost} from '../../hooks/useCreatePost';
 import BisoInfoCard from './BisoInfoCard';
 import {useSelector} from 'react-redux';
+import {getCurrentLocation} from './helper';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -30,11 +34,12 @@ const HomeScreen = () => {
   const [selectedBisso, setSelectedBisso] = useState(null);
   const useCreatePostProps = useCreatePost('bisoo');
   const userDetails = useSelector(state => state.rawData.userDetails) || {};
-  console.log(`userDetails`, userDetails);
   const [signData, setSignData] = useState(null);
   const [user, setUser] = useState(userDetails.name);
   const [email, setEmail] = useState(userDetails.email);
   const [post, setPost] = useState();
+  const [latLng, setLatLng] = useState({lat: null, lng: null});
+  // Geolocation.getCurrentPosition(info => console.warn(info));
 
   const postViewProps = {
     user,
@@ -44,6 +49,14 @@ const HomeScreen = () => {
     post,
     setPost,
   };
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getCurrentLocation();
+        setLatLng({lat: res.latitude, lng: res.longitude});
+      } catch (err) {}
+    })();
+  }, []);
 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
@@ -53,6 +66,7 @@ const HomeScreen = () => {
     });
   };
   let childrenIds = [];
+  const {lat, lng} = latLng;
   return (
     <AppLayout>
       <View
@@ -66,23 +80,34 @@ const HomeScreen = () => {
         }}>
         <MoreView />
         <View style={styles.container}>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.map}
-            initialRegion={{
-              latitude: 18.5204,
-              longitude: 73.8567,
-              latitudeDelta: 22.5726,
-              longitudeDelta: 88.3639,
-            }}>
-            <ShowLocationMarker
-              onSelect={bissoItem => {
-                setSelectedBisso(bissoItem);
-                setSignData(null);
-              }}
-              list={[...bisoo, ...act]}
-            />
-          </MapView>
+          {
+            <MapView
+              provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              initialRegion={{
+                latitude: lat || 18.5204,
+                longitude: lng || 73.8567,
+                latitudeDelta: 22.5726,
+                longitudeDelta: 88.3639,
+              }}>
+              <ShowLocationMarker
+                onSelect={bissoItem => {
+                  setSelectedBisso(bissoItem);
+                  setSignData(null);
+                }}
+                list={[...bisoo, ...act]}
+              />
+              {lat && lng && (
+                <Marker
+                  key={Math.random()}
+                  coordinate={{
+                    latitude: lat,
+                    longitude: lng,
+                  }}
+                />
+              )}
+            </MapView>
+          }
         </View>
         {selectedBisso?.metaData?.card_template && (
           <View
@@ -141,7 +166,7 @@ export const BisooSignCard = ({bisoo, onSelect}) =>
     const {post_id, post_name} = item;
     return (
       <View
-        key={post_id}
+        key={Math.random()}
         style={{marginTop: 10, borderBottomWidth: 0.3, height: 60}}>
         <View>
           <Text style={{fontWeight: 'bold', color: '#337A7E'}}>
@@ -187,7 +212,7 @@ export const ShowLocationMarker = ({list, onSelect = () => {}}) => {
           onPress={() => {
             onSelect(ins);
           }}
-          key={ins.post_id}
+          key={Math.random()}
           coordinate={{
             latitude: Number(ins.metaData.latitude),
             longitude: Number(ins.metaData.longitude),
