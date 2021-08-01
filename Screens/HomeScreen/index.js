@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   PermissionsAndroid,
 } from 'react-native';
-import Geolocation from '@react-native-community/geolocation';
+import LocationEnabler from 'react-native-location-enabler';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from '../../components/AppLayout';
 import {styles} from './styles';
@@ -28,6 +28,13 @@ import BisoInfoCard from './BisoInfoCard';
 import {useSelector} from 'react-redux';
 import {getCurrentLocation} from './helper';
 
+const {
+  PRIORITIES: {HIGH_ACCURACY},
+  useLocationSettings,
+  addListener,
+  requestResolutionSettings,
+} = LocationEnabler;
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const {loading, postList, error} = usePost();
@@ -39,7 +46,14 @@ const HomeScreen = () => {
   const [email, setEmail] = useState(userDetails.email);
   const [post, setPost] = useState();
   const [latLng, setLatLng] = useState({lat: null, lng: null});
-  // Geolocation.getCurrentPosition(info => console.warn(info));
+  const [enabled, requestResolution] = useLocationSettings(
+    {
+      priority: HIGH_ACCURACY,
+      alwaysShow: true,
+      needBle: true,
+    },
+    false /* optional: default undefined */,
+  );
 
   const postViewProps = {
     user,
@@ -50,13 +64,28 @@ const HomeScreen = () => {
     setPost,
   };
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await getCurrentLocation();
-        setLatLng({lat: res.latitude, lng: res.longitude});
-      } catch (err) {}
-    })();
+    try {
+      if (enabled) {
+        setCurrentLoc();
+      } else {
+        requestResolution();
+      }
+    } catch (err) {}
+    return () => {
+      listener.remove();
+    };
   }, []);
+
+  const listener = addListener(({locationEnabled}) => {
+    if (locationEnabled) {
+      setCurrentLoc();
+    }
+  });
+
+  const setCurrentLoc = async () => {
+    const res = await getCurrentLocation();
+    setLatLng({lat: res.latitude, lng: res.longitude});
+  };
 
   const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
   const onPostClicked = () => {
