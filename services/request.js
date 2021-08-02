@@ -34,15 +34,16 @@ export const doPost = (url, data) => {
     });
 };
 
-export const uploadImage = async photo => {
+export const uploadImage = async (photo, id) => {
   try {
+    updateRawData({showLoader: true});
+
     const data = new FormData();
     data.append('file', {
       name: photo.fileName,
       type: photo.type,
       uri: photo.uri,
     });
-    updateRawData({showLoader: true});
 
     const options = {
       method: 'POST',
@@ -51,11 +52,12 @@ export const uploadImage = async photo => {
       url: `${END_POINT}upload`,
     };
 
-    const response = await Axios.post(`${END_POINT}upload`, data, {
+    const response = await Axios.post(`${END_POINT}upload/${id}`, data, {
       'content-type': 'multipart/form-data',
     }); // wrap in async function
 
     updateRawData({showLoader: false});
+    return response.data;
   } catch (err) {
     updateRawData({showLoader: false});
   }

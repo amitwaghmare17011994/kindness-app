@@ -10,7 +10,7 @@ import DesignImage from '../../../assets/images/design.png';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import { addUpdatePostMetaAction } from '../../../hooks/useCreatePost';
 
-const BackgroundAndImage = ({useCreatePostProps}) => {
+const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
   const navigation = useNavigation();
   const {state: values, dispatch} = useCreatePostProps;
 
@@ -149,7 +149,8 @@ const BackgroundAndImage = ({useCreatePostProps}) => {
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              if (image) setSelectedImage(value?.assets[0]);
+              // if (image) setSelectedImage(value?.assets[0]);
+              if (image) uploadImageForBisoo(value?.assets[0]);
             })
           }
           customStyles={{width: 200, height: 30, flex: 0.8}}>
@@ -161,7 +162,8 @@ const BackgroundAndImage = ({useCreatePostProps}) => {
               console.log(value);
               const image = value?.assets;
               if (image) {
-                setSelectedBackImage(value?.assets[0]);
+                // setSelectedBackImage(value?.assets[0]);
+                if (image) uploadImageForBisoo(value?.assets[0]);
               }
             })
           }

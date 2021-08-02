@@ -13,6 +13,7 @@ import {
   addOrUpdateRecipientDetails,
   useCreatePost,
   addOrUpdateSenderDetails,
+  addUpdatePostMetaAction,
 } from './../../hooks/useCreatePost';
 import CartDrawer from '../../components/CartDrawer/CartDrawer';
 import {useSelector} from 'react-redux';
@@ -20,6 +21,8 @@ import {updateRawData} from '../../Reducers/actions';
 import CheckoutScreen from '../CheckoutScreen';
 import {getTotal} from './../../components/CartDrawer/CartDrawer';
 import {isValidEmail, showToaster} from '../../utils';
+import ThankyouScreen from './ThankyouScreen';
+import {uploadImage} from './../../services/request';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -32,6 +35,7 @@ const PurchaseBisooScreen = () => {
   const [senderMail, setSenderMail] = useState();
   const [rname, setRname] = useState();
   const [rmail, setRmail] = useState();
+  const [post, setPost] = useState();
 
   const addSender = () => {
     console.log(senderName, senderMail);
@@ -102,15 +106,41 @@ const PurchaseBisooScreen = () => {
     navigation.goBack();
   };
 
+  if (currentStep === 6) {
+    return (
+      <ThankyouScreen {...useCreatePostProps.state.postMeta} post={post} />
+    );
+  }
+
   if (currentStep === 5) {
     return (
       <CheckoutScreen
         amount={getTotal(useCreatePostProps.state.postMeta)}
-        onPayment={useCreatePostProps.addUpdatePost}
+        onPayment={async () => {
+          const selectedImage = useCreatePostProps.state.postMeta.selectedImage;
+          const response = await useCreatePostProps.addUpdatePost();
+
+          if (response.data) {
+            await uploadImage(selectedImage, response.post);
+            setPost(response.data);
+            setCurrentStep(6);
+          }
+        }}
         {...useCreatePostProps.state.postMeta}
       />
     );
   }
+
+  const uploadImageForBisoo = async selectedImage => {
+    const data = await uploadImage(
+      selectedImage,
+      useCreatePostProps.state.auther_id,
+    );
+
+    addUpdatePostMetaAction(useCreatePostProps.dispatch, {
+      _wp_attached_file: data.guid,
+    });
+  };
 
   return (
     <AppLayout>
@@ -135,7 +165,10 @@ const PurchaseBisooScreen = () => {
             />
           )}
           {currentStep === 2 && (
-            <DesignInfo useCreatePostProps={useCreatePostProps} />
+            <DesignInfo
+              uploadImageForBisoo={uploadImageForBisoo}
+              useCreatePostProps={useCreatePostProps}
+            />
           )}
           {currentStep === 3 && (
             <DatesInfo useCreatePostProps={useCreatePostProps} />

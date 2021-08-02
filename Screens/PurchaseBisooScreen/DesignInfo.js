@@ -18,7 +18,7 @@ export const CARD_TYPE = {
   bgImgOverImg: 'Background Image and Overlay Image',
 };
 
-const DesignInfo = ({useCreatePostProps}) => {
+const DesignInfo = ({useCreatePostProps, uploadImageForBisoo}) => {
   const {state: values, dispatch} = useCreatePostProps;
 
   const cardType = values.postMeta.card_template;
@@ -147,6 +147,7 @@ const DesignInfo = ({useCreatePostProps}) => {
         <RenderCard
           cardType={cardType}
           useCreatePostProps={useCreatePostProps}
+          uploadImageForBisoo={uploadImageForBisoo}
         />
       </View>
     </View>
@@ -201,8 +202,9 @@ export const BGColorOverlayImg = ({
   message = 'Personalized thank you message here',
   font_colour = '#000',
   card_colour = '#ffcc4c',
-  image = DesignImage,
+  _wp_attached_file,
 }) => {
+  console.log(_wp_attached_file)
   return (
     <View
       style={{
@@ -212,7 +214,7 @@ export const BGColorOverlayImg = ({
         elevation: 7,
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image source={image} style={{width: '30%', height: 50, margin: 5}} />
+        <Image source={{uri: '' + _wp_attached_file}}  style={{width: '30%', height: 50, margin: 5}} />
         <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
           <Text style={{color: font_colour}}>{main_header}</Text>
           <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
@@ -230,11 +232,11 @@ export const BgImage = ({
   main_header = 'Card Title eg. Thanks Nurses',
   message = 'Personalized thank you message here',
   font_colour = '#000',
-  image,
+  _wp_attached_file,
 }) => {
   return (
     <ImageBackground
-      source={{uri: (image && image.uri) || null}}
+      source={{uri: _wp_attached_file || null}}
       style={{
         height: 100,
         elevation: 1,

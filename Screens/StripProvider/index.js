@@ -9,7 +9,11 @@ import {useNavigation} from '@react-navigation/core';
 import {STRIPE_KEY} from '../../constants';
 import {showToaster} from '../../utils';
 
-export const PaymentScreen = ({billingDetails = {}, amount, onSucess=()=>{}}) => {
+export const PaymentScreen = ({
+  billingDetails = {},
+  amount,
+  onSucess = () => {},
+}) => {
   const navigation = useNavigation();
   const {confirmPayment} = useStripe();
   const [clientSecrete, setClientSecrete] = useState();
@@ -26,6 +30,7 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess=()=>{}}) =>
   }, []);
 
   const handlePayment = async () => {
+    console.log('here I am');
     setButtonDisable(true);
     const {error} = await confirmPayment(clientSecrete, {
       type: 'Card',
@@ -36,7 +41,6 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess=()=>{}}) =>
     if (error) {
       showToaster(error.message, {type: 'danger', duration: 3000});
       return;
-      
     }
 
     onSucess();
@@ -81,8 +85,9 @@ export const PaymentScreen = ({billingDetails = {}, amount, onSucess=()=>{}}) =>
         <RoundButton
           disabled={buttonDisable}
           text={onSucess ? 'Pay Now' : 'DONATE'}
-          onPress={handlePayment}
-          customStyles={{width: 100}}></RoundButton>
+          onPress={() => handlePayment()}
+          customStyles={{width: 100}}
+        />
       </View>
     </View>
   );
@@ -104,5 +109,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 10,
+    elevation: 10
   },
 });

@@ -8,7 +8,7 @@ import ColorChooser from '../../ColorChooser';
 import RoundButton from '../../../components/RoundButton';
 import DesignImage from '../../../assets/images/design.png';
 
-const ViewBackground = () => {
+const ViewBackground = ({uploadImageForBisoo}) => {
   const navigation = useNavigation();
   const [selectedImage, setSelectedImage] = useState('');
   const [showColor, setShowColor] = useState('');
@@ -130,7 +130,8 @@ const ViewBackground = () => {
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              if (image) setSelectedImage(value?.assets[0]);
+              // if (image) setSelectedImage(value?.assets[0]);
+              if (image) uploadImageForBisoo(value?.assets[0]);
             })
           }
           customStyles={{width: 200, height: 30}}>

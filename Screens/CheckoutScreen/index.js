@@ -16,7 +16,6 @@ const CheckoutScreen = props => {
   const {onPayment, amount, selectedImage} = props;
 
   const onPaymentHandler =async () => {
-    await uploadImage(selectedImage);
     onPayment();
   };
 

@@ -7,10 +7,10 @@ import InputField from '../../../components/Input';
 import ColorChooser from '../../ColorChooser';
 import RoundButton from '../../../components/RoundButton';
 import DesignImage from '../../../assets/images/design.png';
-import { BGColorOverlayImg, BisooTextDetails } from './../DesignInfo';
-import { addUpdatePostMetaAction } from './../../../hooks/useCreatePost';
+import {BGColorOverlayImg, BisooTextDetails} from './../DesignInfo';
+import {addUpdatePostMetaAction} from './../../../hooks/useCreatePost';
 
-const BackgroundImage = ({useCreatePostProps}) => {
+const BackgroundImage = ({useCreatePostProps, uploadImageForBisoo}) => {
   const {state, dispatch} = useCreatePostProps;
   const updateMeta = payload => addUpdatePostMetaAction(dispatch, payload);
 
@@ -110,31 +110,24 @@ const BackgroundImage = ({useCreatePostProps}) => {
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              if (image) setSelectedImage(value?.assets[0]);
+              // if (image) setSelectedImage(value?.assets[0]);
+              console.log('hii');
+              if (image) uploadImageForBisoo(value?.assets[0]);
             })
           }
           customStyles={{width: 200, height: 30}}>
           <Text>Upload Image</Text>
         </RoundButton>
       </View>
-      {!!selectedImage?.uri && (
+      {!!values?._wp_attached_file && (
         <View style={{flexDirection: 'row', marginTop: 10}}>
           <Icon
             name={'close'}
             size={16}
-            onPress={() => setSelectedImage('')}
+            onPress={() => updateMeta({_wp_attached_file: ''})}
             style={{marginRight: 10}}
           />
-          {
-            <Text>
-              image :{' '}
-              {
-                selectedImage.fileName.split('_')[
-                  selectedImage.fileName.split('_').length - 1
-                ]
-              }
-            </Text>
-          }
+          {<Text>{_wp_attached_file}</Text>}
         </View>
       )}
     </View>
