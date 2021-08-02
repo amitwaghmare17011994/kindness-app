@@ -122,7 +122,10 @@ const DonationScreen = () => {
                 {[25, 50, 100].map((item, index) => {
                   return (
                     <Text
-                      onPress={() => !isOtherAmount && setDonationPrice(item)}
+                      onPress={() => {
+                        setDonationPrice(item);
+                        setIsOtherAmount(false);
+                      }}
                       style={{
                         ...styles.priceBox,
                         ...(donationPrice === item
@@ -158,8 +161,10 @@ const DonationScreen = () => {
                 </View>
 
                 <InputField
-                  customStyles={{height: 31, fontSize: 10}}
+                  customStyles={{height: 35, fontSize: 12}}
+                  type="number"
                   placeholder="Other Amount"
+                  value={isOtherAmount ? donationPrice : ''}
                   disabled={!isOtherAmount}
                   onChangeText={amount => {
                     if (!isNaN(amount)) {

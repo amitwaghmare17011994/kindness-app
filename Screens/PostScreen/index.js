@@ -18,6 +18,7 @@ import {
 } from './../../hooks/useCreatePost';
 import {SCREEN_HEIGHT} from '../../constants';
 import {useSelector} from 'react-redux';
+import {showToaster} from './../../utils/index';
 
 const PostScreen = ({route}) => {
   const navigation = useNavigation();
@@ -37,8 +38,6 @@ const PostScreen = ({route}) => {
   const enablePostButton = postMeta.longitude && postMeta.latitude;
 
   useEffect(() => {
-    console.log(`data`, selectedBisso);
-
     if (selectedBisso) {
       addUpdatePostMetaAction(dispatch, {
         bisooSignin: 'yes',
@@ -55,6 +54,31 @@ const PostScreen = ({route}) => {
     navigation.navigate('Home');
   }
 
+  const callPostApi = async () => {
+    setStep(2);
+    const response = await addUpdatePost();
+
+    if (response.status === 'Ok') {
+      showToaster(
+        `${selectedBisso ? 'Bisoo Signed' : 'Post Created'} Succesfully`,
+        {
+          type: 'success',
+          duration: 3000,
+        },
+      );
+
+      navigation.navigate('Home');
+
+      return;
+    }
+
+    setStep(2);
+    showToaster(`${selectedBisso ? 'Bisoo Signing' : 'Post Creation'} failed`, {
+      type: 'danger',
+      duration: 3000,
+    });
+  };
+
   if (step === 2) {
     return (
       <PostLocationScreen
@@ -68,7 +92,7 @@ const PostScreen = ({route}) => {
             : null
         }
         goBack={() => setStep(1)}
-        post={async () => await addUpdatePost()}
+        post={callPostApi}
         apiCallInProgess={status === 1}
       />
     );

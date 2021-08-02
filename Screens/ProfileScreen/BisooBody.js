@@ -49,7 +49,6 @@ export const BisooBody = ({bisooList = []}) => {
           <View style={{width: '70%', marginLeft: 10}}>
             <RenderCardToShow
               {...selectedBisoo.metaData}
-              main_header={selectedBisoo.post_name}
             />
           </View>
           <View></View>

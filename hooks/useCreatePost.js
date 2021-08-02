@@ -163,8 +163,8 @@ export const useCreatePost = (type, initialData = {}) => {
     try {
       setStatus(1);
 
-      const senderInfo = state.senderInfo;
-      const receiverInfo = state.receiverInfo;
+      const senderInfo = state.senderInfo || [];
+      const receiverInfo = state.receiverInfo || [];
 
       const sendername = senderInfo.map(item => item.name).join();
       const sendermail = senderInfo.map(item => item.mail).join();
@@ -188,12 +188,14 @@ export const useCreatePost = (type, initialData = {}) => {
         author: store.getState().rawData.userDetails.id,
         postMeta: JSON.stringify(meta),
       });
-      await doPost('create-post', {
+      const response = await doPost('create-post', {
         ...state,
         author: store.getState().rawData.userDetails.id,
         postMeta: JSON.stringify(meta),
       });
       setStatus(2);
+
+      return response
     } catch (error) {
       console.log(error);
     }
