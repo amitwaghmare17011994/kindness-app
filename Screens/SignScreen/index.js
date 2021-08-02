@@ -7,7 +7,7 @@ import RoundButton from '../../components/RoundButton';
 import InputField from '../../components/Input';
 import {doPost} from '../../services/request';
 import {updateRawData} from '../../Reducers/actions';
-import {showToaster} from './../../utils/index';
+import {isValidEmail, showToaster} from './../../utils/index';
 
 const SignScreen = () => {
   const navigation = useNavigation();
@@ -18,6 +18,46 @@ const SignScreen = () => {
 
   const login = async () => {
     try {
+      if (!username) {
+        showToaster('Please enter username.', {
+          type: 'danger',
+          duration: 1000,
+        });
+        return;
+      }
+      if (!password) {
+        showToaster('Please enter password.', {
+          type: 'danger',
+          duration: 1000,
+        });
+        return;
+      }
+      if (!email) {
+        showToaster('Please enter email.', {
+          type: 'danger',
+          duration: 1000,
+        });
+
+        return;
+      }
+      if (!name) {
+        showToaster('Please enter name.', {
+          type: 'danger',
+          duration: 1000,
+        });
+
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showToaster('Please enter valid email.', {
+          type: 'danger',
+          duration: 1000,
+        });
+
+        return;
+      }
+
       const data = await doPost('register', {
         username,
         password,

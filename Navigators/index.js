@@ -143,7 +143,7 @@ function Navigator() {
         <Stack.Screen
           options={{headerShown: false, ...MyTransition}}
           name="BisooScreen"
-          component={AuthRouth}
+          component={isLoggedIn ? BisooScreen : Login}
         />
 
         <Stack.Screen

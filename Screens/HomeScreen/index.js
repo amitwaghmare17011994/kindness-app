@@ -18,6 +18,7 @@ import RoundButton from '../../components/RoundButton';
 import {useNavigation} from '@react-navigation/core';
 import BissoM from '../../assets/images/bisoo.png';
 import kindnessM from '../../assets/images/kindnessM.png';
+import MyLocation from '../../assets/images/my-location.png'
 import {doGet} from '../../services/request';
 import {usePost} from '../../hooks/usePost';
 import {groupBy, showToaster} from '../../utils';
@@ -115,6 +116,7 @@ const HomeScreen = () => {
                     latitude: lat,
                     longitude: lng,
                   }}
+                  icon={MyLocation}
                 />
               )}
             </MapView>

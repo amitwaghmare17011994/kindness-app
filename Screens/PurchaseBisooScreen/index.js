@@ -18,7 +18,8 @@ import CartDrawer from '../../components/CartDrawer/CartDrawer';
 import {useSelector} from 'react-redux';
 import {updateRawData} from '../../Reducers/actions';
 import CheckoutScreen from '../CheckoutScreen';
-import { getTotal } from './../../components/CartDrawer/CartDrawer';
+import {getTotal} from './../../components/CartDrawer/CartDrawer';
+import {isValidEmail, showToaster} from '../../utils';
 
 const PurchaseBisooScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -34,7 +35,21 @@ const PurchaseBisooScreen = () => {
 
   const addSender = () => {
     console.log(senderName, senderMail);
-    if (!senderName || !senderMail) return;
+    if (!senderName || !senderMail) {
+      showToaster('Sender name and email should not be empty.', {
+        type: 'danger',
+        duration: 2000,
+      });
+      return;
+    }
+
+    if (!isValidEmail(senderMail)) {
+      showToaster('Sender Email is not valid.', {
+        type: 'danger',
+        duration: 2000,
+      });
+      return;
+    }
     addOrUpdateSenderDetails(useCreatePostProps.dispatch, {
       data: {name: senderName, mail: senderMail},
     });
@@ -43,7 +58,21 @@ const PurchaseBisooScreen = () => {
   };
 
   const addRei = () => {
-    if (!rname || !rmail) return;
+    if (!rname || !rmail) {
+      showToaster('Receipent name and email should not be empty.', {
+        type: 'danger',
+        duration: 1000,
+      });
+      return;
+    }
+
+    if (!isValidEmail(rmail)) {
+      showToaster('Receipent Email is not valid.', {
+        type: 'danger',
+        duration: 1000,
+      });
+      return;
+    }
     addOrUpdateRecipientDetails(useCreatePostProps.dispatch, {
       data: {name: rname, mail: rmail},
     });
@@ -124,7 +153,7 @@ const PurchaseBisooScreen = () => {
               currentStep !== 1 ? setCurrentStep(currentStep - 1) : goBack();
             }}
             customStyles={{flex: 1, height: 30}}>
-            <Text>BACk</Text>
+            <Text>BACK</Text>
           </RoundButton>
           <RoundButton
             // disabled={disableNext || !senderInfo.length || !receiverInfo.length}

@@ -686,3 +686,12 @@ import store from './../store';
 export const showToaster = (text = '', others = {}) => {
   updateRawData({toastObject: {message:text, ...others}});
 };
+
+// Check whether the email is valid or not
+export const isValidEmail = (email) => {
+    if (!email) return false;
+
+    const regex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    return !!email.match(regex);
+};
