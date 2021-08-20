@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import InputField from '../../components/Input';
 import RoundButton from '../../components/RoundButton';
 import {useLike} from './../../hooks/useLike';
+import {useUpvote} from './../../hooks/useUpvote';
 
 const ProfileListItem = ({
   showPostForm = false,
@@ -11,6 +12,7 @@ const ProfileListItem = ({
   userDetails = {},
 }) => {
   const {likeList, onLikeClicked} = useLike(post, userDetails);
+  const {upvoteList, onUpvoteClicked} = useUpvote(post, userDetails);
 
   return (
     <View style={{paddingBottom: 10}}>
@@ -28,18 +30,23 @@ const ProfileListItem = ({
           <Icon name="chat" size={16} />
           <Text style={{fontSize: 12}}>185</Text>
         </View>
-
         <TouchableOpacity onPress={() => onLikeClicked(likeList)}>
           <View style={{flexDirection: 'row', marginLeft: 20}}>
-            <Icon name={likeList.includes(userDetails.id) ? "heart" : "heart-outlined"} size={16} />
+            <Icon
+              name={
+                likeList.includes(userDetails.id) ? 'heart' : 'heart-outlined'
+              }
+              size={16}
+            />
             <Text style={{fontSize: 12}}>{likeList?.length || 0}</Text>
           </View>
         </TouchableOpacity>
-
-        <View style={{flexDirection: 'row'}}>
-          <Icon name="arrow-long-up" size={16} />
-          <Text style={{fontSize: 12}}>185</Text>
-        </View>
+        <TouchableOpacity onPress={() => onUpvoteClicked(upvoteList)}>
+          <View style={{flexDirection: 'row'}}>
+            <Icon name="arrow-long-up" size={16} />
+            <Text style={{fontSize: 12}}>{upvoteList?.length || 0}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       {showPostForm && (
         <>

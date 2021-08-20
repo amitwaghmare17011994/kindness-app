@@ -66,8 +66,8 @@ const TabView = React.memo(() => {
             key={i}
             index={i}
             onPress={() => {
-              setSelectedTab(i);
               getPostData();
+              setSelectedTab(i);
             }}
             style={{
               ...styles.tab,
