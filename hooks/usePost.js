@@ -36,7 +36,7 @@ export const usePost = userId => {
     getPostData();
   }, []);
 
-  return {loading, postList, error};
+  return {loading, postList, error, getPostData};
 };
 
 export const flatPostMeta = meta => {

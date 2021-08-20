@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import ProfileListItem from './ProfileListItem';
-import {groupBy} from './../../utils/index';
+import {groupBy, deserialize} from './../../utils/index';
 import {usePost} from './../../hooks/usePost';
 import {BisooBody} from './BisooBody';
 import {useSelector} from 'react-redux';
@@ -13,16 +13,38 @@ const TabView = React.memo(() => {
 
   console.log(`userDetails`, userDetails);
 
-  const {loading, postList, error} = usePost(userDetails.id);
-  const {bisoo = [], act = []} = groupBy(postList, ({post_type}) => post_type);
-
+  const {loading, postList, error, getPostData} = usePost();
+  const userPostList = postList.filter(
+    post => post.post_author === userDetails.id,
+  );
+  const {bisoo = [], act = []} = groupBy(
+    userPostList,
+    ({post_type}) => post_type,
+  );
+  const likeList = postList.filter(post => {
+    try {
+      const like = post.metaData.likeUserId || '';
+      return deserialize(like).includes(userDetails.id);
+    } catch (error) {
+      return false;
+    }
+  });
   let body = '';
 
   switch (selectedTab) {
     case 'ACTS':
       body = act.map(post => (
         <View key={post.post_id}>
-          <ProfileListItem post={post} />
+          <ProfileListItem post={post} userDetails={userDetails} />
+          <View style={{borderWidth: 1, height: 1, borderColor: '#cccccc'}} />
+        </View>
+      ));
+      break;
+
+    case 'LIKES':
+      body = likeList.map(post => (
+        <View key={post.post_id}>
+          <ProfileListItem post={post} userDetails={userDetails} />
           <View style={{borderWidth: 1, height: 1, borderColor: '#cccccc'}} />
         </View>
       ));
@@ -43,7 +65,10 @@ const TabView = React.memo(() => {
           <Text
             key={i}
             index={i}
-            onPress={() => setSelectedTab(i)}
+            onPress={() => {
+              getPostData();
+              setSelectedTab(i);
+            }}
             style={{
               ...styles.tab,
               ...(i === selectedTab ? styles.selectedTab : {}),

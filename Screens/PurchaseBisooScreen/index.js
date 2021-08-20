@@ -137,6 +137,8 @@ const PurchaseBisooScreen = () => {
       useCreatePostProps.state.auther_id,
     );
 
+    console.log('guid', data.guid);
+
     addUpdatePostMetaAction(useCreatePostProps.dispatch, {
       _wp_attached_file: data.guid,
     });

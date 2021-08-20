@@ -1,75 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, ImageBackground} from 'react-native';
 import InputField from '../../../components/Input';
 import ColorChooser from '../../ColorChooser';
 import RoundButton from '../../../components/RoundButton';
 import DesignImage from '../../../assets/images/design.png';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
+import {BGImageAndOverlayImg, BisooTextDetails} from '../DesignInfo';
 import { addUpdatePostMetaAction } from '../../../hooks/useCreatePost';
 
-const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
-  const navigation = useNavigation();
-  const {state: values, dispatch} = useCreatePostProps;
-
-  const [selectedBackImage, setSelectedBackImage] = useState('');
-  const [selectedImage, setSelectedImage] = useState('');
+const BackgroundAndImage = ({uploadImageForBisoo, useCreatePostProps}) => {
+  const {state, dispatch} = useCreatePostProps;
+  const updateMeta = payload => addUpdatePostMetaAction(dispatch, payload);
   const [showColor, setShowColor] = useState('');
-  const [textColor, setTextColor] = useState('brown');
-  const [backgroundColor, setBackgroundColor] = useState('#ffcc4c');
-  
-  useEffect(()=>{
-    addUpdatePostMetaAction(dispatch, {selectedBackImage,selectedImage});
-
-  },[selectedBackImage,selectedImage])
- 
+  const values = state.postMeta;
   const onColorChange = color => {
     if (showColor === 'back') {
-      setBackgroundColor(color);
+      updateMeta({card_colour: color});
     }
     if (showColor === 'font') {
-      setTextColor(color);
+      updateMeta({font_colour: color});
     }
   };
 
-
   return (
     <View>
-      <ImageBackground
-        source={
-          selectedBackImage ? {uri: selectedBackImage?.uri || null} : null
-        }
-        style={{
-          height: 100,
-          elevation: 1,
-          borderWidth: 1,
-          borderColor: '#cccccc',
-        }}>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Image
-            source={selectedImage ? {uri: selectedImage.uri} : DesignImage}
-            style={{height: '100%', margin: 5, flex: 0.5}}
-          />
-          <View style={{marginLeft: 5}}>
-            <Text style={{color: textColor}}>Card Title eg.</Text>
-            <Text style={{color: textColor}}>Thanks Nurses</Text>
-            <Text style={{fontSize: 5, color: textColor}}>
-              Personalized thank you message here
-            </Text>
-          </View>
-        </View>
-
-        <View style={{flexDirection: 'row', padding: 5}}>
-          <Text style={{fontSize: 8, flex: 1, color: textColor}}>
-            Closing Date/Signature #
-          </Text>
-          <Text style={{fontSize: 8, color: textColor}}>
-            10 / 100 Signatures
-          </Text>
-        </View>
-      </ImageBackground>
+      <BGImageAndOverlayImg {...values} />
+      <BisooTextDetails useCreatePostProps={useCreatePostProps} />
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>
         <Text style={{fontWeight: 'bold'}}>Card Colour</Text>
@@ -84,7 +42,7 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
           }}>
           <Text style={{marginRight: 5}}>#</Text>
           <InputField
-            value={textColor}
+            value={values.font_colour}
             customStyles={{height: 40, fontSize: 18}}
           />
           <View
@@ -92,7 +50,7 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
               setShowColor('font');
             }}
             style={{
-              backgroundColor: textColor || 'black',
+              backgroundColor: values.font_colour || 'black',
               height: 20,
               width: 20,
               borderRadius: 5,
@@ -101,7 +59,7 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
         <View style={{flex: 0.5, flexDirection: 'row', alignItems: 'center'}}>
           <Text style={{marginRight: 5}}>#</Text>
           <InputField
-            value={backgroundColor}
+            value={values.card_colour}
             customStyles={{height: 40, fontSize: 18}}
           />
           <View
@@ -109,7 +67,7 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
               setShowColor('back');
             }}
             style={{
-              backgroundColor: backgroundColor || 'black',
+              backgroundColor: values.card_colour || 'black',
               height: 20,
               width: 20,
               borderRadius: 5,
@@ -133,9 +91,9 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
               onColorChangeHandler={onColorChange}
               color={
                 showColor === 'back'
-                  ? backgroundColor
+                  ? values.card_colour
                   : showColor === 'font'
-                  ? textColor
+                  ? values.font_colour
                   : 'green'
               }
             />
@@ -149,28 +107,48 @@ const BackgroundAndImage = ({useCreatePostProps, uploadImageForBisoo}) => {
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              // if (image) setSelectedImage(value?.assets[0]);
               if (image) uploadImageForBisoo(value?.assets[0]);
             })
           }
-          customStyles={{width: 200, height: 30, flex: 0.8}}>
+          customStyles={{width: 200, height: 30}}>
           <Text>Upload Image</Text>
         </RoundButton>
+      </View>
+      {!!values?._wp_attached_file && (
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Icon
+            name={'close'}
+            size={16}
+            onPress={() => updateMeta({_wp_attached_file: ''})}
+            style={{marginRight: 10}}
+          />
+          {<Text>{values._wp_attached_file}</Text>}
+        </View>
+      )}
+      <View style={{flexDirection: 'row', marginTop: 10}}>
         <RoundButton
           onPress={() =>
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              if (image) {
-                // setSelectedBackImage(value?.assets[0]);
-                if (image) uploadImageForBisoo(value?.assets[0]);
-              }
+              if (image) uploadImageForBisoo(value?.assets[0]);
             })
           }
-          customStyles={{width: 220, height: 30, flex: 1, marginLeft: 10}}>
+          customStyles={{width: 200, height: 30}}>
           <Text>Upload Background Image</Text>
         </RoundButton>
       </View>
+      {!!values?._wp_attached_file && (
+        <View style={{flexDirection: 'row', marginTop: 10}}>
+          <Icon
+            name={'close'}
+            size={16}
+            onPress={() => updateMeta({_wp_attached_file: ''})}
+            style={{marginRight: 10}}
+          />
+          {<Text>{values._wp_attached_file}</Text>}
+        </View>
+      )}
     </View>
   );
 };
