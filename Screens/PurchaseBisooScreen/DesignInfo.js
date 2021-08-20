@@ -7,7 +7,10 @@ import SolidBackground from './DisgnInfoComponents/SolidBackground';
 import BackgroundImage from './DisgnInfoComponents/BackgroundImage';
 import ViewBackground from './DisgnInfoComponents/ViewBackground';
 import BackgroundAndImage from './DisgnInfoComponents/BackgroundAndImage';
-import { addUpdatePostMetaAction, addUpdatePostAttributeAction } from './../../hooks/useCreatePost';
+import {
+  addUpdatePostMetaAction,
+  addUpdatePostAttributeAction,
+} from './../../hooks/useCreatePost';
 import InputField from '../../components/Input';
 import {updateRawData} from '../../Reducers/actions';
 
@@ -61,7 +64,7 @@ const DesignInfo = ({useCreatePostProps, uploadImageForBisoo}) => {
             </Text>
           </View>
           <View style={{width: '55%'}}>
-            <SolidBgColor card_colour="#ffcc4c"/>
+            <SolidBgColor card_colour="#ffcc4c" />
           </View>
         </View>
         {/* First */}
@@ -73,16 +76,19 @@ const DesignInfo = ({useCreatePostProps, uploadImageForBisoo}) => {
             elevation: 4,
             marginTop: 10,
             alignItems: 'flex-start',
+            justifyContent: 'space-between',
           }}>
           <View
-            style={{flexDirection: 'row', width: '45%'}}
+            style={{flexDirection: 'row', width: '40%'}}
             onTouchEnd={() => updateType(CARD_TYPE.bgColorOverImg)}>
             <Radio
               selected={cardType === CARD_TYPE.bgColorOverImg}
               color={'black'}
               selectedColor={'#357B7F'}
             />
-            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+            <Text
+              lineHeight={2}
+              style={{marginLeft: 5, fontWeight: '400', flexWrap: 'wrap'}}>
               Background Colour and Overlay Image
             </Text>
           </View>
@@ -125,16 +131,17 @@ const DesignInfo = ({useCreatePostProps, uploadImageForBisoo}) => {
             marginTop: 10,
             marginBottom: 10,
             alignItems: 'flex-start',
+            justifyContent: 'space-between',
           }}>
           <View
-            style={{flexDirection: 'row', width: '45%'}}
+            style={{flexDirection: 'row', width: '40%'}}
             onTouchEnd={() => updateType(CARD_TYPE.bgImgOverImg)}>
             <Radio
               selected={cardType === CARD_TYPE.bgImgOverImg}
               color={'black'}
               selectedColor={'#357B7F'}
             />
-            <Text style={{marginLeft: 5, fontWeight: '400'}}>
+            <Text style={{marginLeft: 5, fontWeight: '400', flexWrap: 'wrap'}}>
               Background Image and Overlay Image
             </Text>
           </View>
@@ -171,8 +178,8 @@ export const RenderCard = ({cardType, ...props}) => {
   }
 };
 
-export const SolidBgColor = (props) => {
-  console.log('sb', props)
+export const SolidBgColor = props => {
+  console.log('sb', props);
   return (
     <View
       style={{
@@ -182,8 +189,12 @@ export const SolidBgColor = (props) => {
         elevation: 2,
       }}>
       <View style={{alignItems: 'center', flex: 1}}>
-        <Text style={{color: props.font_colour}}>{props.main_header || 'Add Your Title Here'}</Text>
-        <Text style={{color: props.font_colour, fontSize: 8}}>{props.message || 'Add Your Message Here'}</Text>
+        <Text style={{color: props.font_colour}}>
+          {props.main_header || 'Add Your Title Here'}
+        </Text>
+        <Text style={{color: props.font_colour, fontSize: 8}}>
+          {props.message || 'Add Your Message Here'}
+        </Text>
       </View>
       <View style={{flexDirection: 'row', padding: 5}}>
         <Text style={{color: props.font_colour, fontSize: 8, flex: 1}}>
@@ -204,7 +215,7 @@ export const BGColorOverlayImg = ({
   card_colour = '#ffcc4c',
   _wp_attached_file,
 }) => {
-  console.log(_wp_attached_file)
+  console.log(_wp_attached_file);
   return (
     <View
       style={{
@@ -214,7 +225,12 @@ export const BGColorOverlayImg = ({
         elevation: 7,
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image source={{uri: '' + _wp_attached_file}}  style={{width: '30%', height: 50, margin: 5}} />
+        <Image
+          source={
+            _wp_attached_file ? {uri: _wp_attached_file || null} : DesignImage
+          }
+          style={{width: '30%', height: 50, margin: 5}}
+        />
         <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
           <Text style={{color: font_colour}}>{main_header}</Text>
           <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
@@ -236,7 +252,9 @@ export const BgImage = ({
 }) => {
   return (
     <ImageBackground
-      source={{uri: _wp_attached_file || null}}
+      source={
+        _wp_attached_file ? {uri: _wp_attached_file || null} : DesignImage
+      }
       style={{
         height: 100,
         elevation: 1,
@@ -263,10 +281,10 @@ export const BGImageAndOverlayImg = ({
   main_header = 'Card Title eg. Thanks Nurses',
   message = 'Personalized thank you message here',
   font_colour = '#000',
-  image = DesignImage,
-  bgImage,
+  _wp_attached_file,
+  bgImage = DesignImage,
 }) => {
-   return (
+  return (
     <ImageBackground
       source={(bgImage && bgImage.uri) || null}
       style={{
@@ -276,7 +294,12 @@ export const BGImageAndOverlayImg = ({
         borderColor: '#cccccc',
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <Image source={image} style={{width: '30%', height: 50, margin: 5}} />
+        <Image
+          source={
+            _wp_attached_file ? {uri: _wp_attached_file || null} : DesignImage
+          }
+          style={{width: '30%', height: 50, margin: 5}}
+        />
         <View style={{paddingLeft: 5, width: '70%', flexWrap: 'nowrap'}}>
           <Text style={{color: font_colour}}>{main_header}</Text>
           <Text style={{color: font_colour, fontSize: 8}}>{message}</Text>
@@ -300,8 +323,8 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
       <Text style={testStyle.inputLabel}>Main Header</Text>
       <InputField
         onChangeText={content => {
-          addUpdatePostAttributeAction(dispatch, {content})
-          updateMeta({main_header: content})
+          addUpdatePostAttributeAction(dispatch, {content});
+          updateMeta({main_header: content});
         }}
         value={state.content}
         customStyles={testStyle.input}
@@ -317,8 +340,6 @@ export const BisooTextDetails = ({useCreatePostProps}) => {
 };
 
 export const RenderCardToShow = ({card_template, ...props}) => {
-
-
   console.log('data', props);
   switch (card_template) {
     case CARD_TYPE.solidBG:

@@ -13,11 +13,8 @@ import {addUpdatePostMetaAction} from './../../../hooks/useCreatePost';
 const BackgroundImage = ({useCreatePostProps, uploadImageForBisoo}) => {
   const {state, dispatch} = useCreatePostProps;
   const updateMeta = payload => addUpdatePostMetaAction(dispatch, payload);
-
-  const [selectedImage, setSelectedImage] = useState(null);
   const [showColor, setShowColor] = useState('');
   const values = state.postMeta;
-
   const onColorChange = color => {
     if (showColor === 'back') {
       updateMeta({card_colour: color});
@@ -26,9 +23,10 @@ const BackgroundImage = ({useCreatePostProps, uploadImageForBisoo}) => {
       updateMeta({font_colour: color});
     }
   };
+
   return (
     <View>
-      <BGColorOverlayImg {...values} image={selectedImage} />
+      <BGColorOverlayImg {...values} />
       <BisooTextDetails useCreatePostProps={useCreatePostProps} />
       <View style={{flexDirection: 'row', marginTop: 20}}>
         <Text style={{fontWeight: 'bold', flex: 0.5}}>Font Colour</Text>
@@ -110,7 +108,6 @@ const BackgroundImage = ({useCreatePostProps, uploadImageForBisoo}) => {
             launchImageLibrary({mediaType: 'photo'}, value => {
               console.log(value);
               const image = value?.assets;
-              // if (image) setSelectedImage(value?.assets[0]);
               console.log('hii');
               if (image) uploadImageForBisoo(value?.assets[0]);
             })
@@ -127,7 +124,7 @@ const BackgroundImage = ({useCreatePostProps, uploadImageForBisoo}) => {
             onPress={() => updateMeta({_wp_attached_file: ''})}
             style={{marginRight: 10}}
           />
-          {<Text>{_wp_attached_file}</Text>}
+          {<Text>{values._wp_attached_file}</Text>}
         </View>
       )}
     </View>

@@ -41,22 +41,6 @@ const DatesInfo = ({useCreatePostProps}) => {
     updateRawData({disableNext: !startDate});
   }, []);
 
-  // useEffect(() => {
-  //   if (selectedOption) {
-  //     if (selectedOption === 'DATE' && startDate) {
-  //       updateRawData({disableNext: false});
-  //     }
-  //   }
-  // }, [selectedOption, startDate]);
-
-  // useEffect(() => {
-  //   if (selectedOption) {
-  //     if (selectedOption === 'DATE' && startDate) {
-  //       updateRawData({disableNext: false});
-  //     }
-  //   }
-  // }, [selectedOption, startDate]);
-
   const openCalender = async () => {
     addUpdatePostMetaAction(dispatch, {
       selectedOption: 'DATE',
@@ -143,42 +127,53 @@ const DatesInfo = ({useCreatePostProps}) => {
           <View style={{flexDirection: 'row'}}>
             <View style={{width: '45%', marginRight: '10%'}}>
               <View
-                style={{flexDirection: 'row'}}
+                style={{flexDirection: 'row', paddingBottom: 15}}
                 onTouchEnd={() => {
                   addUpdatePostMetaAction(dispatch, {
                     selectedOption: 'DATE',
                   });
                 }}>
-                <Radio selected={selectedOption === 'DATE'} />
+                <Radio
+                  color={'black'}
+                  selectedColor={'#357B7F'}
+                  selected={selectedOption === 'DATE'}
+                />
                 <Text> Send on set date</Text>
               </View>
               <Text
                 onTouchEnd={openCalender}
-                style={{height: 35, borderWidth: 0.3, padding: 6}}>
+                style={{height: 32, borderWidth: 0.3, padding: 6}}>
                 {startDate?.toISOString().slice(0, 10)}
               </Text>
               <View>{/* <InputField /> */}</View>
             </View>
             <View style={{width: '45%'}}>
               <View
-                style={{flexDirection: 'row'}}
+                style={{flexDirection: 'row', paddingBottom: 5 }}
                 onTouchEnd={() => {
                   addUpdatePostMetaAction(dispatch, {
                     selectedOption: 'SIGN',
                   });
                 }}>
-                <Radio selected={selectedOption === 'SIGN'} />
+                <Radio
+                  color={'black'}
+                  selectedColor={'#357B7F'}
+                  selected={selectedOption === 'SIGN'}
+                />
 
-                <Text> Send at set number of signature </Text>
+                <Text style={{flexWrap: 'wrap'}}>
+                  {' '}
+                  Send at set number of signature{' '}
+                </Text>
               </View>
               <View>
                 <InputField
                   value={postMeta.numberofsignature}
-                  type="number"
-                  onChangeText={(numberofsignature) => {
-                    addUpdatePostMetaAction(dispatch, {numberofsignature})
+                  keyboardType="numeric"
+                  onChangeText={numberofsignature => {
+                    addUpdatePostMetaAction(dispatch, {numberofsignature});
                   }}
-                  customStyles={{height: 32}}
+                  customStyles={{height: 32, fontSize: 14, padding: 0}}
                 />
               </View>
             </View>
