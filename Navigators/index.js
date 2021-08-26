@@ -75,11 +75,10 @@ const nameComponentMap = {
 
 const Stack = createStackNavigator();
 function Navigator() {
-  const {authToken = '', authUser = ''} = useSelector(state => state.rawData);
-
-  const isLoggedIn = authToken && authUser;
-
-  const AuthRouth = props => {
+  const {authToken = ''} = useSelector(state => state.rawData);
+  const auth=useSelector(state=>state.auth)
+  const isLoggedIn = authToken && auth?.authUser && auth?.isLoggedIn;
+   const AuthRouth = props => {
     const Component = nameComponentMap[props.route.name];
     return isLoggedIn ? <Component {...props} /> : <Login {...props} />;
   };
