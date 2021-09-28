@@ -8,7 +8,14 @@ const InputField = props => {
     <Input
       style={{...styles.textArea, ...customStyles}}
       placeholderTextColor={'black'}
-      value={values[id]}
+      value={
+        type === 'password'
+          ? (values[id] || '')
+              .split('')
+              .map(() => '*')
+              .join('')
+          : values[id]
+      }
       {...props}
     />
   );
