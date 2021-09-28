@@ -4,7 +4,7 @@ rm -rf ./android/app/src/main/res/drawable-*
 
 rm -rf ./android/app/src/main/res/raw
 
-./gradlew bundleRelease
+./gradlew assembleRelease
 
 yarn add @react-native-firebase/app @react-native-firebase/messaging
 

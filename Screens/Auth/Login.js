@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import RoundButton from '../../components/RoundButton';
 import InputField from '../../components/Input';
 import {doPost} from '../../services/request';
-import {updateRawData} from '../../Reducers/actions';
+import {updateRawData,loginUser} from '../../Reducers/actions';
 import { showToaster } from './../../utils/index';
 
 export const Login = props => {
@@ -23,8 +23,9 @@ export const Login = props => {
 
       if (data.token) {
         updateRawData({authUser: data.token, userDetails: data.userDetails});
+       console.log({tkennn:data.token})
+        loginUser(data.token)
         navigation.navigate(props.route.name || 'Home');
-
         return;
       }
     } catch (error) {

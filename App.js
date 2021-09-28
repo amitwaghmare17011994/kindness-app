@@ -2,11 +2,12 @@ import {Root} from 'native-base';
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import LocationEnabler from 'react-native-location-enabler';
+import {PersistGate} from 'redux-persist/integration/react';
 
 // import RNLocation from 'react-native-location';
 import {Provider} from 'react-redux';
 import Navigator from './Navigators';
-import store from './store';
+import store, {persistor} from './store';
 const {
   PRIORITIES: {HIGH_ACCURACY},
   useLocationSettings,
@@ -26,7 +27,7 @@ const App = () => {
     },
     false /* optional: default undefined */,
   );
-  
+
   useEffect(() => {
     if (!enabled) {
       requestResolution();
@@ -56,7 +57,9 @@ const App = () => {
     <Root>
       <View style={styles.container}>
         <Provider store={store}>
-          <Navigator />
+          <PersistGate loading={null} persistor={persistor}>
+            <Navigator />
+          </PersistGate>
         </Provider>
       </View>
     </Root>
